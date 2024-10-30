@@ -1,4 +1,4 @@
-var stationMapping = {
+const stationMapping = {
     DT02: "池尻大橋",
     DT03: "三軒茶屋",
     DT04: "駒沢大学",
@@ -91,14 +91,14 @@ var stationMapping = {
     TY19: "東白楽",
     TY20: "反町",
     TY21: "横浜",
-}
+};
 
 // 駅名から駅コードを検索する
 function getStationCode(value) {
     return Object.keys(stationMapping).find(key => stationMapping[key] === value);
-}
+};
 
 // 駅コードから駅名を検索する
 function getStationName(key) {
     return stationMapping[key];
-}
+};
