@@ -1,4 +1,11 @@
-const startStation = '祐天寺';
+let startStation = document.getElementById('current-station').value;
+console.log(startStation);
+document.getElementById('current-station').addEventListener('change', function() {
+
+    startStation = this.value;
+    console.log(startStation);
+});
+
 const roulette = document.getElementById('roulette');
 
 // スピンフラグ
@@ -10,11 +17,21 @@ let nextStation;
 
 main();
 
+/**
+ * メインメソッド
+ * 画面表示時に実行する
+ */
 function main() {
     isSpin = false;
+
+    // 駅の初期表示
     getRandomStation();
 }
 
+/**
+ * ルーレットの開始
+ * @returns isSpinがtrueの場合
+ */
 function startRoulette() {
     if(isSpin) {
         return;
@@ -22,9 +39,12 @@ function startRoulette() {
         isSpin = true;
         spinInterval = setInterval(getRandomStation, 100);
         nextStation = getNextStation();
-    }
+    };
 };
 
+/**
+ * ランダムに駅を表示
+ */
 function getRandomStation() {
     const stationNames = Object.values(stationMapping);
     const randomIndex = Math.floor(Math.random() * (stationNames.length))
@@ -32,6 +52,10 @@ function getRandomStation() {
     roulette.textContent = randomStation;
 }
 
+/**
+ * ルーレットの停止
+ * @returns isSpinがfalseの場合
+ */
 function stopRoulette() {
     if(!isSpin) {
         return;
@@ -51,14 +75,17 @@ function getNextStation() {
 
     // 各駅への最短所要時間を取得
     const times = calculateTravelTimes(stationGraph, startStationCode);
+    // TODO 確認用
     console.info(times);
 
     // 所要時間から重みを計算
     const probabilities = weightedRoulette(startStationCode, times);
+    // TODO 確認用
     console.info(probabilities);
 
     // 次の目的駅を選択
     const nextStationCode = chooseNextStation(probabilities);
+    // TODO 確認用
     console.info(nextStationCode);
 
     const nextStation = getStationName(nextStationCode);
