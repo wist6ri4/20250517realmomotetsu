@@ -1,11 +1,4 @@
 let startStation = document.getElementById('current-station').value;
-console.log(startStation);
-document.getElementById('current-station').addEventListener('change', function() {
-
-    startStation = this.value;
-    console.log(startStation);
-});
-
 const roulette = document.getElementById('roulette');
 
 // スピンフラグ
@@ -16,6 +9,13 @@ let spinInterval;
 let nextStation;
 
 main();
+
+document.getElementById('current-station').addEventListener('change', function() {
+    startStation = this.value;
+    if(isSpin)
+        stopRoulette();
+    console.log(startStation);
+});
 
 /**
  * メインメソッド

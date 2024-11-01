@@ -20,6 +20,7 @@
 </header>
 <body>
     <div>
+        <label for="current-station">現在の駅</label>
         <select name="currentStation" id="current-station">
             <option value="青葉台">青葉台</option>
             <option value="あざみ野">あざみ野</option>
@@ -115,7 +116,9 @@
             <option value="横浜">横浜</option>
         </select>
     </div>
-    <div id="roulette"></div>
+    <div>
+        次の駅：<span id="roulette"></span>
+    </div>
     <div>
         <input type="button" class="btn btn-sm btn-primary" value="start" onclick="startRoulette()">
         <input type="button" class="btn btn-sm btn-primary" value="stop" onclick="stopRoulette()">
