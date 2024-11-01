@@ -1,3 +1,69 @@
+const startStation = '祐天寺';
+const roulette = document.getElementById('roulette');
+
+// スピンフラグ
+let isSpin = false;
+// ルーレットのintervalID
+let spinInterval;
+// 次の駅
+let nextStation;
+
+main();
+
+function main() {
+    isSpin = false;
+    getRandomStation();
+}
+
+function startRoulette() {
+    if(isSpin) {
+        return;
+    } else {
+        isSpin = true;
+        spinInterval = setInterval(getRandomStation, 100);
+        nextStation = getNextStation();
+    }
+};
+
+function getRandomStation() {
+    const stationNames = Object.values(stationMapping);
+    const randomIndex = Math.floor(Math.random() * (stationNames.length))
+    const randomStation = stationNames[randomIndex];
+    roulette.textContent = randomStation;
+}
+
+function stopRoulette() {
+    if(!isSpin) {
+        return;
+    } else {
+        isSpin = false;
+        clearInterval(spinInterval);
+        roulette.textContent = nextStation;
+    };
+};
+
+/**
+ * 次の駅を決定する
+ */
+function getNextStation() {
+    // 取得した駅名をコードに変換
+    const startStationCode = getStationCode(startStation);
+
+    // 各駅への最短所要時間を取得
+    const times = calculateTravelTimes(stationGraph, startStationCode);
+    console.info(times);
+
+    // 所要時間から重みを計算
+    const probabilities = weightedRoulette(startStationCode, times);
+    console.info(probabilities);
+
+    // 次の目的駅を選択
+    const nextStationCode = chooseNextStation(probabilities);
+    console.info(nextStationCode);
+
+    const nextStation = getStationName(nextStationCode);
+    return nextStation;
+};
 
 /**
  * ダイクストラ法で出発駅から各駅への最短所要時間を計算　
