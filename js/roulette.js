@@ -1,5 +1,5 @@
-let startStation = document.getElementById('current-station').value;
-const roulette = document.getElementById('roulette');
+let startStation = $('#current-station').val();
+const roulette = $('#roulette');
 
 // スピンフラグ
 let isSpin = false;
@@ -12,11 +12,11 @@ let nextStation;
 
 main();
 
-document.getElementById('current-station').addEventListener('change', function() {
+$('#current-station').on('change', function() {
     startStation = this.value;
     if(isSpin)
         stopRoulette();
-    console.log(startStation);
+    console.log('今の駅：' + startStation);
 });
 
 /**
@@ -51,7 +51,7 @@ function getRandomStation() {
     const stationNames = Object.values(stationMapping);
     const randomIndex = Math.floor(Math.random() * (stationNames.length))
     const randomStation = stationNames[randomIndex];
-    roulette.textContent = randomStation;
+    roulette.text(randomStation);
 }
 
 /**
@@ -64,7 +64,7 @@ function stopRoulette() {
     } else {
         isSpin = false;
         clearInterval(spinInterval);
-        roulette.textContent = nextStation;
+        roulette.text(nextStation);
     };
 };
 
@@ -78,31 +78,34 @@ function getNextStation() {
     // 各駅への最短所要時間を取得
     const times = calculateTravelTimes(stationGraph, startStationCode);
     // TODO 確認用
+    console.info('所要時間：')
     console.info(times);
 
     // 所要時間から重みを計算
     const probabilities = weightedRoulette(startStationCode, times);
     // TODO 確認用
+    console.info('確率：')
     console.info(probabilities);
-
-    // 次の目的駅を選択
-    const nextStationCode = chooseNextStation(probabilities);
-    // TODO 確認用
-    console.info(nextStationCode);
 
     // TODO 確認用 パーセンタイルに変換
     let percentage = {};
     for(const[station, probability] of Object.entries(probabilities)) {
         percentage[station] = probability * 100;
     };
+    console.info('確率（%）：')
     console.info(percentage);
+
+    // 次の目的駅を選択
+    const nextStationCode = chooseNextStation(probabilities);
+    // TODO 確認用
+    console.info('次の駅：' + getStationName(nextStationCode))
 
     const nextStation = getStationName(nextStationCode);
     return nextStation;
 };
 
 /**
- * ダイクストラ法で出発駅から各駅への最短所要時間を計算　
+ * ダイクストラ法で出発駅から各駅への最短所要時間を計算
  * @param {object} graph - 隣接する駅同士の所要時間のマッピング
  * @param {string} start - 出発駅
  * @returns {object} 出発駅から各駅への主要時間の配列

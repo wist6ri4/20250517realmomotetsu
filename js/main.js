@@ -1,18 +1,18 @@
-const mapDiv = document.getElementById('map');
-const teamALatest = document.getElementById('teamALatest');
-const teamANext = document.getElementById('teamANext');
-const teamBLatest = document.getElementById('teamBLatest');
-const teamBNext = document.getElementById('teamBNext');
-const teamCLatest = document.getElementById('teamCLatest');
-const teamCNext = document.getElementById('teamCNext');
-const teamDLatest = document.getElementById('teamDLatest');
-const teamDNext = document.getElementById('teamDNext');
-const updatedTime = document.getElementById('updatedTime');
+const mapDiv = $('#map');
+const teamALatest = $('#teamALatest');
+const teamANext = $('#teamANext');
+const teamBLatest = $('#teamBLatest');
+const teamBNext = $('#teamBNext');
+const teamCLatest = $('#teamCLatest');
+const teamCNext = $('#teamCNext');
+const teamDLatest = $('#teamDLatest');
+const teamDNext = $('#teamDNext');
+const updatedTime = $('#updatedTime');
 setInterval(main, 10000);
 
 async function main() {
     // 更新時刻の取得
-    updatedTime.innerHTML = getCurrentTime();
+    updatedTime.text(getCurrentTime());
 
     // APIにアクセスしてデータを取得
     const data = await fetchJsonData()
@@ -47,14 +47,14 @@ async function fetchJsonData() {
  * 位置情報（テキスト）のリセット
  */
 function clearTeamLocation() {
-    teamANext.innerHTML = '';
-    teamALatest.innerHTML = '';
-    teamBNext.innerHTML = '';
-    teamBLatest.innerHTML = '';
-    teamCNext.innerHTML = '';
-    teamCLatest.innerHTML = '';
-    teamDNext.innerHTML = '';
-    teamDLatest.innerHTML = '';
+    teamANext.text('');
+    teamALatest.text('');
+    teamBNext.text('');
+    teamBLatest.text('');
+    teamCNext.text('');
+    teamCLatest.text('');
+    teamDNext.text('');
+    teamDLatest.text('');
 };
 
 /**
@@ -65,26 +65,25 @@ function displayTeamLocation(data) {
     if(data.teamA.length > 0) {
         var teamANextLocationData = data.teamA.slice(-1)[0];
         var teamALatestLocationData = data.teamA.slice(-2)[0];
+        teamALatest.text(teamALatestLocationData.strTime + '　' + teamALatestLocationData.location);
+        teamANext.text(teamANextLocationData.strTime + '　' + teamANextLocationData.location);
     };
     if(data.teamB.length > 0) {
         var teamBNextLocationData = data.teamB.slice(-1)[0];
         var teamBLatestLocationData = data.teamB.slice(-2)[0];
+        teamBLatest.text(teamBLatestLocationData.strTime + '　' + teamBLatestLocationData.location);
+        teamBNext.text(teamBNextLocationData.strTime + '　' + teamBNextLocationData.location);
     };
     if(data.teamC.length > 0) {
         var teamCNextLocationData = data.teamC.slice(-1)[0];
         var teamCLatestLocationData = data.teamC.slice(-2)[0];
+        teamCLatest.text(teamCLatestLocationData.strTime + '　' + teamCLatestLocationData.location);
+        teamCNext.text(teamCNextLocationData.strTime + '　' + teamCNextLocationData.location);
     };
     if(data.teamD.length > 0) {
         var teamDNextLocationData = data.teamD.slice(-1)[0];
         var teamDLatestLocationData = data.teamD.slice(-2)[0];
+        teamDLatest.text(teamDLatestLocationData.strTime + '　' + teamDLatestLocationData.location);
+        teamDNext.text(teamDNextLocationData.strTime + '　' + teamDNextLocationData.location);
     };
-
-    teamALatest.innerHTML = teamALatestLocationData.strTime + '　' + teamALatestLocationData.location;
-    teamANext.innerHTML = teamANextLocationData.strTime + '　' + teamANextLocationData.location;
-    teamBLatest.innerHTML = teamBLatestLocationData.strTime + '　' + teamBLatestLocationData.location;
-    teamBNext.innerHTML = teamBNextLocationData.strTime + '　' + teamBNextLocationData.location;
-    teamCLatest.innerHTML = teamCLatestLocationData.strTime + '　' + teamCLatestLocationData.location;
-    teamCNext.innerHTML = teamCNextLocationData.strTime + '　' + teamCNextLocationData.location;
-    teamDLatest.innerHTML = teamDLatestLocationData.strTime + '　' + teamDLatestLocationData.location;
-    teamDNext.innerHTML = teamDNextLocationData.strTime + '　' + teamDNextLocationData.location;
 };
