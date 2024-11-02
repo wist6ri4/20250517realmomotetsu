@@ -7,7 +7,7 @@ const stationMapping = {
     DAIKANYAMA: "代官山",
     DENENCHOFU: "田園調布",
     EBARAMACHI: "荏原町",
-    EBARANAKANO: "荏原中延",
+    EBARANAKANOBU: "荏原中延",
     EDA: "江田",
     FUDOMAE: "不動前",
     FUJIGAOKA: "藤が丘",
@@ -16,14 +16,13 @@ const stationMapping = {
     GAKUGEIDAIGAKU: "学芸大学",
     GOTANDA: "五反田",
     HAKURAKU: "白楽",
-    HANAMICHI: "反町",
     HASUNUMA: "蓮沼",
     HATANODAI: "旗の台",
     HIGASHIHAKURAKU: "東白楽",
     HIYOSHI: "日吉",
     ICHIGAO: "市が尾",
-    IKEGAMI: "池上",
     IKEJIRIOHASHI: "池尻大橋",
+    IKENOUE: "池上",
     ISHIKAWADAI: "石川台",
     JIYUGAOKA: "自由が丘",
     KAJIGAYA: "梶が谷",
@@ -38,7 +37,7 @@ const stationMapping = {
     MIDORIGAOKA: "緑が丘",
     MINAMIMACHIDAGRANBERRYPARK: "南町田グランベリーパーク",
     MINATOMIRAI: "みなとみらい",
-    MIYAMAEHIRA: "宮前平",
+    MIYAMAEDAIRA: "宮前平",
     MIYAZAKIDAI: "宮崎台",
     MIZONOKUCHI: "溝の口",
     MOTOMACHICHUKAGAI: "元町・中華街",
@@ -78,6 +77,7 @@ const stationMapping = {
     TAMAGAWA: "多摩川",
     TAMAPLAZA: "たまプラーザ",
     TANA: "田奈",
+    TANMACHI: "反町",
     TODOROKI: "等々力",
     TOGOSHIGINZA: "戸越銀座",
     TOGOSHIKOEN: "戸越公園",
@@ -86,7 +86,7 @@ const stationMapping = {
     TSUKUSHINO: "つくし野",
     TSUNASHIMA: "綱島",
     UNOKI: "鵜の木",
-    YAGUCHIWATASHI: "矢口渡",
+    YAGUCHINOWATASHI: "矢口渡",
     YOGA: "用賀",
     YOKOHAMA: "横浜",
     YUKIGAYAOTSUKA: "雪が谷大塚",
@@ -190,8 +190,27 @@ const timeData = [
     {station1: "大崎広小路", station2: "五反田", time: 2}
 ];
 
-main();
-function main() {
+/**
+ * 駅名から駅コードを検索する
+ * @param {string} value 駅名
+ * @returns {string} 駅コード
+ */
+function getStationCode(value) {
+    return Object.keys(stationMapping).find(key => stationMapping[key] === value);
+};
+
+/**
+ * 駅コードから駅名を検索する
+ * @param {string} key 駅コード
+ * @returns {string} 駅名
+ */
+function getStationName(key) {
+    return stationMapping[key];
+};
+
+
+//genGraph();
+function genGraph() {
     let stationGraph = {}
     for(const elm of timeData) {
         const data1 = {
@@ -218,23 +237,10 @@ function main() {
         };
     };
     console.log(stationGraph);
-}
-
-
-/**
- * 駅名から駅コードを検索する
- * @param {string} value 駅名
- * @returns {string} 駅コード
- */
-function getStationCode(value) {
-    return Object.keys(stationMapping).find(key => stationMapping[key] === value);
 };
 
-/**
- * 駅コードから駅名を検索する
- * @param {string} key 駅コード
- * @returns {string} 駅名
- */
-function getStationName(key) {
-    return stationMapping[key];
+getName();
+function getName() {
+    const name = '蓮沼';
+    console.log(getStationCode(name));
 };

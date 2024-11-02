@@ -1,0 +1,11 @@
+.destination-station {
+    fill: rgb(255, 0, 0) !important;
+}
+
+.special-station {
+    fill: rgba(255, 0, 0) !important;
+}
+
+.invisible-train {
+    visibility: hidden;
+}
