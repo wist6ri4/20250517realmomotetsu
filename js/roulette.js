@@ -7,6 +7,8 @@ let isSpin = false;
 let spinInterval;
 // 次の駅
 let nextStation;
+// TODO 重み付け定数
+// const constantWeight = 15;
 
 main();
 
@@ -88,6 +90,13 @@ function getNextStation() {
     // TODO 確認用
     console.info(nextStationCode);
 
+    // TODO 確認用 パーセンタイルに変換
+    let percentage = {};
+    for(const[station, probability] of Object.entries(probabilities)) {
+        percentage[station] = probability * 100;
+    };
+    console.info(percentage);
+
     const nextStation = getStationName(nextStationCode);
     return nextStation;
 };
@@ -124,6 +133,17 @@ function calculateTravelTimes(graph, start) {
         });
     };
 
+    // TODO 定数を追加
+    // for(key of Object.keys(times)) {
+    //     times[key] = times[key] + constantWeight;
+    // };
+
+    // TODO 10分以下の駅を削除
+    for(key of Object.keys(times)) {
+        if(times[key] <= 10) {
+            delete times[key];
+        };
+    };
     return times;
 };
 
