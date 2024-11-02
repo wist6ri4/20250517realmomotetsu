@@ -35,6 +35,7 @@ const teamBTrainVisibility = $('#team-b-train-visibility');
 const teamCTrainVisibility = $('#team-c-train-visibility');
 const teamDTrainVisibility = $('#team-d-train-visibility');
 
+main();
 setInterval(main, 10000);
 
 async function main() {
@@ -42,11 +43,11 @@ async function main() {
     updatedTime.text(getCurrentTime());
 
     // APIにアクセスしてデータを取得
-    const data = await fetchJsonData()
+    const data = await fetchJsonData();
 
     // 位置情報（テキスト）のリセット
     clearTeamLocation();
-    // 位置情報（テキスト）の表示
+    // 位置情報の表示
     displayTeamLocation(data);
 };
 
@@ -85,7 +86,7 @@ function clearTeamLocation() {
 };
 
 /**
- * 位置情報（テキスト）の表示
+ * 位置情報の表示
  * @param {object} data オブジェクトに変換したデータ
  */
 function displayTeamLocation(data) {
