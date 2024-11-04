@@ -49,6 +49,9 @@ async function main() {
     clearTeamLocation();
     // 位置情報の表示
     displayTeamLocation(data);
+
+    // 次の目的地の表示
+    displayNextStation(data.nextStation);
 };
 
 /**
@@ -66,7 +69,7 @@ function getCurrentTime() {
  * @returns object
  */
 async function fetchJsonData() {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbztSGIlqMexwoML9SFgFGE5eK3GP6PlCfbi61dl2r__ntKEFcVGe4SiEFrXxIrdMiGR9w/exec');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzvSlhngYRqQ_xKVZ5mF7S-sNbEeA7YIfnq9na1r7mUvmNp1ReOLXgNR0BnyipltU1T/exec');
     const data = await response.json();
     return data;
 };
@@ -186,5 +189,18 @@ function changeTrainVisibility(elm, train, isAdded) {
         train.removeClass('invisible-train');
     } else {
         train.addClass('invisible-train');
+    };
+};
+
+/**
+ * 次の目的地の表示
+ * @param {object} nextStationList 次の目的地リスト
+ */
+function displayNextStation(nextStationList) {
+    if(nextStationList.length > 0) {
+        const nextStation = nextStationList.slice(-1)[0];
+        const nextStationCode = getStationCode(nextStation.nextStation);
+        const nextStationBox = $('#box-' + nextStationCode);
+        console.log(nextStationBox);
     };
 };
