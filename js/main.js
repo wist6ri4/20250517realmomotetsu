@@ -1,3 +1,11 @@
+$(function() {
+    $.ajaxSetup({cache:false});
+    $('header').load("./header.html", function() {
+        $('#home-header').addClass('active');
+        $('#roulette-header').removeClass('active');
+    });
+})
+
 const mapDiv = $('#map');
 
 // データの追加フラグ

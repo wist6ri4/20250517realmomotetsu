@@ -1,3 +1,12 @@
+$(function() {
+    $.ajaxSetup({cache:false});
+    $('header').load("./header.html", function() {
+        $('#home-header').removeClass('active');
+        $('#roulette-header').addClass('active');
+    });
+})
+
+
 let startStation = $('#current-station').val();
 const roulette = $('#roulette');
 
