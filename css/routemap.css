@@ -10,6 +10,6 @@
     visibility: hidden;
 }
 
-#routemap {
+.svg-container {
     overflow: hidden;
 }

@@ -27,112 +27,114 @@
     </div>
 </header>
 <body>
-    <div>
-        <label for="current-station">現在の駅</label>
-        <select name="currentStation" id="current-station">
-            <option value="青葉台">青葉台</option>
-            <option value="あざみ野">あざみ野</option>
-            <option value="池尻大橋">池尻大橋</option>
-            <option value="池上">池上</option>
-            <option value="石川台">石川台</option>
-            <option value="市が尾">市が尾</option>
-            <option value="鵜の木">鵜の木</option>
-            <option value="江田">江田</option>
-            <option value="荏原中延">荏原中延</option>
-            <option value="荏原町">荏原町</option>
-            <option value="大井町">大井町</option>
-            <option value="大岡山">大岡山</option>
-            <option value="大倉山">大倉山</option>
-            <option value="大崎広小路">大崎広小路</option>
-            <option value="奥沢">奥沢</option>
-            <option value="尾山台">尾山台</option>
-            <option value="御嶽山">御嶽山</option>
-            <option value="梶が谷">梶が谷</option>
-            <option value="蒲田">蒲田</option>
-            <option value="上野毛">上野毛</option>
-            <option value="学芸大学">学芸大学</option>
-            <option value="菊名">菊名</option>
-            <option value="北千束">北千束</option>
-            <option value="久が原">久が原</option>
-            <option value="九品仏">九品仏</option>
-            <option value="駒沢大学">駒沢大学</option>
-            <option value="五反田">五反田</option>
-            <option value="鷺沼">鷺沼</option>
-            <option value="桜新町">桜新町</option>
-            <option value="三軒茶屋">三軒茶屋</option>
-            <option value="渋谷">渋谷</option>
-            <option value="下神明">下神明</option>
-            <option value="下丸子">下丸子</option>
-            <option value="新高島">新高島</option>
-            <option value="新綱島">新綱島</option>
-            <option value="新丸子">新丸子</option>
-            <option value="新横浜">新横浜</option>
-            <option value="自由が丘">自由が丘</option>
-            <option value="すずかけ台">すずかけ台</option>
-            <option value="洗足">洗足</option>
-            <option value="洗足池">洗足池</option>
-            <option value="高津">高津</option>
-            <option value="田奈">田奈</option>
-            <option value="多摩川">多摩川</option>
-            <option value="たまプラーザ">たまプラーザ</option>
-            <option value="反町">反町</option>
-            <option value="代官山">代官山</option>
-            <option value="千鳥町">千鳥町</option>
-            <option value="中央林間">中央林間</option>
-            <option value="つきみ野">つきみ野</option>
-            <option value="つくし野">つくし野</option>
-            <option value="綱島">綱島</option>
-            <option value="田園調布">田園調布</option>
-            <option value="戸越銀座">戸越銀座</option>
-            <option value="戸越公園">戸越公園</option>
-            <option value="等々力">等々力</option>
-            <option value="都立大学">都立大学</option>
-            <option value="中延">中延</option>
-            <option value="中目黒">中目黒</option>
-            <option value="長津田">長津田</option>
-            <option value="長原">長原</option>
-            <option value="西小山">西小山</option>
-            <option value="日本大通り">日本大通り</option>
-            <option value="沼部">沼部</option>
-            <option value="白楽">白楽</option>
-            <option value="蓮沼">蓮沼</option>
-            <option value="旗の台">旗の台</option>
-            <option value="馬車道">馬車道</option>
-            <option value="東白楽">東白楽</option>
-            <option value="日吉">日吉</option>
-            <option value="藤が丘">藤が丘</option>
-            <option value="二子新地">二子新地</option>
-            <option value="二子玉川">二子玉川</option>
-            <option value="不動前">不動前</option>
-            <option value="溝の口">溝の口</option>
-            <option value="緑が丘">緑が丘</option>
-            <option value="みなとみらい">みなとみらい</option>
-            <option value="南町田グランベリーパーク">南町田グランベリーパーク</option>
-            <option value="宮崎台">宮崎台</option>
-            <option value="宮前平">宮前平</option>
-            <option value="妙蓮寺">妙蓮寺</option>
-            <option value="武蔵小杉">武蔵小杉</option>
-            <option value="武蔵小山">武蔵小山</option>
-            <option value="武蔵新田">武蔵新田</option>
-            <option value="目黒">目黒</option>
-            <option value="元住吉">元住吉</option>
-            <option value="元町・中華街">元町・中華街</option>
-            <option value="矢口渡">矢口渡</option>
-            <option value="祐天寺">祐天寺</option>
-            <option value="雪が谷大塚">雪が谷大塚</option>
-            <option value="用賀">用賀</option>
-            <option value="横浜">横浜</option>
-        </select>
-    </div>
-    <div>
-        次の駅：<span id="roulette"></span>
-    </div>
-    <div>
-        <input type="button" class="btn btn-lg btn-primary" value="start" onclick="startRoulette()">
-        <input type="button" class="btn btn-lg btn-primary" value="stop" onclick="stopRoulette()">
-    </div>
-    <div>
-        <img id="routemap" src="./img/routemap.svg" width="100%" height="100%">
+    <div class="container">
+        <div class="">
+            <label for="current-station">現在の駅</label>
+            <select name="currentStation" id="current-station">
+                <option value="青葉台">青葉台</option>
+                <option value="あざみ野">あざみ野</option>
+                <option value="池尻大橋">池尻大橋</option>
+                <option value="池上">池上</option>
+                <option value="石川台">石川台</option>
+                <option value="市が尾">市が尾</option>
+                <option value="鵜の木">鵜の木</option>
+                <option value="江田">江田</option>
+                <option value="荏原中延">荏原中延</option>
+                <option value="荏原町">荏原町</option>
+                <option value="大井町">大井町</option>
+                <option value="大岡山">大岡山</option>
+                <option value="大倉山">大倉山</option>
+                <option value="大崎広小路">大崎広小路</option>
+                <option value="奥沢">奥沢</option>
+                <option value="尾山台">尾山台</option>
+                <option value="御嶽山">御嶽山</option>
+                <option value="梶が谷">梶が谷</option>
+                <option value="蒲田">蒲田</option>
+                <option value="上野毛">上野毛</option>
+                <option value="学芸大学">学芸大学</option>
+                <option value="菊名">菊名</option>
+                <option value="北千束">北千束</option>
+                <option value="久が原">久が原</option>
+                <option value="九品仏">九品仏</option>
+                <option value="駒沢大学">駒沢大学</option>
+                <option value="五反田">五反田</option>
+                <option value="鷺沼">鷺沼</option>
+                <option value="桜新町">桜新町</option>
+                <option value="三軒茶屋">三軒茶屋</option>
+                <option value="渋谷">渋谷</option>
+                <option value="下神明">下神明</option>
+                <option value="下丸子">下丸子</option>
+                <option value="新高島">新高島</option>
+                <option value="新綱島">新綱島</option>
+                <option value="新丸子">新丸子</option>
+                <option value="新横浜">新横浜</option>
+                <option value="自由が丘">自由が丘</option>
+                <option value="すずかけ台">すずかけ台</option>
+                <option value="洗足">洗足</option>
+                <option value="洗足池">洗足池</option>
+                <option value="高津">高津</option>
+                <option value="田奈">田奈</option>
+                <option value="多摩川">多摩川</option>
+                <option value="たまプラーザ">たまプラーザ</option>
+                <option value="反町">反町</option>
+                <option value="代官山">代官山</option>
+                <option value="千鳥町">千鳥町</option>
+                <option value="中央林間">中央林間</option>
+                <option value="つきみ野">つきみ野</option>
+                <option value="つくし野">つくし野</option>
+                <option value="綱島">綱島</option>
+                <option value="田園調布">田園調布</option>
+                <option value="戸越銀座">戸越銀座</option>
+                <option value="戸越公園">戸越公園</option>
+                <option value="等々力">等々力</option>
+                <option value="都立大学">都立大学</option>
+                <option value="中延">中延</option>
+                <option value="中目黒">中目黒</option>
+                <option value="長津田">長津田</option>
+                <option value="長原">長原</option>
+                <option value="西小山">西小山</option>
+                <option value="日本大通り">日本大通り</option>
+                <option value="沼部">沼部</option>
+                <option value="白楽">白楽</option>
+                <option value="蓮沼">蓮沼</option>
+                <option value="旗の台">旗の台</option>
+                <option value="馬車道">馬車道</option>
+                <option value="東白楽">東白楽</option>
+                <option value="日吉">日吉</option>
+                <option value="藤が丘">藤が丘</option>
+                <option value="二子新地">二子新地</option>
+                <option value="二子玉川">二子玉川</option>
+                <option value="不動前">不動前</option>
+                <option value="溝の口">溝の口</option>
+                <option value="緑が丘">緑が丘</option>
+                <option value="みなとみらい">みなとみらい</option>
+                <option value="南町田グランベリーパーク">南町田グランベリーパーク</option>
+                <option value="宮崎台">宮崎台</option>
+                <option value="宮前平">宮前平</option>
+                <option value="妙蓮寺">妙蓮寺</option>
+                <option value="武蔵小杉">武蔵小杉</option>
+                <option value="武蔵小山">武蔵小山</option>
+                <option value="武蔵新田">武蔵新田</option>
+                <option value="目黒">目黒</option>
+                <option value="元住吉">元住吉</option>
+                <option value="元町・中華街">元町・中華街</option>
+                <option value="矢口渡">矢口渡</option>
+                <option value="祐天寺">祐天寺</option>
+                <option value="雪が谷大塚">雪が谷大塚</option>
+                <option value="用賀">用賀</option>
+                <option value="横浜">横浜</option>
+            </select>
+        </div>
+        <div>
+            次の駅：<span id="roulette"></span>
+        </div>
+        <div>
+            <input type="button" class="btn btn-lg btn-success" value="START" onclick="startRoulette()">
+            <input type="button" class="btn btn-lg btn-danger" value="STOP" onclick="stopRoulette()">
+        </div>
+        <div class="svg-container">
+            <img id="routemap" src="./img/routemap.svg" width="100%" height="100%">
+        </div>
     </div>
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>
