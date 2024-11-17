@@ -1,7 +1,7 @@
 const svgFrame = document.querySelector('.svg-frame');
 const zoomable = document.querySelector('.zoomable');
 let scale = 1;
-const maxScale = 3;
+const maxScale = 5;
 const minScale = 1;
 let translateX = 0;
 let translateY = 0;
@@ -21,7 +21,7 @@ window.addEventListener('resize', setSvgFrameHeight);
 // マウスホイールでズーム
 zoomable.addEventListener('wheel', (event) => {
     event.preventDefault();
-    const delta = event.deltaY > 0 ? -0.1 : 0.1;
+    const delta = event.deltaY > 0 ? -0.25 : 0.25;
     scale = Math.min(maxScale, Math.max(minScale, scale + delta));
     applyTransform();
 });
