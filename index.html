@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="./css/routemap.css">
 </head>
 <header>
+    <img src="./img/realmomotesu_header.png" id="header-img">
     <div class="container">
         <div class="header-contents">
         </div>
@@ -30,9 +31,9 @@
 <body>
     <div class="container">
         <div class="">
-            <div class="svg-frame">
+            <div class="svg-container">
                 <?xml version="1.0" standalone="no"?>
-                <svg class="zoomable" viewbox="0, 0, 5600, 3700" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg id="routemap" viewbox="0, 0, 5600, 3700" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <style>line.bg { stroke: rgba(3, 148, 172, 0.7); stroke-width: 1; }circle.bg { fill: rgba(100, 220, 240, 0.7); }line.bg-sub { stroke: rgba(140, 240, 240, 0.5); stroke-width: 1; }g.u rect, g.u path, g.u circle { fill: none; stroke-width: 2; stroke-linejoin: round; }pattern line { vector-effect: non-scaling-stroke; }.zoomed-out pattern line { vector-effect: none; }text { stroke-width: 0; font-family: sans-serif; }text tspan { vector-effect: non-scaling-stroke; white-space: pre; }.ui-dark { background: rgb(51, 51, 51); }.ui-dark line.bg { stroke: rgba(172, 232, 242, 0.57); stroke-width: 1; }.ui-dark circle.bg { fill: rgba(100, 220, 240, 0.3); }.ui-dark line.bg-sub { stroke: rgba(140, 240, 240, 0.1); stroke-width: 1; }rect.marquee { fill: rgba(234, 255, 231, 0.3); stroke: rgb(98, 137, 95); stroke-width: 1; stroke-dasharray: 4; vector-effect: non-scaling-stroke; }rect.highlight { fill: blue; opacity: 0.5; }.bg rect { stroke: rgba(3, 148, 172, 0.7); stroke-width: 1; }</style>
                     <defs class="ic"></defs>
                     <defs>
@@ -508,13 +509,10 @@
                 </label>
             </div>
         </div>
-        <div>
-            最終更新: <span id="updatedTime"></span>
-        </div>
-        <div id="map">
-            <div class="">
+        <div id="map" class="row">
+            <div class="col-6">
                 <div>チームA</div>
-                <div class="team-information border rounded-3 px-3 py-3 mx-3"
+                <div class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(236, 159, 159);">
                     最終到着駅: <span id="teamALatest"></span>
                     <br>
@@ -522,9 +520,9 @@
                 </div>
             </div>
             <br>
-            <div class="">
+            <div class="col-6">
                 <div>チームB</div>
-                <div class="team-information border rounded-3 px-3 py-3 mx-3"
+                <div class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(102, 154, 252);">
                     最終到着駅: <span id="teamBLatest"></span>
                     <br>
@@ -532,9 +530,9 @@
                 </div>
             </div>
             <br>
-            <div class="">
+            <div class="col-6">
                 <div>チームC</div>
-                <div class="team-information border rounded-3 px-3 py-3 mx-3"\
+                <div class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(123, 247, 139);">
                     最終到着駅: <span id="teamCLatest"></span>
                     <br>
@@ -542,24 +540,27 @@
                 </div>
             </div>
             <br>
-            <div class="">
+            <div class="col-6">
                 <div>チームD</div>
-                <div class="team-information border rounded-3 px-3 py-3 mx-3">
+                <div class="team-information border rounded-3 px-3 py-3">
                     最終到着駅: <span id="teamDLatest"></span>
                     <br>
                     次の目的地: <span id="teamDNext"></span>
                 </div>
             </div>
         </div>
+        <div>
+            最終更新: <span id="updatedTime"></span>
+        </div>
     </div>
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" charset="UTF-8" defer="defer"></script>
     <!--Panzoom-->
-    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
+    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
     <!--JavaScript-->
     <script type="text/javascript" src="./js/stationCode.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="./js/main.js" charset="UTF-8" defer="defer"></script>
-    <script type="text/javascript" src="./js/zoomable.js" charset="UTF-8" defer="defer"></script>
+    <script type="text/javascript" src="./js/setPanzoom.js" charset="UTF-8" defer="defer"></script>
 </body>
 </html>
