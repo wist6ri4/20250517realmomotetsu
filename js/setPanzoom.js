@@ -1,3 +1,5 @@
+const panzoomParent = document.getElementById('routemap').parentElement;
+
 const panzoom = Panzoom(
     document.getElementById('routemap'),
     {
@@ -6,7 +8,16 @@ const panzoom = Panzoom(
         maxScale: 5,
         minScale: 1,
         startScale: 1,
+        step: 0.6,
     }
 )
 
-document.getElementById('routemap').parentElement.addEventListener("wheel", panzoom.zoomWithWheel);
+function dblzoom() {
+    panzoom.zoomIn();
+    alert('doubleClick')
+}
+
+panzoomParent.addEventListener("wheel", panzoom.zoomWithWheel);
+panzoomParent.addEventListener("dblclick", function() {
+    panzoom.zoomIn();
+});

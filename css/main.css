@@ -3,6 +3,10 @@ html {
 }
 
 body {
+    background-image: url('../img/system_bg_train.jpg');
+    background-repeat: repeat-y;
+    background-size: 100vw;
+    background-position: center top;
     font-size: 2rem;
     font-family: "DotGothic16", sans-serif;
     font-weight: 400;
@@ -15,4 +19,9 @@ body {
 
 #header-img {
     width: 100vw;
+}
+
+.svg-container {
+    overflow: hidden;
+    border: solid;
 }
