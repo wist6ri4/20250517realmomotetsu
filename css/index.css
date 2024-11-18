@@ -1,14 +1,22 @@
+/*
 .svg-frame {
-    width: 100%; /* 親要素の幅に合わせる */
-    overflow: hidden;
-    border: 1px solid #ccc;
-    position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  position: relative;
   }
 
-  .zoomable {
-    width: 100%;
-    height: auto; /* 高さを自動調整 */
-    transition: transform 0.1s ease;
-    cursor: grab;
-    touch-action: none;
-  }
+.zoomable {
+  width: 100%;
+  height: auto;
+  transition: transform 0.1s ease;
+  cursor: grab;
+  touch-action: none;
+}
+*/
+
+.team-information {
+  color: white;
+  font-size: smaller;
+  font-weight: 500;
+}
