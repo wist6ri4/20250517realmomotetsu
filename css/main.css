@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-attachment: fixed;
+    background-attachment: scroll;
     background-image: url('../img/system_bg_train.jpg');
     background-repeat: repeat-y;
     background-size: 100vw;
