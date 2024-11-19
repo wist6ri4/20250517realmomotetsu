@@ -22,6 +22,9 @@ const panzoom = Panzoom(
 panzoomParent.addEventListener("wheel", panzoom.zoomWithWheel);
 // ダブルクリックでのズームを有効化
 panzoomParent.addEventListener("dblclick", function() {
+    if (event.touches.length > 0 || event.changedTouches.length > 1) {
+        return;
+    };
     if(panzoom.getScale() === panzoomMaxScale) {
         panzoom.reset();
     } else {
@@ -35,6 +38,9 @@ document.addEventListener('touchend', (event) => {
     const tapInterval = currentTime - lastTapTime;
 
     if (tapInterval < 300 && tapInterval > 0) {
+        if (event.touches.length > 0 || event.changedTouches.length > 1) {
+            return;
+        };
         if(panzoom.getScale() === panzoomMaxScale) {
             panzoom.reset();
         } else {
