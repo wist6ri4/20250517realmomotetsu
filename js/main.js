@@ -260,7 +260,7 @@ teamDInformation.on('click', function() {
 
 function setInformationToModal(teamName, data) {
     $('#team-information-modal-label').text(teamName + 'の履歴');
-    console.log(data);
+    $('#table-body-history').empty();
     for(const history of data) {
         const tdStrTime = $('<td></td>').text(history.strTime);
         const tdLocation = $('<td></td>').text(history.location);
