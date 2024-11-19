@@ -92,9 +92,6 @@ function getNextStation() {
 
     // 所要時間から重みを計算
     const probabilities = weightedRoulette(startStationCode, times);
-    // TODO 確認用
-    console.info('確率：')
-    console.info(probabilities);
 
     // TODO 確認用 パーセンタイルに変換
     let percentage = {};
