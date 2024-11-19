@@ -30,7 +30,7 @@ panzoomParent.addEventListener('dblclick', (event) => {
 });
 // ダブルタップでのズームを有効化
 let lastTapTime = 0;
-document.addEventListener('touchend', (event) => {
+panzoomParent.addEventListener('touchend', (event) => {
     const currentTime = new Date().getTime();
     const tapInterval = currentTime - lastTapTime;
 

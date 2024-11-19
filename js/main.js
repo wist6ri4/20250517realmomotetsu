@@ -1,3 +1,9 @@
+// 定数
+import { Constants } from "./constants.js";
+
+// response
+let responseData;
+
 $(function() {
     $.ajaxSetup({cache:false});
     $('.header-contents').load("./header.html", function() {
@@ -43,6 +49,20 @@ const teamBTrainVisibility = $('#team-b-train-visibility');
 const teamCTrainVisibility = $('#team-c-train-visibility');
 const teamDTrainVisibility = $('#team-d-train-visibility');
 
+// 各チームのteam-information
+const teamAInformation = $('#team-a-information');
+const teamBInformation = $('#team-b-information');
+const teamCInformation = $('#team-c-information');
+const teamDInformation = $('#team-d-information');
+// チーム名
+const teamAInformationName = $('#team-a-information-name');
+const teamBInformationName = $('#team-b-information-name');
+const teamCInformationName = $('#team-c-information-name');
+const teamDInformationName = $('#team-d-information-name');
+
+// modal
+const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
+
 main();
 setInterval(main, 10000);
 
@@ -50,8 +70,15 @@ async function main() {
     // 更新時刻の取得
     updatedTime.text(getCurrentTime());
 
+    // チーム名の表示
+    teamAInformationName.text(Constants.TEAM_A_NAME);
+    teamBInformationName.text(Constants.TEAM_B_NAME);
+    teamCInformationName.text(Constants.TEAM_C_NAME);
+    teamDInformationName.text(Constants.TEAM_D_NAME);
+
     // APIにアクセスしてデータを取得
     const data = await fetchJsonData();
+    responseData = data;
 
     // 位置情報（テキスト）のリセット
     clearTeamLocation();
@@ -212,3 +239,32 @@ function displayNextStation(nextStationList) {
         console.log(nextStationBox);
     };
 };
+
+
+teamAInformation.on('click', function() {
+    setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA)
+    teamInformationModal.show();
+})
+teamBInformation.on('click', function() {
+    setInformationToModal(Constants.TEAM_B_NAME, responseData.teamB)
+    teamInformationModal.show();
+})
+teamCInformation.on('click', function() {
+    setInformationToModal(Constants.TEAM_C_NAME, responseData.teamC)
+    teamInformationModal.show();
+})
+teamDInformation.on('click', function() {
+    setInformationToModal(Constants.TEAM_D_NAME, responseData.teamD)
+    teamInformationModal.show();
+})
+
+function setInformationToModal(teamName, data) {
+    $('#team-information-modal-label').text(teamName + 'の履歴');
+    console.log(data);
+    for(const history of data) {
+        const tdStrTime = $('<td></td>').text(history.strTime);
+        const tdLocation = $('<td></td>').text(history.location);
+        const tr = $('<tr></tr>').append(tdStrTime, tdLocation);
+        $('#table-body-history').append(tr);
+    }
+}

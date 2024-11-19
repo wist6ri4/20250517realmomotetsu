@@ -488,10 +488,11 @@
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-a-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamATrainVisibility" checked>
-                        チームA
+                        <span id="team-a-information-name"></span>
                     </label>
                 </div>
-                <div class="team-information border rounded-3 px-3 py-3"
+                <div id="team-a-information"
+                    class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(247, 13, 13);">
                     最終到着駅: <span id="teamALatest"></span>
                     <br>
@@ -503,10 +504,11 @@
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-b-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
-                        チームB
+                        <span id="team-b-information-name"></span>
                     </label>
                 </div>
-                <div class="team-information border rounded-3 px-3 py-3"
+                <div id="team-b-information"
+                    class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(0, 89, 255);">
                     最終到着駅: <span id="teamBLatest"></span>
                     <br>
@@ -518,10 +520,11 @@
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-c-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
-                        チームC
+                        <span id="team-c-information-name"></span>
                     </label>
                 </div>
-                <div class="team-information border rounded-3 px-3 py-3"
+                <div id="team-c-information"
+                    class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(3, 165, 11);">
                     最終到着駅: <span id="teamCLatest"></span>
                     <br>
@@ -533,10 +536,11 @@
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-d-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
-                        チームD
+                        <span id="team-d-information-name"></span>
                     </label>
                 </div>
-                <div class="team-information border rounded-3 px-3 py-3"
+                <div id="team-d-information"
+                    class="team-information border rounded-3 px-3 py-3"
                     style="background-color: rgb(173, 4, 189);">
                     最終到着駅: <span id="teamDLatest"></span>
                     <br>
@@ -547,6 +551,34 @@
         <div>
             最終更新: <span id="updatedTime"></span>
         </div>
+
+        <!--modal-->
+        <div id="team-information-modal" class="modal fade" tabindex="-1" aria-labelledby="team-information-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="team-information-modal-label"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">時間</th>
+                                    <th scope="col">駅名</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body-history">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">とじる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>
@@ -554,8 +586,9 @@
     <!--Panzoom-->
     <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
     <!--JavaScript-->
+    <script type="module" src="./js/constants.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="./js/stationCode.js" charset="UTF-8" defer="defer"></script>
-    <script type="text/javascript" src="./js/main.js" charset="UTF-8" defer="defer"></script>
+    <script type="module" src="./js/main.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="./js/setPanzoom.js" charset="UTF-8" defer="defer"></script>
 </body>
 </html>
