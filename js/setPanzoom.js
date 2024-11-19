@@ -21,10 +21,7 @@ const panzoom = Panzoom(
 // マウスホイールでのズームを有効化
 panzoomParent.addEventListener("wheel", panzoom.zoomWithWheel);
 // ダブルクリックでのズームを有効化
-panzoomParent.addEventListener("dblclick", function() {
-    if (event.touches.length > 0 || event.changedTouches.length > 1) {
-        return;
-    };
+panzoomParent.addEventListener('dblclick', (event) => {
     if(panzoom.getScale() === panzoomMaxScale) {
         panzoom.reset();
     } else {
@@ -37,7 +34,7 @@ document.addEventListener('touchend', (event) => {
     const currentTime = new Date().getTime();
     const tapInterval = currentTime - lastTapTime;
 
-    if (tapInterval < 300 && tapInterval > 0) {
+    if (tapInterval < 300 && tapInterval > 100) {
         if (event.touches.length > 0 || event.changedTouches.length > 1) {
             return;
         };
