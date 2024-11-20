@@ -60,6 +60,7 @@ function getRandomStation() {
     const stationNames = Object.values(stationMapping);
     const randomIndex = Math.floor(Math.random() * (stationNames.length))
     const randomStation = stationNames[randomIndex];
+    changeCharacterSize(roulette, randomStation);
     roulette.text(randomStation);
 }
 
@@ -73,7 +74,18 @@ function stopRoulette() {
     } else {
         isSpin = false;
         clearInterval(spinInterval);
+        changeCharacterSize(roulette, nextStation);
         roulette.text(nextStation);
+    };
+};
+
+function changeCharacterSize(elem, str) {
+    if(str.length > 8) {
+        elem.css('font-size', '1.5rem');
+    } else if(str.length > 5) {
+        elem.css('font-size', '2rem');
+    } else {
+        elem.css('font-size', '3rem');
     };
 };
 
@@ -142,12 +154,7 @@ function calculateTravelTimes(graph, start) {
         });
     };
 
-    // TODO 定数を追加
-    // for(key of Object.keys(times)) {
-    //     times[key] = times[key] + constantWeight;
-    // };
-
-    // TODO 10分以下の駅を削除
+    // 10分以下の駅を削除
     for(key of Object.keys(times)) {
         if(times[key] <= 10) {
             delete times[key];

@@ -1,20 +1,3 @@
-/*
-.svg-frame {
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  position: relative;
-  }
-
-.zoomable {
-  width: 100%;
-  height: auto;
-  transition: transform 0.1s ease;
-  cursor: grab;
-  touch-action: none;
-}
-*/
-
 :root {
   --team-a-color: rgb(247, 13, 13);
   --team-b-color: rgb(0, 89, 255);
@@ -45,13 +28,15 @@
 }
 
 .information-time {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: end;
   width: 100%;
 }
 
-.next-station {
+.latest-station {
+  align-content: center;
   font-size: 3rem;
+  height: 12vw;
   text-align: center;
   width: 100%;
 }

@@ -1,5 +1,5 @@
 // 定数
-import { Constants } from "./constants.js";
+import { Constants } from './constants.js';
 
 // response
 let responseData;
@@ -7,11 +7,11 @@ let responseData;
 // ヘッダーの読み込み
 $(function() {
     $.ajaxSetup({cache:false});
-    $('.header-contents').load("./header.html", function() {
+    $('.header-contents').load('./header.html', function() {
         $('#home-header').addClass('active');
         $('#roulette-header').removeClass('active');
     });
-})
+});
 
 const mapDiv = $('#map');
 
@@ -26,44 +26,37 @@ sessionStorage.setItem(teamCIsAdded, 0);
 const teamDIsAdded = 'teamDIsAdded';
 sessionStorage.setItem(teamDIsAdded, 0);
 
-// 各チームの情報表示部
-// const teamALatest = $('#team-a-latest-station');
-const teamANext = $('#team-a-next-station');
-const teamANextTime = $('#team-a-next-time');
-// const teamBLatest = $('#team-b-latest-station');
-const teamBNext = $('#team-b-next-station');
-const teamBNextTime = $('#team-b-next-time');
-// const teamCLatest = $('#team-c-latest-station');
-const teamCNext = $('#team-c-next-station');
-const teamCNextTime = $('#team-c-next-time');
-// const teamDLatest = $('#team-d-latest-station');
-const teamDNext = $('#team-d-next-station');
-const teamDNextTime = $('#team-d-next-time');
-const updatedTime = $('#updated-time');
-
 // 各チームの電車コマ
 const teamATrain = $('#team-a-train');
 const teamBTrain = $('#team-b-train');
 const teamCTrain = $('#team-c-train');
 const teamDTrain = $('#team-d-train');
 
-
 // トグルボタン
 const teamATrainVisibility = $('#team-a-train-visibility');
 const teamBTrainVisibility = $('#team-b-train-visibility');
 const teamCTrainVisibility = $('#team-c-train-visibility');
 const teamDTrainVisibility = $('#team-d-train-visibility');
-
-// 各チームのteam-information
-const teamAInformation = $('#team-a-information');
-const teamBInformation = $('#team-b-information');
-const teamCInformation = $('#team-c-information');
-const teamDInformation = $('#team-d-information');
 // チーム名
 const teamAInformationName = $('#team-a-information-name');
 const teamBInformationName = $('#team-b-information-name');
 const teamCInformationName = $('#team-c-information-name');
 const teamDInformationName = $('#team-d-information-name');
+// 各チームのteam-information
+const teamAInformation = $('#team-a-information');
+const teamBInformation = $('#team-b-information');
+const teamCInformation = $('#team-c-information');
+const teamDInformation = $('#team-d-information');
+// 各チームの情報表示部
+const teamALatest = $('#team-a-latest-station');
+const teamALatestTime = $('#team-a-latest-time');
+const teamBLatest = $('#team-b-latest-station');
+const teamBLatestTime = $('#team-b-latest-time');
+const teamCLatest = $('#team-c-latest-station');
+const teamCLatestTime = $('#team-c-latest-time');
+const teamDLatest = $('#team-d-latest-station');
+const teamDLatestTime = $('#team-d-latest-time');
+const updatedTime = $('#updated-time');
 
 // modal
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
@@ -122,18 +115,14 @@ async function fetchJsonData() {
  * 位置情報（テキスト）のリセット
  */
 function clearTeamLocation() {
-    teamANext.text('');
-    teamANextTime.text('');
-    // teamALatest.text('');
-    teamBNext.text('');
-    teamBNextTime.text('');
-    // teamBLatest.text('');
-    teamCNext.text('');
-    teamCNextTime.text('');
-    // teamCLatest.text('');
-    teamDNext.text('');
-    teamDNextTime.text('');
-    // teamDLatest.text('');
+    teamALatest.text('');
+    teamALatestTime.text('');
+    teamBLatest.text('');
+    teamBLatestTime.text('');
+    teamCLatest.text('');
+    teamCLatestTime.text('');
+    teamDLatest.text('');
+    teamDLatestTime.text('');
 };
 
 /**
@@ -143,7 +132,7 @@ function clearTeamLocation() {
 function displayTeamLocation(data) {
     if(data.teamA.length > 0) {
         // teamAの位置情報(文字)の表示
-        displayStringInformation(data.teamA, teamAIsAdded, teamANext, teamANextTime);
+        displayStringInformation(data.teamA, teamAIsAdded, teamALatest, teamALatestTime);
         // teamAの電車コマの移動
         changeTrainPosition(teamATrain, data.teamA, teamATrainVisibility);
     } else {
@@ -151,7 +140,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamB.length > 0) {
         // teamBの位置情報(文字)の表示
-        displayStringInformation(data.teamB, teamBIsAdded, teamBNext, teamBNextTime);
+        displayStringInformation(data.teamB, teamBIsAdded, teamBLatest, teamBLatestTime);
         // teamBの電車コマの移動
         changeTrainPosition(teamBTrain, data.teamB, teamBTrainVisibility);
     } else {
@@ -159,7 +148,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamC.length > 0) {
         // teamCの位置情報(文字)の表示
-        displayStringInformation(data.teamC, teamCIsAdded, teamCNext, teamCNextTime);
+        displayStringInformation(data.teamC, teamCIsAdded, teamCLatest, teamCLatestTime);
         // teamCの電車コマの移動
         changeTrainPosition(teamCTrain, data.teamC, teamCTrainVisibility);
     } else {
@@ -167,7 +156,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamD.length > 0) {
         // teamDの位置情報(文字)の表示
-        displayStringInformation(data.teamD, teamDIsAdded, teamDNext, teamDNextTime);
+        displayStringInformation(data.teamD, teamDIsAdded, teamDLatest, teamDLatestTime);
         // teamDの電車コマの移動
         changeTrainPosition(teamDTrain, data.teamD, teamDTrainVisibility);
     } else {
@@ -182,18 +171,28 @@ function displayTeamLocation(data) {
  * @param {object} latestData 最終到着駅表示用HTML要素
  * @param {object} nextData 次の目的地表示用HTML要素
  */
-function displayStringInformation(data, isAdded, nextStation, nextTime) {
+function displayStringInformation(data, isAdded, latestStation, latestTime) {
     // データが登録されているのでsessionStorageのisAddedをtrueにする
     sessionStorage.setItem(isAdded, 1);
     // 最後から2行目の取得
-    // const latestLocationData = data.slice(-2)[0];
+    const latestLocationData = data.slice(-2)[0];
     // 最終行の取得
-    const nextLocationData = data.slice(-1)[0];
-
-    nextStation.text(nextLocationData.location);
-    nextTime.text(nextLocationData.strTime);
+    // const nextLocationData = data.slice(-1)[0];
+    changeCharacterSize(latestStation, latestLocationData.location)
+    latestStation.text(latestLocationData.location);
+    latestTime.text(latestLocationData.strTime);
     // latestData.text(latestLocationData.strTime + ' ' + latestLocationData.location);
     // nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
+};
+
+function changeCharacterSize(elem, str) {
+    if(str.length > 8) {
+        elem.css('font-size', '1.3rem');
+    } else if(str.length > 5) {
+        elem.css('font-size', '2rem');
+    } else {
+        elem.css('font-size', '3rem');
+    };
 };
 
 /**
@@ -204,6 +203,7 @@ function displayStringInformation(data, isAdded, nextStation, nextTime) {
  * 駅コードを下にマス目を取得し、そのマスの座標を電車コマに反映
  */
 function changeTrainPosition(train, data, visibility) {
+    // 最終到着駅を取得
     const location = data.slice(-2)[0].location;
     const stationCode = getStationCode(location);
     const stationBox = $('#box-' + stationCode);
