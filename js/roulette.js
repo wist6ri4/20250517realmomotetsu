@@ -81,7 +81,7 @@ function stopRoulette() {
 
 function changeCharacterSize(elem, str) {
     if(str.length > 8) {
-        elem.css('font-size', '1.5rem');
+        elem.css('font-size', '1.3rem');
     } else if(str.length > 5) {
         elem.css('font-size', '2rem');
     } else {

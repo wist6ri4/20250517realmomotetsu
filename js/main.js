@@ -187,11 +187,11 @@ function displayStringInformation(data, isAdded, latestStation, latestTime) {
 
 function changeCharacterSize(elem, str) {
     if(str.length > 8) {
-        elem.css('font-size', '1.3rem');
+        elem.css('font-size', '1.1rem');
     } else if(str.length > 5) {
-        elem.css('font-size', '2rem');
+        elem.css('font-size', '1.8rem');
     } else {
-        elem.css('font-size', '3rem');
+        elem.css('font-size', '2.7rem');
     };
 };
 

@@ -28,8 +28,14 @@
 #roulette {
     align-content: center;
     font-size: 3rem;
+    font-weight: 300;
     height: 12vw;
     overflow-wrap: break-word;
+    paint-order: stroke;
     text-align: center;
+    -webkit-text-stroke: 0.5rem black;
     width: 100%;
+    /* font-family: "Kosugi Maru", sans-serif; */
+    /* font-weight: 400; */
+    /* font-style: normal; */
 }
