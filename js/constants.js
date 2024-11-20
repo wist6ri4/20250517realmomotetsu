@@ -6,5 +6,4 @@ const Constants = {
 };
 
 Object.freeze(Constants);
-
 export { Constants };

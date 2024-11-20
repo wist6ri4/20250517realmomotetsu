@@ -15,8 +15,43 @@
 }
 */
 
+:root {
+  --team-a-color: rgb(247, 13, 13);
+  --team-b-color: rgb(0, 89, 255);
+  --team-c-color: rgb(3, 165, 11);
+  --team-d-color: rgb(173, 4, 189);
+}
+
 .team-information {
   color: white;
-  font-size: smaller;
   font-weight: 600;
+}
+
+#team-a-information {
+  background-color: var(--team-a-color);
+}
+#team-b-information {
+  background-color: var(--team-b-color);
+}
+#team-c-information {
+  background-color: var(--team-c-color);
+}
+#team-d-information {
+  background-color: var(--team-d-color);
+}
+
+.information-context {
+  font-size: 1.5rem;
+}
+
+.information-time {
+  font-size: 1.5rem;
+  text-align: end;
+  width: 100%;
+}
+
+.next-station {
+  font-size: 3rem;
+  text-align: center;
+  width: 100%;
 }

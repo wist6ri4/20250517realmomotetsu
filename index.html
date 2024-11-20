@@ -484,72 +484,76 @@
             </div>
         </div>
         <div id="map" class="row">
+            <!--チームA-->
             <div class="col-6">
+                <!--ラベル-->
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-a-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamATrainVisibility" checked>
                         <span id="team-a-information-name"></span>
                     </label>
                 </div>
-                <div id="team-a-information"
-                    class="team-information border rounded-3 px-3 py-3"
-                    style="background-color: rgb(247, 13, 13);">
-                    最終到着駅: <span id="teamALatest"></span>
-                    <br>
-                    次の目的地: <span id="teamANext"></span>
+                <!--カード-->
+                <div id="team-a-information" class="team-information border rounded-3 px-3 py-3">
+                    <div class="information-context">次は</div>
+                    <div id="team-a-next-station" class="next-station">　</div>
+                    <div id="team-a-next-time" class="information-time">　</div>
                 </div>
             </div>
             <br>
+            <!--チームB-->
             <div class="col-6">
+                <!--ラベル-->
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-b-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
                         <span id="team-b-information-name"></span>
                     </label>
                 </div>
-                <div id="team-b-information"
-                    class="team-information border rounded-3 px-3 py-3"
-                    style="background-color: rgb(0, 89, 255);">
-                    最終到着駅: <span id="teamBLatest"></span>
-                    <br>
-                    次の目的地: <span id="teamBNext"></span>
+                <!--カード-->
+                <div id="team-b-information" class="team-information border rounded-3 px-3 py-3">
+                    <div class="information-context">次は</div>
+                    <div id="team-b-next-station" class="next-station">　</div>
+                    <div id="team-b-next-time" class="information-time">　</div>
                 </div>
             </div>
             <br>
+            <!--チームC-->
             <div class="col-6">
+                <!--ラベル-->
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-c-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
                         <span id="team-c-information-name"></span>
                     </label>
                 </div>
-                <div id="team-c-information"
-                    class="team-information border rounded-3 px-3 py-3"
-                    style="background-color: rgb(3, 165, 11);">
-                    最終到着駅: <span id="teamCLatest"></span>
-                    <br>
-                    次の目的地: <span id="teamCNext"></span>
+                <!--カード-->
+                <div id="team-c-information" class="team-information border rounded-3 px-3 py-3">
+                    <div class="information-context">次は</div>
+                    <div id="team-c-next-station" class="next-station">　</div>
+                    <div id="team-c-next-time" class="information-time">　</div>
                 </div>
             </div>
             <br>
+            <!--チームD-->
             <div class="col-6">
+                <!--ラベル-->
                 <div class="form-check form-switch">
                     <label>
                         <input id="team-d-train-visibility" class="form-check-input" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
                         <span id="team-d-information-name"></span>
                     </label>
                 </div>
-                <div id="team-d-information"
-                    class="team-information border rounded-3 px-3 py-3"
-                    style="background-color: rgb(173, 4, 189);">
-                    最終到着駅: <span id="teamDLatest"></span>
-                    <br>
-                    次の目的地: <span id="teamDNext"></span>
+                <!--カード-->
+                <div id="team-d-information" class="team-information border rounded-3 px-3 py-3">
+                    <div class="information-context">次は</div>
+                    <div id="team-d-next-station" class="next-station">　</div>
+                    <div id="team-d-next-time" class="information-time">　</div>
                 </div>
             </div>
         </div>
         <div>
-            最終更新: <span id="updatedTime"></span>
+            最終更新: <span id="updated-time"></span>
         </div>
 
         <!--modal-->
@@ -569,7 +573,7 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body-history">
-
+                                <!--jsで挿入-->
                             </tbody>
                         </table>
                     </div>

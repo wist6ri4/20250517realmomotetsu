@@ -4,6 +4,7 @@ import { Constants } from "./constants.js";
 // response
 let responseData;
 
+// ヘッダーの読み込み
 $(function() {
     $.ajaxSetup({cache:false});
     $('.header-contents').load("./header.html", function() {
@@ -26,15 +27,19 @@ const teamDIsAdded = 'teamDIsAdded';
 sessionStorage.setItem(teamDIsAdded, 0);
 
 // 各チームの情報表示部
-const teamALatest = $('#teamALatest');
-const teamANext = $('#teamANext');
-const teamBLatest = $('#teamBLatest');
-const teamBNext = $('#teamBNext');
-const teamCLatest = $('#teamCLatest');
-const teamCNext = $('#teamCNext');
-const teamDLatest = $('#teamDLatest');
-const teamDNext = $('#teamDNext');
-const updatedTime = $('#updatedTime');
+// const teamALatest = $('#team-a-latest-station');
+const teamANext = $('#team-a-next-station');
+const teamANextTime = $('#team-a-next-time');
+// const teamBLatest = $('#team-b-latest-station');
+const teamBNext = $('#team-b-next-station');
+const teamBNextTime = $('#team-b-next-time');
+// const teamCLatest = $('#team-c-latest-station');
+const teamCNext = $('#team-c-next-station');
+const teamCNextTime = $('#team-c-next-time');
+// const teamDLatest = $('#team-d-latest-station');
+const teamDNext = $('#team-d-next-station');
+const teamDNextTime = $('#team-d-next-time');
+const updatedTime = $('#updated-time');
 
 // 各チームの電車コマ
 const teamATrain = $('#team-a-train');
@@ -66,6 +71,10 @@ const teamInformationModal = new bootstrap.Modal(document.getElementById('team-i
 main();
 setInterval(main, 10000);
 
+/**
+ * メインメソッド
+ * 画面表示時と10秒おきに実行する
+ */
 async function main() {
     // 更新時刻の取得
     updatedTime.text(getCurrentTime());
@@ -114,13 +123,17 @@ async function fetchJsonData() {
  */
 function clearTeamLocation() {
     teamANext.text('');
-    teamALatest.text('');
+    teamANextTime.text('');
+    // teamALatest.text('');
     teamBNext.text('');
-    teamBLatest.text('');
+    teamBNextTime.text('');
+    // teamBLatest.text('');
     teamCNext.text('');
-    teamCLatest.text('');
+    teamCNextTime.text('');
+    // teamCLatest.text('');
     teamDNext.text('');
-    teamDLatest.text('');
+    teamDNextTime.text('');
+    // teamDLatest.text('');
 };
 
 /**
@@ -130,7 +143,7 @@ function clearTeamLocation() {
 function displayTeamLocation(data) {
     if(data.teamA.length > 0) {
         // teamAの位置情報(文字)の表示
-        displayStringInformation(data.teamA, teamAIsAdded, teamALatest, teamANext);
+        displayStringInformation(data.teamA, teamAIsAdded, teamANext, teamANextTime);
         // teamAの電車コマの移動
         changeTrainPosition(teamATrain, data.teamA, teamATrainVisibility);
     } else {
@@ -138,7 +151,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamB.length > 0) {
         // teamBの位置情報(文字)の表示
-        displayStringInformation(data.teamB, teamBIsAdded, teamBLatest, teamBNext);
+        displayStringInformation(data.teamB, teamBIsAdded, teamBNext, teamBNextTime);
         // teamBの電車コマの移動
         changeTrainPosition(teamBTrain, data.teamB, teamBTrainVisibility);
     } else {
@@ -146,7 +159,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamC.length > 0) {
         // teamCの位置情報(文字)の表示
-        displayStringInformation(data.teamC, teamCIsAdded, teamCLatest, teamCNext);
+        displayStringInformation(data.teamC, teamCIsAdded, teamCNext, teamCNextTime);
         // teamCの電車コマの移動
         changeTrainPosition(teamCTrain, data.teamC, teamCTrainVisibility);
     } else {
@@ -154,7 +167,7 @@ function displayTeamLocation(data) {
     };
     if(data.teamD.length > 0) {
         // teamDの位置情報(文字)の表示
-        displayStringInformation(data.teamD, teamDIsAdded, teamDLatest, teamDNext);
+        displayStringInformation(data.teamD, teamDIsAdded, teamDNext, teamDNextTime);
         // teamDの電車コマの移動
         changeTrainPosition(teamDTrain, data.teamD, teamDTrainVisibility);
     } else {
@@ -169,15 +182,18 @@ function displayTeamLocation(data) {
  * @param {object} latestData 最終到着駅表示用HTML要素
  * @param {object} nextData 次の目的地表示用HTML要素
  */
-function displayStringInformation(data, isAdded, latestData, nextData) {
+function displayStringInformation(data, isAdded, nextStation, nextTime) {
     // データが登録されているのでsessionStorageのisAddedをtrueにする
     sessionStorage.setItem(isAdded, 1);
     // 最後から2行目の取得
-    const latestLocationData = data.slice(-2)[0];
+    // const latestLocationData = data.slice(-2)[0];
     // 最終行の取得
     const nextLocationData = data.slice(-1)[0];
-    latestData.text(latestLocationData.strTime + ' ' + latestLocationData.location);
-    nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
+
+    nextStation.text(nextLocationData.location);
+    nextTime.text(nextLocationData.strTime);
+    // latestData.text(latestLocationData.strTime + ' ' + latestLocationData.location);
+    // nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
 };
 
 /**
@@ -241,30 +257,39 @@ function displayNextStation(nextStationList) {
 };
 
 
+// 履歴モーダルの表示
 teamAInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA)
+    setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA);
     teamInformationModal.show();
-})
+});
 teamBInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_B_NAME, responseData.teamB)
+    setInformationToModal(Constants.TEAM_B_NAME, responseData.teamB);
     teamInformationModal.show();
-})
+});
 teamCInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_C_NAME, responseData.teamC)
+    setInformationToModal(Constants.TEAM_C_NAME, responseData.teamC);
     teamInformationModal.show();
-})
+});
 teamDInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_D_NAME, responseData.teamD)
+    setInformationToModal(Constants.TEAM_D_NAME, responseData.teamD);
     teamInformationModal.show();
-})
+});
 
+/**
+ * 履歴テーブルの内容設定
+ * @param {string} teamName チーム名
+ * @param {object} data データ
+ */
 function setInformationToModal(teamName, data) {
+    // モーダルのラベル
     $('#team-information-modal-label').text(teamName + 'の履歴');
+    // 履歴テーブルを空にする
     $('#table-body-history').empty();
+    // 履歴分の数の行をテーブルに追加
     for(const history of data) {
         const tdStrTime = $('<td></td>').text(history.strTime);
         const tdLocation = $('<td></td>').text(history.location);
         const tr = $('<tr></tr>').append(tdStrTime, tdLocation);
-        $('#table-body-history').append(tr);
-    }
-}
+        $('#table-body-history').prepend(tr);
+    };
+};
