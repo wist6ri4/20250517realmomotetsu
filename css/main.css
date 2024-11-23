@@ -1,8 +1,35 @@
 html {
-    font-size: 62.5%;
+    font-size: 2.5vw;
 }
 
 body {
+    background-attachment: fixed;
+    background-image: url('../img/system_bg_train.jpg');
+    background-repeat: repeat-y;
+    background-size: 100vw;
+    background-position: center top;
+
+    .kosugi-maru-regular {
+        font-family: "Kosugi Maru", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      
     font-size: 2rem;
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
+.header-contents {
+    margin: 1rem;
+}
+
+#header-img {
+    width: 100vw;
+}
+
+.svg-container {
+    overflow: hidden;
+    border: solid;
+}
