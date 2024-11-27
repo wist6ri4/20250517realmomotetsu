@@ -1,13 +1,16 @@
+// 対象の画像のid
+const imageElem = 'routemap';
+
 // zoomスケールの設定
-const panzoomMaxScale = 5;
+const panzoomMaxScale = 10;
 const panzoomMinScale = 1;
 
 // panzoomオブジェクトの親要素を取得
-const panzoomParent = document.getElementById('routemap').parentElement;
+const panzoomParent = document.getElementById(imageElem).parentElement;
 
 // panzoomオブジェクトの定義
 const panzoom = Panzoom(
-    document.getElementById('routemap'),
+    document.getElementById(imageElem),
     {
         contain: 'outside',
         initialZoom: 1,

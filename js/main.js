@@ -58,6 +58,11 @@ const teamCLatestTime = $('#team-c-latest-time');
 const teamDLatest = $('#team-d-latest-station');
 const teamDLatestTime = $('#team-d-latest-time');
 const updatedTime = $('#updated-time');
+// 各チームのmodalチーム名
+const teamAModalName = $('#team-a-modal-name');
+const teamBModalName = $('#team-b-modal-name');
+const teamCModalName = $('#team-c-modal-name');
+const teamDModalName = $('#team-d-modal-name');
 
 // modal
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
@@ -78,6 +83,11 @@ async function main() {
     teamBInformationName.text(Constants.TEAM_B_NAME);
     teamCInformationName.text(Constants.TEAM_C_NAME);
     teamDInformationName.text(Constants.TEAM_D_NAME);
+    teamAModalName.text(Constants.TEAM_A_NAME);
+    teamBModalName.text(Constants.TEAM_B_NAME);
+    teamCModalName.text(Constants.TEAM_C_NAME);
+    teamDModalName.text(Constants.TEAM_D_NAME);
+
 
     // APIにアクセスしてデータを取得
     const data = await fetchJsonData();

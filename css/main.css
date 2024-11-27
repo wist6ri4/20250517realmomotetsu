@@ -27,6 +27,8 @@ body {
 }
 
 .svg-container {
-    overflow: hidden;
-    border: solid;
+    /* overflow: hidden; */
+    /* border: solid; */
+    width: 100%;
+    height: 80%;
 }
