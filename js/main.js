@@ -10,6 +10,7 @@ $(function() {
     $('.header-contents').load('./header.html', function() {
         $('#home-header').addClass('active');
         $('#roulette-header').removeClass('active');
+        $('#googleform-header').removeClass('active');
     });
 });
 

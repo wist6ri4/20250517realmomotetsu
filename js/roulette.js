@@ -3,6 +3,7 @@ $(function() {
     $('.header-contents').load("./header.html", function() {
         $('#home-header').removeClass('active');
         $('#roulette-header').addClass('active');
+        $('#googleform-header').removeClass('active');
     });
 })
 

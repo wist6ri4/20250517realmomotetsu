@@ -39,3 +39,13 @@
     /* font-weight: 400; */
     /* font-style: normal; */
 }
+
+.roulette-button {
+    display: flex;
+    justify-content: center;
+}
+
+#start-button, #stop-button {
+    width: 10rem;
+    height: 4rem;
+}
