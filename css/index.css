@@ -1,15 +1,17 @@
 :root {
-    --team-a-color: rgb(247, 13, 13);
-    --team-b-color: rgb(0, 89, 255);
-    --team-c-color: rgb(3, 165, 11);
-    --team-d-color: rgb(173, 4, 189);
+    --team-a-color: rgb(0, 89, 255);
+    --team-b-color: rgb(241, 27, 27);
+    --team-c-color: rgb(231, 169, 35);
+    --team-d-color: rgb(3, 165, 11);
 }
 
+/* チーム情報カード */
 .team-information {
     color: white;
     font-weight: 400;
-  }
+}
 
+/* 各team-information */
 #team-a-information {
     background-color: var(--team-a-color);
 }
@@ -23,16 +25,19 @@
     background-color: var(--team-d-color);
 }
 
+/* team-informationの文字表示 */
 .information-context {
     font-size: 1.5rem;
 }
 
+/* team-informationの時刻表示 */
 .information-time {
     font-size: 1.2rem;
     text-align: end;
     width: 100%;
 }
 
+/* team-informationの駅表示 */
 .latest-station {
     align-content: center;
     font-size: 3rem;
@@ -43,3 +48,44 @@
     -webkit-text-stroke: 0.5rem black;
     width: 100%;
 }
+
+/* チームAの電車コマ */
+#team-a-train {
+    fill: var(--team-a-color);
+}
+/* チームAの電車コマの表示切り替えトグルボタン */
+#team-a-train-visibility {
+    background-color: var(--team-a-color);
+    border-color: black;
+}
+
+/* チームBの電車コマ */
+#team-b-train {
+    fill: var(--team-b-color);
+}
+/* チームBの電車コマの表示切り替えトグルボタン */
+#team-b-train-visibility {
+    background-color: var(--team-b-color);
+    border-color: black;
+}
+
+/* チームCの電車コマ */
+#team-c-train {
+    fill: var(--team-c-color);
+}
+/* チームCの電車コマの表示切り替えトグルボタン */
+#team-c-train-visibility {
+    background-color: var(--team-c-color);
+    border-color: black;
+}
+
+/* チームDの電車コマ */
+#team-d-train {
+    fill: var(--team-d-color)
+}
+/* チームDの電車コマの表示切り替えトグルボタン */
+#team-d-train-visibility {
+    background-color: var(--team-d-color);
+    border-color: black;
+}
+
