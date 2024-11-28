@@ -12,3 +12,7 @@
 .invisible-train {
     visibility: hidden;
 }
+
+#routemap {
+    height: 100%;
+}
