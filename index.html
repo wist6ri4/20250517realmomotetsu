@@ -42,7 +42,7 @@
 <body>
     <div class="container">
         <div class="">
-            <input type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#map-modal" value="ぜんたいMAP">
+            <input type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#map-modal" value="路線図">
         </div>
         <div id="map" class="row">
             <!--チームA-->
@@ -153,7 +153,7 @@
         <div id="map-modal" class="modal fade" tabindex="-1" aria-labelledby="map-modal">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
-                    <h1 class="modal-title fs-7">ぜんたいMAP</h1>
+                    <h1 class="modal-title fs-7">路線図</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="modal-body">
                         <div class="svg-container">
@@ -600,10 +600,10 @@
                                     </g>
                                     <!-- 各チームのコマ -->
                                     <g xmlns="http://www.w3.org/2000/svg" class="u" data-layer="team-train" style="visibility: visible;">
-                                        <use id="team-a-train" class="invisible-train" href="#train" fill="red" x="0" y="400" width="80" height="80" transform = "translate(10, 10)"/>
-                                        <use id="team-b-train" class="invisible-train" href="#train" fill="blue" x="200" y="400" width="80" height="80" transform = "translate(10, 10)"/>
-                                        <use id="team-c-train" class="invisible-train" href="#train" fill="purple" x="400" y="400" width="80" height="80" transform = "translate(10, 10)"/>
-                                        <use id="team-d-train" class="invisible-train" href="#train" fill="green" x="400" y="400" width="80" height="80" transform = "translate(10, 10)"/>
+                                        <use id="team-a-train" class="invisible-train" href="#train" x="0" y="400" width="80" height="80" transform = "translate(10, 10)"/>
+                                        <use id="team-b-train" class="invisible-train" href="#train" x="200" y="400" width="80" height="80" transform = "translate(10, 10)"/>
+                                        <use id="team-c-train" class="invisible-train" href="#train" x="400" y="400" width="80" height="80" transform = "translate(10, 10)"/>
+                                        <use id="team-d-train" class="invisible-train" href="#train" x="400" y="400" width="80" height="80" transform = "translate(10, 10)"/>
                                     </g>
                                 </g>
                             </svg>

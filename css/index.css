@@ -48,3 +48,44 @@
     -webkit-text-stroke: 0.5rem black;
     width: 100%;
 }
+
+/* チームAの電車コマ */
+#team-a-train {
+    fill: var(--team-a-color);
+}
+/* チームAの電車コマの表示切り替えトグルボタン */
+#team-a-train-visibility {
+    background-color: var(--team-a-color);
+    border-color: black;
+}
+
+/* チームBの電車コマ */
+#team-b-train {
+    fill: var(--team-b-color);
+}
+/* チームBの電車コマの表示切り替えトグルボタン */
+#team-b-train-visibility {
+    background-color: var(--team-b-color);
+    border-color: black;
+}
+
+/* チームCの電車コマ */
+#team-c-train {
+    fill: var(--team-c-color);
+}
+/* チームCの電車コマの表示切り替えトグルボタン */
+#team-c-train-visibility {
+    background-color: var(--team-c-color);
+    border-color: black;
+}
+
+/* チームDの電車コマ */
+#team-d-train {
+    fill: var(--team-d-color)
+}
+/* チームDの電車コマの表示切り替えトグルボタン */
+#team-d-train-visibility {
+    background-color: var(--team-d-color);
+    border-color: black;
+}
+
