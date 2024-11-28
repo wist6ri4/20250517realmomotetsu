@@ -4,7 +4,7 @@ import { Constants } from './constants.js';
 // response
 let responseData;
 
-// ヘッダーの読み込み
+// 共通ヘッダーの読み込み
 $(function() {
     $.ajaxSetup({cache:false});
     $('.header-contents').load('./header.html', function() {

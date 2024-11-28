@@ -5,11 +5,13 @@
     --team-d-color: rgb(173, 4, 189);
 }
 
+/* チーム情報カード */
 .team-information {
     color: white;
     font-weight: 400;
-  }
+}
 
+/* 各team-information */
 #team-a-information {
     background-color: var(--team-a-color);
 }
@@ -23,16 +25,19 @@
     background-color: var(--team-d-color);
 }
 
+/* team-informationの文字表示 */
 .information-context {
     font-size: 1.5rem;
 }
 
+/* team-informationの時刻表示 */
 .information-time {
     font-size: 1.2rem;
     text-align: end;
     width: 100%;
 }
 
+/* team-informationの駅表示 */
 .latest-station {
     align-content: center;
     font-size: 3rem;
