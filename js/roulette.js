@@ -1,6 +1,3 @@
-// 定数
-import { Constants } from './constants.js';
-
 // 共通ヘッダーの読み込み
 $(function() {
     $.ajaxSetup({cache:false});
