@@ -296,6 +296,8 @@ function setInformationToModal(teamName, data) {
     $('#team-information-modal-label').text(teamName + 'の履歴');
     // 履歴テーブルを空にする
     $('#table-body-history').empty();
+    // 次の目的駅を取り除く
+    data.pop();
     // 履歴分の数の行をテーブルに追加
     for(const history of data) {
         const tdStrTime = $('<td></td>').text(history.strTime);

@@ -1,8 +1,8 @@
 :root {
-    --team-a-color: rgb(247, 13, 13);
-    --team-b-color: rgb(0, 89, 255);
-    --team-c-color: rgb(3, 165, 11);
-    --team-d-color: rgb(173, 4, 189);
+    --team-a-color: rgb(0, 89, 255);
+    --team-b-color: rgb(241, 27, 27);
+    --team-c-color: rgb(231, 169, 35);
+    --team-d-color: rgb(3, 165, 11);
 }
 
 /* チーム情報カード */
