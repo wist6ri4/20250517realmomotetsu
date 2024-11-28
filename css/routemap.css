@@ -1,11 +1,18 @@
+/* 目的地 */
 .destination-station {
     fill: rgb(255, 0, 0) !important;
 }
 
+/* 特殊駅 */
 .special-station {
     fill: rgba(255, 0, 0) !important;
 }
 
+/* 電車コマの非表示用クラス */
 .invisible-train {
     visibility: hidden;
+}
+
+#routemap {
+    height: 100%;
 }

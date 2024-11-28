@@ -4,12 +4,13 @@ import { Constants } from './constants.js';
 // response
 let responseData;
 
-// ヘッダーの読み込み
+// 共通ヘッダーの読み込み
 $(function() {
     $.ajaxSetup({cache:false});
     $('.header-contents').load('./header.html', function() {
         $('#home-header').addClass('active');
         $('#roulette-header').removeClass('active');
+        $('#googleform-header').removeClass('active');
     });
 });
 
@@ -57,6 +58,11 @@ const teamCLatestTime = $('#team-c-latest-time');
 const teamDLatest = $('#team-d-latest-station');
 const teamDLatestTime = $('#team-d-latest-time');
 const updatedTime = $('#updated-time');
+// 各チームのmodalチーム名
+const teamAModalName = $('#team-a-modal-name');
+const teamBModalName = $('#team-b-modal-name');
+const teamCModalName = $('#team-c-modal-name');
+const teamDModalName = $('#team-d-modal-name');
 
 // modal
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
@@ -77,6 +83,11 @@ async function main() {
     teamBInformationName.text(Constants.TEAM_B_NAME);
     teamCInformationName.text(Constants.TEAM_C_NAME);
     teamDInformationName.text(Constants.TEAM_D_NAME);
+    teamAModalName.text(Constants.TEAM_A_NAME);
+    teamBModalName.text(Constants.TEAM_B_NAME);
+    teamCModalName.text(Constants.TEAM_C_NAME);
+    teamDModalName.text(Constants.TEAM_D_NAME);
+
 
     // APIにアクセスしてデータを取得
     const data = await fetchJsonData();
@@ -285,6 +296,8 @@ function setInformationToModal(teamName, data) {
     $('#team-information-modal-label').text(teamName + 'の履歴');
     // 履歴テーブルを空にする
     $('#table-body-history').empty();
+    // 次の目的駅を取り除く
+    data.pop();
     // 履歴分の数の行をテーブルに追加
     for(const history of data) {
         const tdStrTime = $('<td></td>').text(history.strTime);

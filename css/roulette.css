@@ -2,10 +2,12 @@
     --next-station-bg: rgb(36, 110, 204);
 }
 
+/* 次の駅表示部の文字 */
 .information-context {
     font-size: 1.5rem;
 }
 
+/* 目的地表示カードのコンテナ */
 #next-station-card-container {
     /* aspect-ratio: 16/7; */
     /* background-image: url(../img/roulette_bg.jpg);
@@ -17,6 +19,7 @@
     width: 100%;
 }
 
+/* 目的地表示カード */
 #next-station-card {
     background-color: var(--next-station-bg);
     color: white;
@@ -25,6 +28,7 @@
     width: 55vw;
 }
 
+/* 目的地表示部 */
 #roulette {
     align-content: center;
     font-size: 3rem;
@@ -38,4 +42,16 @@
     /* font-family: "Kosugi Maru", sans-serif; */
     /* font-weight: 400; */
     /* font-style: normal; */
+}
+
+/* ルーレットボタンのコンテナ */
+.roulette-button {
+    display: flex;
+    justify-content: center;
+}
+
+/* スタート、ストップボタン */
+#start-button, #stop-button {
+    width: 10rem;
+    height: 4rem;
 }
