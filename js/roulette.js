@@ -13,6 +13,7 @@ let startStation = $('#current-station').val();
 const roulette = $('#roulette');
 
 // スピンフラグ
+// ルーレットが回っているかどうかの判定フラグ
 let isSpin = false;
 // ルーレットのintervalID
 let spinInterval;
@@ -81,6 +82,11 @@ function stopRoulette() {
     };
 };
 
+/**
+ * 文字数に応じて文字サイズを変換
+ * @param {object} elem jqueryオブジェクト
+ * @param {string} str 駅名
+ */
 function changeCharacterSize(elem, str) {
     if(str.length > 8) {
         elem.css('font-size', '1.3rem');
