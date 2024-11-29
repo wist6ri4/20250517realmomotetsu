@@ -49,9 +49,3 @@
     display: flex;
     justify-content: center;
 }
-
-/* スタート、ストップボタン */
-#start-button, #stop-button {
-    width: 10rem;
-    height: 4rem;
-}
