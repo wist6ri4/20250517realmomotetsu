@@ -7,6 +7,7 @@ const Constants = {
     TEAM_B_NAME:'チームB',
     TEAM_C_NAME:'チームC',
     TEAM_D_NAME:'チームD',
+    SESSION_TEAM_DATA: 'sessionTeamData',
 };
 
 Object.freeze(Constants);

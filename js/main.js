@@ -88,19 +88,37 @@ async function main() {
     teamCModalName.text(Constants.TEAM_C_NAME);
     teamDModalName.text(Constants.TEAM_D_NAME);
 
+    // sessionStorageのsessionTeamDataを優先して取得
+    const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
+    try {
+        if(sessionTeamData) {
+            responseData = JSON.parse(sessionTeamData);
+            display(responseData);
+        } else {
+            responseData = await fetchJsonData();
+            display(responseData);
+        };
+    } catch {
+        responseData = await fetchJsonData();
+        display(responseData);
+    } finally {
+        sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
+    }
+};
 
-    // APIにアクセスしてデータを取得
-    const data = await fetchJsonData();
-    responseData = data;
-
+/**
+ * データ表示の親メソッド
+ * @param {object} responseData レスポンスデータ
+ */
+function display(responseData) {
     // 位置情報（テキスト）のリセット
     clearTeamLocation();
     // 位置情報の表示
-    displayTeamLocation(data);
+    displayTeamLocation(responseData);
 
     // 次の目的地の表示
-    displayNextStation(data.nextStation);
-};
+    displayNextStation(responseData.nextStation);
+}
 
 /**
  * 現在時刻の取得
