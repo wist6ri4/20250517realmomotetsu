@@ -42,7 +42,7 @@
     align-content: center;
     font-size: 3rem;
     font-weight: 300;
-    height: 12vw;
+    height: min(12vw, 92.16px);
     paint-order: stroke;
     text-align: center;
     -webkit-text-stroke: 0.5rem black;

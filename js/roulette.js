@@ -19,8 +19,6 @@ let isSpin = false;
 let spinInterval;
 // 次の駅
 let nextStation;
-// TODO 重み付け定数
-// const constantWeight = 15;
 
 main();
 
@@ -107,24 +105,24 @@ function getNextStation() {
     // 各駅への最短所要時間を取得
     const times = calculateTravelTimes(stationGraph, startStationCode);
     // TODO 確認用
-    console.info('所要時間：')
-    console.info(times);
+    // console.info('所要時間：')
+    // console.info(times);
 
     // 所要時間から重みを計算
     const probabilities = weightedRoulette(startStationCode, times);
 
     // TODO 確認用 パーセンタイルに変換
-    let percentage = {};
-    for(const[station, probability] of Object.entries(probabilities)) {
-        percentage[station] = probability * 100;
-    };
-    console.info('確率（%）：')
-    console.info(percentage);
+    // let percentage = {};
+    // for(const[station, probability] of Object.entries(probabilities)) {
+    //     percentage[station] = probability * 100;
+    // };
+    // console.info('確率（%）：')
+    // console.info(percentage);
 
     // 次の目的駅を選択
     const nextStationCode = chooseNextStation(probabilities);
     // TODO 確認用
-    console.info('次の駅：' + getStationName(nextStationCode))
+    // console.info('次の駅：' + getStationName(nextStationCode))
 
     const nextStation = getStationName(nextStationCode);
     return nextStation;
