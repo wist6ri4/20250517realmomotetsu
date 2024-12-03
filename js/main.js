@@ -94,6 +94,7 @@ async function main() {
         if(sessionTeamData) {
             responseData = JSON.parse(sessionTeamData);
             display(responseData);
+            responseData = await fetchJsonData();
         } else {
             responseData = await fetchJsonData();
             display(responseData);
