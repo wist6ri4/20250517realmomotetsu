@@ -18,13 +18,13 @@ const mapDiv = $('#map');
 
 // データの追加フラグ
 // 一度取得できれば更新の必要がないためsessionStorageで管理
-const teamAIsAdded = 'teamAIsAdded';
+const teamAIsAdded = Constants.TEAM_A_IS_ADDED;
 sessionStorage.setItem(teamAIsAdded, 0);
-const teamBIsAdded = 'teamBIsAdded';
+const teamBIsAdded = Constants.TEAM_B_IS_ADDED;
 sessionStorage.setItem(teamBIsAdded, 0);
-const teamCIsAdded = 'teamCIsAdded';
+const teamCIsAdded = Constants.TEAM_C_IS_ADDED;
 sessionStorage.setItem(teamCIsAdded, 0);
-const teamDIsAdded = 'teamDIsAdded';
+const teamDIsAdded = Constants.TEAM_D_IS_ADDED;
 sessionStorage.setItem(teamDIsAdded, 0);
 
 // 各チームの電車コマ
@@ -127,7 +127,12 @@ function display(responseData) {
  */
 function getCurrentTime() {
     const ct = new Date();
-    const strCurrentTime = ct.getFullYear() + '/' + ('0' + (ct.getMonth() + 1)).slice(-2) + '/' + ('0' + ct.getDate()).slice(-2) + ' ' + ct.getHours() + ':' + ('0' + ct.getMinutes()).slice(-2) + ':' + ('0' + ct.getSeconds()).slice(-2);
+    const strCurrentTime = ct.getFullYear() +
+        '/' + ('0' + (ct.getMonth() + 1)).slice(-2) +
+        '/' + ('0' + ct.getDate()).slice(-2) + ' ' +
+        ct.getHours() +
+        ':' + ('0' + ct.getMinutes()).slice(-2) +
+        ':' + ('0' + ct.getSeconds()).slice(-2);
     return strCurrentTime;
 };
 
