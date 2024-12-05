@@ -2,7 +2,7 @@
 const imageElem = 'routemap';
 
 // zoomスケールの設定
-const panzoomMaxScale = 7.5;
+const panzoomMaxScale = 8;
 const panzoomMinScale = 1;
 
 // panzoomオブジェクトの親要素を取得

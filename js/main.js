@@ -220,6 +220,11 @@ function displayStringInformation(data, isAdded, latestStation, latestTime) {
     // nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
 };
 
+/**
+ * 文字数に応じて文字サイズを変換
+ * @param {object} elem jqueryオブジェクト
+ * @param {string} str 駅名
+ */
 function changeCharacterSize(elem, str) {
     if(str.length > 8) {
         elem.css('font-size', '1.1rem');

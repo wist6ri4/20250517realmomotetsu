@@ -49,12 +49,17 @@
     width: 100%;
 }
 
+
+.train-visibility {
+    border-color: black;
+}
+
 /* チームAの電車コマ */
 #team-a-train {
     fill: var(--team-a-color);
 }
 /* チームAの電車コマの表示切り替えトグルボタン */
-#team-a-train-visibility {
+#team-a-train-visibility:checked{
     background-color: var(--team-a-color);
     border-color: black;
 }
@@ -64,7 +69,7 @@
     fill: var(--team-b-color);
 }
 /* チームBの電車コマの表示切り替えトグルボタン */
-#team-b-train-visibility {
+#team-b-train-visibility:checked{
     background-color: var(--team-b-color);
     border-color: black;
 }
@@ -74,7 +79,7 @@
     fill: var(--team-c-color);
 }
 /* チームCの電車コマの表示切り替えトグルボタン */
-#team-c-train-visibility {
+#team-c-train-visibility:checked{
     background-color: var(--team-c-color);
     border-color: black;
 }
@@ -84,7 +89,7 @@
     fill: var(--team-d-color)
 }
 /* チームDの電車コマの表示切り替えトグルボタン */
-#team-d-train-visibility {
+#team-d-train-visibility:checked{
     background-color: var(--team-d-color);
     border-color: black;
 }

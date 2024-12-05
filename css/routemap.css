@@ -16,3 +16,23 @@
 #routemap {
     height: 100%;
 }
+
+/* 電車コマの色 */
+.d {
+    fill:#cfcfcf;
+}
+.d,.e,.f,.g,.h {
+    stroke-width:0px;
+}
+.e {
+    fill:#211715;
+}
+.f {
+    fill:#645d5c;
+}
+/* .g {
+    fill:#fff;
+} */
+.h {
+    fill:#fff;
+}
