@@ -1,19 +1,12 @@
 // 定数
 import { Constants } from './constants.js';
 
+/* ==========変数の設定========== */
 // response
 let responseData;
 
-// 共通ヘッダーの読み込み
-$(function() {
-    $.ajaxSetup({cache:false});
-    $('.header-contents').load('./header.html', function() {
-        $('#home-header').addClass('active');
-        $('#roulette-header').removeClass('active');
-        $('#googleform-header').removeClass('active');
-    });
-});
-
+/* ==========固有定数の設定========== */
+// チーム情報表示部
 const mapDiv = $('#map');
 
 // データの追加フラグ
@@ -32,6 +25,9 @@ const teamATrain = $('#team-a-train');
 const teamBTrain = $('#team-b-train');
 const teamCTrain = $('#team-c-train');
 const teamDTrain = $('#team-d-train');
+
+// 駅
+const destinationStation = $('#destination-station')
 
 // トグルボタン
 const teamATrainVisibility = $('#team-a-train-visibility');
@@ -67,9 +63,20 @@ const teamDModalName = $('#team-d-modal-name');
 // modal
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
+/*========== 画面表示時の実行メソッド ==========*/
+/* 共通ヘッダーの読み込み */
+$(function() {
+    $.ajaxSetup({cache:false});
+    $('.header-contents').load('./header.html', function() {
+        $('#home-header').addClass('active');
+        $('#roulette-header').removeClass('active');
+        $('#googleform-header').removeClass('active');
+    });
+});
 main();
 setInterval(main, 10000);
 
+/* ==========function========== */
 /**
  * メインメソッド
  * 画面表示時と10秒おきに実行する
@@ -211,13 +218,10 @@ function displayStringInformation(data, isAdded, latestStation, latestTime) {
     sessionStorage.setItem(isAdded, 1);
     // 最後から2行目の取得
     const latestLocationData = data.slice(-2)[0];
-    // 最終行の取得
-    // const nextLocationData = data.slice(-1)[0];
+
     changeCharacterSize(latestStation, latestLocationData.location)
     latestStation.text(latestLocationData.location);
     latestTime.text(latestLocationData.strTime);
-    // latestData.text(latestLocationData.strTime + ' ' + latestLocationData.location);
-    // nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
 };
 
 /**
@@ -292,12 +296,13 @@ function displayNextStation(nextStationList) {
         const nextStation = nextStationList.slice(-1)[0];
         const nextStationCode = getStationCode(nextStation.nextStation);
         const nextStationBox = $('#box-' + nextStationCode);
-        console.log(nextStationBox);
+        destinationStation.attr('x', nextStationBox.attr('x'));
+        destinationStation.attr('y', nextStationBox.attr('y'));
     };
 };
 
 
-// 履歴モーダルの表示
+/* 履歴モーダルの表示 */
 teamAInformation.on('click', function() {
     setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA);
     teamInformationModal.show();

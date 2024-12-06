@@ -1,3 +1,4 @@
+/*========== 固有定数の設定 ==========*/
 // 対象の画像のid
 const imageElem = 'routemap';
 
@@ -21,6 +22,7 @@ const panzoom = Panzoom(
     }
 );
 
+/*========== リスナーの設定 ==========*/
 // マウスホイールでのズームを有効化
 panzoomParent.addEventListener("wheel", panzoom.zoomWithWheel);
 // ダブルクリックでのズームを有効化

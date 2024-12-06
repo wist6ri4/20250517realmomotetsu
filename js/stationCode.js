@@ -1,3 +1,4 @@
+/* 駅名と駅コードのマッピング */
 const stationMapping = {
     AOBADAI: "青葉台",
     AZAMINO: "あざみ野",
@@ -93,6 +94,7 @@ const stationMapping = {
     YUTENJI: "祐天寺",
 };
 
+/* 各駅の間隔の定義 */
 const stationGraph = {
     'AOBADAI': [{station: 'TANA',time: 2,}, {station: 'FUJIGAOKA',time: 1,},],
     'AZAMINO': [{station: 'EDA',time: 2,}, {station: 'TAMAPLAZA',time: 1,},],

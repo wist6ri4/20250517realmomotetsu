@@ -1,17 +1,10 @@
-// 共通ヘッダーの読み込み
-$(function() {
-    $.ajaxSetup({cache:false});
-    $('.header-contents').load("./header.html", function() {
-        $('#home-header').removeClass('active');
-        $('#roulette-header').addClass('active');
-        $('#googleform-header').removeClass('active');
-    });
-})
-
-
-let startStation = $('#current-station').val();
+/*========== 固有定数の設定 ========== */
+// ルーレット表示部
 const roulette = $('#roulette');
 
+/*========== 変数の設定 ==========*/
+// ルーレット開始駅
+let startStation = $('#current-station').val();
 // スピンフラグ
 // ルーレットが回っているかどうかの判定フラグ
 let isSpin = false;
@@ -20,8 +13,19 @@ let spinInterval;
 // 次の駅
 let nextStation;
 
+/*========== 画面表示時の実行メソッド ==========*/
+/* 共通ヘッダーの読み込み */
+$(function() {
+    $.ajaxSetup({cache:false});
+    $('.header-contents').load("./header.html", function() {
+        $('#home-header').removeClass('active');
+        $('#roulette-header').addClass('active');
+        $('#googleform-header').removeClass('active');
+    });
+})
 main();
 
+/* 現在の駅変更時 */
 $('#current-station').on('change', function() {
     startStation = this.value;
     if(isSpin)
@@ -29,6 +33,7 @@ $('#current-station').on('change', function() {
     console.log('今の駅：' + startStation);
 });
 
+/*========== function ==========*/
 /**
  * メインメソッド
  * 画面表示時に実行する
