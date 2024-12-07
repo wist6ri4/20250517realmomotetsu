@@ -39,7 +39,7 @@ panzoomParent.addEventListener('touchend', (event) => {
     const currentTime = new Date().getTime();
     const tapInterval = currentTime - lastTapTime;
 
-    if (tapInterval < 300 && tapInterval > 100) {
+    if (tapInterval < 200 && tapInterval > 100) {
         if (event.touches.length > 0 || event.changedTouches.length > 1) {
             return;
         };

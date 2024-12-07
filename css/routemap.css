@@ -1,3 +1,12 @@
+/* svgの親クラス */
+.svg-container {
+    overflow: hidden;
+    aspect-ratio: 56/37;
+    border: solid;
+    min-height: 70vh;
+    /* width: 100%; */
+}
+
 /* 目的地 */
 .destination-station {
     fill: rgb(255, 0, 0) !important;
