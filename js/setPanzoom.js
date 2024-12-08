@@ -1,4 +1,7 @@
 /*========== 固有定数の設定 ==========*/
+// 画面の幅
+let screenWidth = window.innerWidth;
+
 // 対象の画像のid
 const imageElem = 'routemap';
 
@@ -54,6 +57,10 @@ panzoomParent.addEventListener('touchend', (event) => {
     lastTapTime = currentTime;
 });
 
-window.addEventListener("resize", function() {
-    panzoom.zoom(1);
-})
+/* 画面方向の切り替え時にmapをリセット */
+window.addEventListener('resize', function() {
+    if(this.innerWidth != screenWidth) {
+        panzoom.zoom(1);
+        screenWidth = this.innerWidth;
+    };
+});
