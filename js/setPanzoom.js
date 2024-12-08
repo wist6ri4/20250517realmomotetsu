@@ -13,10 +13,12 @@ const panzoomParent = document.getElementById(imageElem).parentElement;
 const panzoom = Panzoom(
     document.getElementById(imageElem),
     {
+        animate: true,
         contain: 'outside',
         initialZoom: 1,
         maxScale: panzoomMaxScale,
         minScale: panzoomMinScale,
+        pinchAndPan: true,
         startScale: 1,
         step: 0.6,
     }

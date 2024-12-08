@@ -10,6 +10,7 @@
 
 #button-close {
     position: fixed;
+    transform: translate(10px, 10px);
     z-index: 9999;
 }
 
@@ -24,7 +25,7 @@
 .svg-container {
     overflow: hidden;
     /* aspect-ratio: 56/37; */
-    border: solid;
+    border:outset;
     height: 90dvh;
     max-width: 100%;
     /* min-width: 100%; */
@@ -35,6 +36,11 @@
     .svg-container {
         height: 100dvh;
     }
+}
+
+/* 路線図のSVG */
+#routemap {
+    height: 100%;
 }
 
 /* 目的地 */
@@ -50,10 +56,6 @@
 /* 電車コマの非表示用クラス */
 .invisible-train {
     visibility: hidden;
-}
-
-#routemap {
-    height: 100%;
 }
 
 /* 電車コマの色 */
