@@ -25,11 +25,16 @@
     overflow: hidden;
     /* aspect-ratio: 56/37; */
     border: solid;
-    max-height: 90dvh;
+    height: 90dvh;
     max-width: 100%;
-    min-height: 90dvh;
     /* min-width: 100%; */
     /* width: 100%; */
+}
+
+@media screen and (orientation: landscape) {
+    .svg-container {
+        height: 100dvh;
+    }
 }
 
 /* 目的地 */

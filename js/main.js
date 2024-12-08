@@ -61,6 +61,7 @@ const teamCModalName = $('#team-c-modal-name');
 const teamDModalName = $('#team-d-modal-name');
 
 // modal
+const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
 /*========== 画面表示時の実行メソッド ==========*/

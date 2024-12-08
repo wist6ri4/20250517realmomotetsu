@@ -23,9 +23,9 @@ const panzoom = Panzoom(
 );
 
 /*========== リスナーの設定 ==========*/
-// マウスホイールでのズームを有効化
+/* マウスホイールでのズームを有効化 */
 panzoomParent.addEventListener("wheel", panzoom.zoomWithWheel);
-// ダブルクリックでのズームを有効化
+/* ダブルクリックでのズームを有効化 */
 panzoomParent.addEventListener('dblclick', (event) => {
     if(panzoom.getScale() === panzoomMaxScale) {
         panzoom.reset();
@@ -33,7 +33,7 @@ panzoomParent.addEventListener('dblclick', (event) => {
         panzoom.zoomIn();
     };
 });
-// ダブルタップでのズームを有効化
+/* ダブルタップでのズームを有効化 */
 let lastTapTime = 0;
 panzoomParent.addEventListener('touchend', (event) => {
     const currentTime = new Date().getTime();
@@ -51,3 +51,7 @@ panzoomParent.addEventListener('touchend', (event) => {
     };
     lastTapTime = currentTime;
 });
+
+window.addEventListener("resize", function() {
+    panzoom.zoom(1);
+})
