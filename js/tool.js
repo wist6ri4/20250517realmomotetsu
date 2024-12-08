@@ -209,7 +209,9 @@ function getStationName(key) {
 };
 
 
-//genGraph();
+/**
+ * stationGraphの生成
+ */
 function genGraph() {
     let stationGraph = {}
     for(const elm of timeData) {
