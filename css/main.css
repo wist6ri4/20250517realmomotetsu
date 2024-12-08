@@ -1,5 +1,7 @@
+/*========== 共通CSS ==========*/
+
 html {
-    font-size: min(2.5dvw, 20px);
+    font-size: min(calc((1.2dvh + 2.2dvw)/2), 20px);
 }
 
 body {
@@ -11,11 +13,10 @@ body {
     font-family: "DotGothic16", sans-serif;
     font-size: 2rem;
     font-style: normal;
-    font-weight: 400;
 }
 
 .container {
-    max-width: 768px;
+    max-width: 900px;
 }
 
 header {
@@ -32,7 +33,7 @@ header {
 
 #header-img {
     width: 100dvw;
-    max-width: 768px;;
+    max-width: 900px;;
 }
 
 .custom-button {
@@ -42,6 +43,9 @@ header {
     width: 10rem;
 }
 
-.modal-xl {
-    width: 100%;
+.footer-contents {
+    font-size: 1.5rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
 }

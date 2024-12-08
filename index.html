@@ -52,7 +52,7 @@
         </div>
         <div id="map" class="row">
             <!--チームA-->
-            <div class="col-6">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3">
                 <!--ラベル-->
                 <span id="team-a-information-name"></span>
                 <!--カード-->
@@ -64,7 +64,7 @@
             </div>
             <br>
             <!--チームB-->
-            <div class="col-6">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3">
                 <!--ラベル-->
                 <span id="team-b-information-name"></span>
                 <!--カード-->
@@ -76,7 +76,7 @@
             </div>
             <br>
             <!--チームC-->
-            <div class="col-6">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3">
                 <!--ラベル-->
                 <span id="team-c-information-name"></span>
                 <!--カード-->
@@ -88,7 +88,7 @@
             </div>
             <br>
             <!--チームD-->
-            <div class="col-6">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3">
                 <!--ラベル-->
                 <span id="team-d-information-name"></span>
                 <!--カード-->
@@ -139,7 +139,7 @@
                     <div id="map-modal-body" class="modal-body">
                         <button type="button" id="button-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="row">
-                            <div class="svg-container col-sm-12 col-md-8 col-lg-8">
+                            <div class="svg-container col-sm-12 col-md-9 col-lg-9">
                                 <?xml version="1.0" standalone="no"?>
                                 <svg id="routemap" viewbox="0, 0, 5600, 3700" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <style>line.bg { stroke: rgba(3, 148, 172, 0.7); stroke-width: 1; }circle.bg { fill: rgba(100, 220, 240, 0.7); }line.bg-sub { stroke: rgba(140, 240, 240, 0.5); stroke-width: 1; }g.u rect, g.u path, g.u circle { fill: none; stroke-width: 2; stroke-linejoin: round; }pattern line { vector-effect: non-scaling-stroke; }.zoomed-out pattern line { vector-effect: none; }text { stroke-width: 0; font-family: sans-serif; }text tspan { vector-effect: non-scaling-stroke; white-space: pre; }.ui-dark { background: rgb(51, 51, 51); }.ui-dark line.bg { stroke: rgba(172, 232, 242, 0.57); stroke-width: 1; }.ui-dark circle.bg { fill: rgba(100, 220, 240, 0.3); }.ui-dark line.bg-sub { stroke: rgba(140, 240, 240, 0.1); stroke-width: 1; }rect.marquee { fill: rgba(234, 255, 231, 0.3); stroke: rgb(98, 137, 95); stroke-width: 1; stroke-dasharray: 4; vector-effect: non-scaling-stroke; }rect.highlight { fill: blue; opacity: 0.5; }.bg rect { stroke: rgba(3, 148, 172, 0.7); stroke-width: 1; }</style>
@@ -669,44 +669,42 @@
                                     </g>
                                 </svg>
                             </div>
-                            <div id="map-modal-footer" class="modal-footer">
-                                <div class="visibility-toggle col-sm-12 col-md-4 col-lg-4">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                            <!--ラベル-->
-                                            <div class="form-check form-switch">
-                                                <label>
-                                                    <input id="team-a-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamATrainVisibility" checked>
-                                                    <span id="team-a-modal-name"></span>
-                                                </label>
-                                            </div>
+                            <div class="visibility-toggle col-sm-12 col-md-3 col-lg-3">
+                                <div class="row">
+                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                        <!--ラベル-->
+                                        <div class="form-check form-switch">
+                                            <label>
+                                                <input id="team-a-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamATrainVisibility" checked>
+                                                <span id="team-a-modal-name"></span>
+                                            </label>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                            <!--ラベル-->
-                                            <div class="form-check form-switch">
-                                                <label>
-                                                    <input id="team-b-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
-                                                    <span id="team-b-modal-name"></span>
-                                                </label>
-                                            </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                        <!--ラベル-->
+                                        <div class="form-check form-switch">
+                                            <label>
+                                                <input id="team-b-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
+                                                <span id="team-b-modal-name"></span>
+                                            </label>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                            <!--ラベル-->
-                                            <div class="form-check form-switch">
-                                                <label>
-                                                    <input id="team-c-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
-                                                    <span id="team-c-modal-name"></span>
-                                                </label>
-                                            </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                        <!--ラベル-->
+                                        <div class="form-check form-switch">
+                                            <label>
+                                                <input id="team-c-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
+                                                <span id="team-c-modal-name"></span>
+                                            </label>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-md-6 col-lg-12">
-                                            <!--ラベル-->
-                                            <div class="form-check form-switch">
-                                                <label>
-                                                    <input id="team-d-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
-                                                    <span id="team-d-modal-name"></span>
-                                                </label>
-                                            </div>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                        <!--ラベル-->
+                                        <div class="form-check form-switch">
+                                            <label>
+                                                <input id="team-d-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
+                                                <span id="team-d-modal-name"></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -731,4 +729,11 @@
     <script type="module" src="./js/main.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="./js/setPanzoom.js" charset="UTF-8" defer="defer"></script>
 </body>
+<footer>
+    <div class="container">
+        <div class="footer-contents">
+            <div>2025 real_momotetsu</div>
+        </div>
+    </div>
+</footer>
 </html>

@@ -1,3 +1,5 @@
+/*========== 現在地画面のCSS ==========*/
+
 :root {
     --team-a-color: rgb(0, 89, 255);
     --team-b-color: rgb(241, 27, 27);
@@ -49,7 +51,7 @@
     width: 100%;
 }
 
-
+/* 電車の表示切替トグルボタン */
 .train-visibility {
     border-color: black;
 }
