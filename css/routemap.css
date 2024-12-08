@@ -1,9 +1,29 @@
+#map-modal-content {
+    padding: 0;
+}
+
+#map-modal-body {
+    padding: 0;
+}
+
+#button-close {
+    position: fixed;
+    z-index: 9999;
+}
+
+#map-modal-footer {
+    min-height: 10vh
+}
+
 /* svgの親クラス */
 .svg-container {
     overflow: hidden;
-    aspect-ratio: 56/37;
-    border: solid;
-    min-height: 70vh;
+    /* aspect-ratio: 56/37; */
+    /* border: solid; */
+    max-height: 90vh;
+    max-width: 100%;
+    min-height: 90vh;
+    min-width: 100%;
     /* width: 100%; */
 }
 

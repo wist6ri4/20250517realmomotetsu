@@ -134,10 +134,10 @@
         <!--map-modal-->
         <div id="map-modal" class="modal fade" tabindex="-1" aria-labelledby="map-modal" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content container-fluid">
-                    <h1 class="modal-title fs-7">路線図</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-body">
+                <div id="map-modal-content" class="modal-content container-fluid">
+                    <!-- <h1 class="modal-title fs-7">路線図</h1> -->
+                    <div id="map-modal-body" class="modal-body">
+                        <button type="button" id="button-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="row">
                             <div class="svg-container col-sm-12 col-md-8 col-lg-8">
                                 <?xml version="1.0" standalone="no"?>
@@ -669,51 +669,53 @@
                                     </g>
                                 </svg>
                             </div>
-                            <div class="visibility-toggle col-sm-12 col-md-4 col-lg-4">
-                                <div class="row">
-                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                        <!--ラベル-->
-                                        <div class="form-check form-switch">
-                                            <label>
-                                                <input id="team-a-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamATrainVisibility" checked>
-                                                <span id="team-a-modal-name"></span>
-                                            </label>
+                            <div id="map-modal-footer" class="modal-footer">
+                                <div class="visibility-toggle col-sm-12 col-md-4 col-lg-4">
+                                    <div class="row">
+                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                            <!--ラベル-->
+                                            <div class="form-check form-switch">
+                                                <label>
+                                                    <input id="team-a-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamATrainVisibility" checked>
+                                                    <span id="team-a-modal-name"></span>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                        <!--ラベル-->
-                                        <div class="form-check form-switch">
-                                            <label>
-                                                <input id="team-b-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
-                                                <span id="team-b-modal-name"></span>
-                                            </label>
+                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                            <!--ラベル-->
+                                            <div class="form-check form-switch">
+                                                <label>
+                                                    <input id="team-b-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamBTrainVisibility" checked>
+                                                    <span id="team-b-modal-name"></span>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6 col-sm-6 col-md-12 col-lg-12">
-                                        <!--ラベル-->
-                                        <div class="form-check form-switch">
-                                            <label>
-                                                <input id="team-c-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
-                                                <span id="team-c-modal-name"></span>
-                                            </label>
+                                        <div class="col-6 col-sm-6 col-md-12 col-lg-12">
+                                            <!--ラベル-->
+                                            <div class="form-check form-switch">
+                                                <label>
+                                                    <input id="team-c-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamCTrainVisibility" checked>
+                                                    <span id="team-c-modal-name"></span>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-12">
-                                        <!--ラベル-->
-                                        <div class="form-check form-switch">
-                                            <label>
-                                                <input id="team-d-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
-                                                <span id="team-d-modal-name"></span>
-                                            </label>
+                                        <div class="col-6 col-sm-6 col-md-6 col-lg-12">
+                                            <!--ラベル-->
+                                            <div class="form-check form-switch">
+                                                <label>
+                                                    <input id="team-d-train-visibility" class="form-check-input train-visibility" role="switch" type="checkbox" name="teamDTrainVisibility" checked>
+                                                    <span id="team-d-modal-name"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">とじる</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
