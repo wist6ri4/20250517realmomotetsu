@@ -1,30 +1,23 @@
 // 定数
 import { Constants } from './constants.js';
 
+/* ==========変数の設定========== */
 // response
 let responseData;
 
-// 共通ヘッダーの読み込み
-$(function() {
-    $.ajaxSetup({cache:false});
-    $('.header-contents').load('./header.html', function() {
-        $('#home-header').addClass('active');
-        $('#roulette-header').removeClass('active');
-        $('#googleform-header').removeClass('active');
-    });
-});
-
+/* ==========固有定数の設定========== */
+// チーム情報表示部
 const mapDiv = $('#map');
 
 // データの追加フラグ
 // 一度取得できれば更新の必要がないためsessionStorageで管理
-const teamAIsAdded = 'teamAIsAdded';
+const teamAIsAdded = Constants.TEAM_A_IS_ADDED;
 sessionStorage.setItem(teamAIsAdded, 0);
-const teamBIsAdded = 'teamBIsAdded';
+const teamBIsAdded = Constants.TEAM_B_IS_ADDED;
 sessionStorage.setItem(teamBIsAdded, 0);
-const teamCIsAdded = 'teamCIsAdded';
+const teamCIsAdded = Constants.TEAM_C_IS_ADDED;
 sessionStorage.setItem(teamCIsAdded, 0);
-const teamDIsAdded = 'teamDIsAdded';
+const teamDIsAdded = Constants.TEAM_D_IS_ADDED;
 sessionStorage.setItem(teamDIsAdded, 0);
 
 // 各チームの電車コマ
@@ -32,6 +25,9 @@ const teamATrain = $('#team-a-train');
 const teamBTrain = $('#team-b-train');
 const teamCTrain = $('#team-c-train');
 const teamDTrain = $('#team-d-train');
+
+// 駅
+const destinationStation = $('#destination-station')
 
 // トグルボタン
 const teamATrainVisibility = $('#team-a-train-visibility');
@@ -65,11 +61,23 @@ const teamCModalName = $('#team-c-modal-name');
 const teamDModalName = $('#team-d-modal-name');
 
 // modal
+const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
+/*========== 画面表示時の実行メソッド ==========*/
+/* 共通ヘッダーの読み込み */
+$(function() {
+    $.ajaxSetup({cache:false});
+    $('.header-contents').load('./header.html', function() {
+        $('#home-header').addClass('active');
+        $('#roulette-header').removeClass('active');
+        $('#googleform-header').removeClass('active');
+    });
+});
 main();
 setInterval(main, 10000);
 
+/* ==========function========== */
 /**
  * メインメソッド
  * 画面表示時と10秒おきに実行する
@@ -88,19 +96,38 @@ async function main() {
     teamCModalName.text(Constants.TEAM_C_NAME);
     teamDModalName.text(Constants.TEAM_D_NAME);
 
+    // sessionStorageのsessionTeamDataを優先して取得
+    const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
+    try {
+        if(sessionTeamData) {
+            responseData = JSON.parse(sessionTeamData);
+            display(responseData);
+            responseData = await fetchJsonData();
+        } else {
+            responseData = await fetchJsonData();
+            display(responseData);
+        };
+    } catch {
+        responseData = await fetchJsonData();
+        display(responseData);
+    } finally {
+        sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
+    }
+};
 
-    // APIにアクセスしてデータを取得
-    const data = await fetchJsonData();
-    responseData = data;
-
+/**
+ * データ表示の親メソッド
+ * @param {object} responseData レスポンスデータ
+ */
+function display(responseData) {
     // 位置情報（テキスト）のリセット
     clearTeamLocation();
     // 位置情報の表示
-    displayTeamLocation(data);
+    displayTeamLocation(responseData);
 
     // 次の目的地の表示
-    displayNextStation(data.nextStation);
-};
+    displayNextStation(responseData.nextStation);
+}
 
 /**
  * 現在時刻の取得
@@ -108,7 +135,12 @@ async function main() {
  */
 function getCurrentTime() {
     const ct = new Date();
-    const strCurrentTime = ct.getFullYear() + '/' + ('0' + (ct.getMonth() + 1)).slice(-2) + '/' + ('0' + ct.getDate()).slice(-2) + ' ' + ct.getHours() + ':' + ('0' + ct.getMinutes()).slice(-2) + ':' + ('0' + ct.getSeconds()).slice(-2);
+    const strCurrentTime = ct.getFullYear() +
+        '/' + ('0' + (ct.getMonth() + 1)).slice(-2) +
+        '/' + ('0' + ct.getDate()).slice(-2) + ' ' +
+        ct.getHours() +
+        ':' + ('0' + ct.getMinutes()).slice(-2) +
+        ':' + ('0' + ct.getSeconds()).slice(-2);
     return strCurrentTime;
 };
 
@@ -187,15 +219,17 @@ function displayStringInformation(data, isAdded, latestStation, latestTime) {
     sessionStorage.setItem(isAdded, 1);
     // 最後から2行目の取得
     const latestLocationData = data.slice(-2)[0];
-    // 最終行の取得
-    // const nextLocationData = data.slice(-1)[0];
+
     changeCharacterSize(latestStation, latestLocationData.location)
     latestStation.text(latestLocationData.location);
     latestTime.text(latestLocationData.strTime);
-    // latestData.text(latestLocationData.strTime + ' ' + latestLocationData.location);
-    // nextData.text(nextLocationData.strTime + ' ' + nextLocationData.location);
 };
 
+/**
+ * 文字数に応じて文字サイズを変換
+ * @param {object} elem jqueryオブジェクト
+ * @param {string} str 駅名
+ */
 function changeCharacterSize(elem, str) {
     if(str.length > 8) {
         elem.css('font-size', '1.1rem');
@@ -263,12 +297,13 @@ function displayNextStation(nextStationList) {
         const nextStation = nextStationList.slice(-1)[0];
         const nextStationCode = getStationCode(nextStation.nextStation);
         const nextStationBox = $('#box-' + nextStationCode);
-        console.log(nextStationBox);
+        destinationStation.attr('x', nextStationBox.attr('x'));
+        destinationStation.attr('y', nextStationBox.attr('y'));
     };
 };
 
 
-// 履歴モーダルの表示
+/* 履歴モーダルの表示 */
 teamAInformation.on('click', function() {
     setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA);
     teamInformationModal.show();
@@ -297,9 +332,10 @@ function setInformationToModal(teamName, data) {
     // 履歴テーブルを空にする
     $('#table-body-history').empty();
     // 次の目的駅を取り除く
-    data.pop();
+    const displayData = [...data];
+    displayData.pop();
     // 履歴分の数の行をテーブルに追加
-    for(const history of data) {
+    for(const history of displayData) {
         const tdStrTime = $('<td></td>').text(history.strTime);
         const tdLocation = $('<td></td>').text(history.location);
         const tr = $('<tr></tr>').append(tdStrTime, tdLocation);

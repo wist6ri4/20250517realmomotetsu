@@ -1,3 +1,5 @@
+/*========== 現在地画面のCSS ==========*/
+
 :root {
     --team-a-color: rgb(0, 89, 255);
     --team-b-color: rgb(241, 27, 27);
@@ -42,11 +44,16 @@
     align-content: center;
     font-size: 3rem;
     font-weight: 300;
-    height: 12vw;
+    height: min(12dvw, 92.16px);
     paint-order: stroke;
     text-align: center;
     -webkit-text-stroke: 0.5rem black;
     width: 100%;
+}
+
+/* 電車の表示切替トグルボタン */
+.train-visibility {
+    border-color: black;
 }
 
 /* チームAの電車コマ */
@@ -54,7 +61,7 @@
     fill: var(--team-a-color);
 }
 /* チームAの電車コマの表示切り替えトグルボタン */
-#team-a-train-visibility {
+#team-a-train-visibility:checked{
     background-color: var(--team-a-color);
     border-color: black;
 }
@@ -64,7 +71,7 @@
     fill: var(--team-b-color);
 }
 /* チームBの電車コマの表示切り替えトグルボタン */
-#team-b-train-visibility {
+#team-b-train-visibility:checked{
     background-color: var(--team-b-color);
     border-color: black;
 }
@@ -74,7 +81,7 @@
     fill: var(--team-c-color);
 }
 /* チームCの電車コマの表示切り替えトグルボタン */
-#team-c-train-visibility {
+#team-c-train-visibility:checked{
     background-color: var(--team-c-color);
     border-color: black;
 }
@@ -84,7 +91,7 @@
     fill: var(--team-d-color)
 }
 /* チームDの電車コマの表示切り替えトグルボタン */
-#team-d-train-visibility {
+#team-d-train-visibility:checked{
     background-color: var(--team-d-color);
     border-color: black;
 }
