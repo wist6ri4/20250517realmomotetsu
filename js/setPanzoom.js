@@ -3,7 +3,7 @@
 const imageElem = 'routemap';
 
 // zoomスケールの設定
-const panzoomMaxScale = 8;
+const panzoomMaxScale = 2;
 const panzoomMinScale = 1;
 
 // panzoomオブジェクトの親要素を取得
@@ -39,7 +39,7 @@ panzoomParent.addEventListener('touchend', (event) => {
     const currentTime = new Date().getTime();
     const tapInterval = currentTime - lastTapTime;
 
-    if (tapInterval < 200 && tapInterval > 100) {
+    if (tapInterval < 250 && tapInterval > 100) {
         if (event.touches.length > 0 || event.changedTouches.length > 1) {
             return;
         };

@@ -24,8 +24,8 @@
     background-color: var(--next-station-bg);
     color: white;
     font-weight: 600;
-    height: min(27.5vw, 211.2px);
-    width: min(55vw, 422.4px);
+    height: min(27.5dvw, 211.2px);
+    width: min(55dvw, 422.4px);
 }
 
 /* 目的地表示部 */
@@ -33,7 +33,7 @@
     align-content: center;
     font-size: 3rem;
     font-weight: 300;
-    height: min(12vw, 92.16px);
+    height: min(12dvw, 92.16px);
     overflow-wrap: break-word;
     paint-order: stroke;
     text-align: center;
