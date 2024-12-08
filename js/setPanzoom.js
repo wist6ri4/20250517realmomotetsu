@@ -39,23 +39,25 @@ panzoomParent.addEventListener('dblclick', (event) => {
     };
 });
 /* ダブルタップでのズームを有効化 */
-// let lastTapTime = 0;
-// panzoomParent.addEventListener('touchend', (event) => {
-//     const currentTime = new Date().getTime();
-//     const tapInterval = currentTime - lastTapTime;
+let lastTapTime = 0;
+panzoomParent.addEventListener('touchend', (event) => {
+    event.preventDefault();
 
-//     if (tapInterval < 250 && tapInterval > 100) {
-//         if (event.touches.length > 0 || event.changedTouches.length > 1) {
-//             return;
-//         };
-//         if(panzoom.getScale() === panzoomMaxScale) {
-//             panzoom.reset();
-//         } else {
-//             panzoom.zoomIn();
-//         };
-//     };
-//     lastTapTime = currentTime;
-// });
+    const currentTime = new Date().getTime();
+    const tapInterval = currentTime - lastTapTime;
+
+    if (tapInterval < 300 && tapInterval > 50) {
+        if (event.touches.length > 0 || event.changedTouches.length > 1) {
+            return;
+        };
+        if(Math.abs(panzoom.getScale() - panzoomMaxScale) < 0.01) {
+            panzoom.reset();
+        } else {
+            panzoom.zoomIn();
+        };
+    };
+    lastTapTime = currentTime;
+});
 
 /* 画面方向の切り替え時にmapをリセット */
 window.addEventListener('resize', function() {
