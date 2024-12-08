@@ -1,5 +1,7 @@
+/*========== 共通CSS ==========*/
+
 html {
-    font-size: min(2.5vw, 20px);
+    font-size: min(calc((1.3dvh + 2.3dvw)/2), 10px);
 }
 
 body {
@@ -7,15 +9,14 @@ body {
     background-image: url('../img/system_bg_train.jpg');
     background-position: center top;
     background-repeat: repeat-y;
-    background-size: 100vw;
+    background-size: 100dvw;
     font-family: "DotGothic16", sans-serif;
     font-size: 2rem;
     font-style: normal;
-    font-weight: 400;
 }
 
 .container {
-    max-width: 768px;
+    max-width: 900px;
 }
 
 header {
@@ -31,16 +32,8 @@ header {
 }
 
 #header-img {
-    width: 100vw;
-    max-width: 768px;;
-}
-
-.svg-container {
-    /* overflow: hidden; */
-    aspect-ratio: 56/37;
-    border: solid;
-    max-height: 100vh;
-    width: 100%;
+    width: 100dvw;
+    max-width: 900px;;
 }
 
 .custom-button {
@@ -50,6 +43,9 @@ header {
     width: 10rem;
 }
 
-.modal-xl {
-    width: 100%;
+.footer-contents {
+    font-size: 1.5rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
 }
