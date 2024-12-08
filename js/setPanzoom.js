@@ -21,7 +21,7 @@ const panzoom = Panzoom(
         initialZoom: 1,
         maxScale: panzoomMaxScale,
         minScale: panzoomMinScale,
-        pinchAndPan: true,
+        // pinchAndPan: true,
         startScale: 1,
         step: 0.6,
     }
@@ -39,23 +39,23 @@ panzoomParent.addEventListener('dblclick', (event) => {
     };
 });
 /* ダブルタップでのズームを有効化 */
-let lastTapTime = 0;
-panzoomParent.addEventListener('touchend', (event) => {
-    const currentTime = new Date().getTime();
-    const tapInterval = currentTime - lastTapTime;
+// let lastTapTime = 0;
+// panzoomParent.addEventListener('touchend', (event) => {
+//     const currentTime = new Date().getTime();
+//     const tapInterval = currentTime - lastTapTime;
 
-    if (tapInterval < 250 && tapInterval > 100) {
-        if (event.touches.length > 0 || event.changedTouches.length > 1) {
-            return;
-        };
-        if(panzoom.getScale() === panzoomMaxScale) {
-            panzoom.reset();
-        } else {
-            panzoom.zoomIn();
-        };
-    };
-    lastTapTime = currentTime;
-});
+//     if (tapInterval < 250 && tapInterval > 100) {
+//         if (event.touches.length > 0 || event.changedTouches.length > 1) {
+//             return;
+//         };
+//         if(panzoom.getScale() === panzoomMaxScale) {
+//             panzoom.reset();
+//         } else {
+//             panzoom.zoomIn();
+//         };
+//     };
+//     lastTapTime = currentTime;
+// });
 
 /* 画面方向の切り替え時にmapをリセット */
 window.addEventListener('resize', function() {
