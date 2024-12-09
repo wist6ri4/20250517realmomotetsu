@@ -47,8 +47,17 @@
 </header>
 <body>
     <div class="container">
-        <div class="">
-            <input type="button" class="btn btn-dark btn-lg custom-button" data-bs-toggle="modal" data-bs-target="#map-modal" value="路線図">
+        <div class="row">
+            <div class="col-3">
+                <input type="button" class="btn btn-dark btn-lg custom-button" data-bs-toggle="modal" data-bs-target="#map-modal" value="路線図">
+            </div>
+            <div class="col-9">
+                <div class="slide-destination">
+                    <ul>
+                        <li>次は <span id="digital-display-jp"></span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="map" class="row">
             <!--チームA-->

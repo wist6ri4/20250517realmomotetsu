@@ -6,6 +6,9 @@ import { Constants } from './constants.js';
 let responseData;
 
 /* ==========固有定数の設定========== */
+// 電光掲示板
+const digitalDisplayJP = $('#digital-display-jp');
+
 // チーム情報表示部
 const mapDiv = $('#map');
 
@@ -299,6 +302,8 @@ function displayNextStation(nextStationList) {
         const nextStationBox = $('#box-' + nextStationCode);
         destinationStation.attr('x', nextStationBox.attr('x'));
         destinationStation.attr('y', nextStationBox.attr('y'));
+
+        digitalDisplayJP.text(nextStation.nextStation);
     };
 };
 
