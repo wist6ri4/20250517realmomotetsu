@@ -6,6 +6,9 @@ import { Constants } from './constants.js';
 let responseData;
 
 /* ==========固有定数の設定========== */
+// メインメソッド実行間隔
+const interval = 7500;
+
 // 電光掲示板
 const digitalDisplayJP = $('#digital-display-jp');
 
@@ -78,7 +81,7 @@ $(function() {
     });
 });
 main();
-setInterval(main, 10000);
+setInterval(main, interval);
 
 /* ==========function========== */
 /**

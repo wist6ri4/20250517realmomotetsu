@@ -23,6 +23,7 @@
     color: white;
     font-weight: 600;
     height: 12.5rem;
+    position: relative;
     width: 25rem;
 }
 
@@ -31,10 +32,13 @@
     align-content: center;
     font-size: 3rem;
     font-weight: 300;
-    margin-top: 1rem;
+    left: 50%;
     overflow-wrap: break-word;
     paint-order: stroke;
+    position: absolute;
     text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
     -webkit-text-stroke: 0.5rem black;
     width: 100%;
 }
