@@ -109,6 +109,12 @@ function getNextStation() {
 
     // 各駅への最短所要時間を取得
     const times = calculateTravelTimes(stationGraph, startStationCode);
+    // 10分以下の駅を削除
+    for(key of Object.keys(times)) {
+        if(times[key].time <= 10) {
+            delete times[key];
+        };
+    };
     // TODO 確認用
     // console.info('所要時間：')
     // console.info(times);
@@ -117,12 +123,12 @@ function getNextStation() {
     const probabilities = weightedRoulette(startStationCode, times);
 
     // TODO 確認用 パーセンタイルに変換
-    // let percentage = {};
-    // for(const[station, probability] of Object.entries(probabilities)) {
-    //     percentage[station] = probability * 100;
-    // };
+    let percentage = {};
+    for(const[station, probability] of Object.entries(probabilities)) {
+        percentage[station] = probability * 100;
+    };
     // console.info('確率（%）：')
-    // console.info(percentage);
+    console.info(percentage);
 
     // 次の目的駅を選択
     const nextStationCode = chooseNextStation(probabilities);
@@ -136,41 +142,36 @@ function getNextStation() {
 /**
  * ダイクストラ法で出発駅から各駅への最短所要時間を計算
  * @param {object} graph - 隣接する駅同士の所要時間のマッピング
- * @param {string} start - 出発駅
+ * @param {string} start - 出発駅コード
  * @returns {object} 出発駅から各駅への主要時間の配列
  */
 function calculateTravelTimes(graph, start) {
     // 各駅への所要時間を初期化（無限大に設定）
     const times = {};
     Object.keys(graph).forEach(station => times[station] = Infinity);
-    times[start] = 0;
+    times[start] = { time: 0, stations: 0};
 
     // 探索キュー
-    const queue = [{station: start, time: 0}];
+    const queue = [{station: start, time: 0, stations: 0}];
     while(queue.length > 0) {
         // 所要時間順にソート
         queue.sort((a, b) => a.time - b.time);
         // 所要時間が最短の駅をshift
-        const {station, time} = queue.shift();
+        const {station, time, stations} = queue.shift();
 
         // 隣接駅それぞれへの時間を取得
         graph[station].forEach(neighbor => {
             const newTime = time + neighbor.time;
+            const newStations = stations + 1;
 
             // 新しい所要時間が既存の所要時間より短ければ更新
             if(newTime < times[neighbor.station]) {
-                times[neighbor.station] = newTime;
-                queue.push({station: neighbor.station, time: newTime});
+                times[neighbor.station] = {time: newTime, stations: newStations};
+                queue.push({station: neighbor.station, time: newTime, stations: newStations});
             };
         });
     };
 
-    // 10分以下の駅を削除
-    for(key of Object.keys(times)) {
-        if(times[key] <= 10) {
-            delete times[key];
-        };
-    };
     return times;
 };
 
@@ -185,7 +186,7 @@ function weightedRoulette(start, times) {
     let totalWeight = 0;
 
     // 所要時間を合計
-    for(const [station, time] of Object.entries(times)) {
+    for(const [station, {time, stations}] of Object.entries(times)) {
         if(station !== start && time < Infinity) {
             weights[station] = 1 / time;
             totalWeight += weights[station];
