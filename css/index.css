@@ -64,11 +64,20 @@
     font-size: 1.5rem;
 }
 
+/* team-informationのフッター */
+.team-information-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* team-informationの残りマス数表示 */
+.remaining-squares {
+    font-size: 1.2rem;
+}
+
 /* team-informationの時刻表示 */
 .information-time {
     font-size: 1.2rem;
-    text-align: end;
-    width: 100%;
 }
 
 /* team-informationの駅表示 */

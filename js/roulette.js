@@ -123,12 +123,12 @@ function getNextStation() {
     const probabilities = weightedRoulette(startStationCode, times);
 
     // TODO 確認用 パーセンタイルに変換
-    let percentage = {};
-    for(const[station, probability] of Object.entries(probabilities)) {
-        percentage[station] = probability * 100;
-    };
+    // let percentage = {};
+    // for(const[station, probability] of Object.entries(probabilities)) {
+    //     percentage[station] = probability * 100;
+    // };
     // console.info('確率（%）：')
-    console.info(percentage);
+    // console.info(percentage);
 
     // 次の目的駅を選択
     const nextStationCode = chooseNextStation(probabilities);
