@@ -7,6 +7,38 @@
     --team-d-color: rgb(3, 165, 11);
 }
 
+.slide-destination {
+    background-color: #212529;
+    height: 100%;
+    overflow: hidden;
+    align-content: center;
+}
+
+.slide-destination ul {
+    animation: SlideDestination 10s linear infinite;
+    display: inline-block;
+    margin: 0;
+    padding-left: 100%;
+    white-space: nowrap;
+}
+
+.slide-destination ul li {
+    display: inline;
+    font-size: 2.5rem;
+    margin: 0 80px 0 0;
+    color: orange;
+    letter-spacing: .12em;
+}
+
+@keyframes SlideDestination {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
 /* チーム情報カード */
 .team-information {
     color: white;
@@ -32,11 +64,20 @@
     font-size: 1.5rem;
 }
 
+/* team-informationのフッター */
+.team-information-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* team-informationの残りマス数表示 */
+.remaining-squares {
+    font-size: 1.2rem;
+}
+
 /* team-informationの時刻表示 */
 .information-time {
     font-size: 1.2rem;
-    text-align: end;
-    width: 100%;
 }
 
 /* team-informationの駅表示 */
@@ -49,6 +90,10 @@
     text-align: center;
     -webkit-text-stroke: 0.5rem black;
     width: 100%;
+}
+
+.updated-time-container {
+    font-size: 1.6rem;
 }
 
 /* 電車の表示切替トグルボタン */
