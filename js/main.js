@@ -141,7 +141,7 @@ function display(responseData) {
 
 /**
  * 現在時刻の取得
- * @returns string 時刻
+ * @returns {string} 時刻
  */
 function getCurrentTime() {
     const ct = new Date();
@@ -156,7 +156,7 @@ function getCurrentTime() {
 
 /**
  * APIにアクセスしてデータを取得
- * @returns object
+ * @returns {object} jsonデータ
  */
 async function fetchJsonData() {
     const response = await fetch('https://script.google.com/macros/s/AKfycbzvSlhngYRqQ_xKVZ5mF7S-sNbEeA7YIfnq9na1r7mUvmNp1ReOLXgNR0BnyipltU1T/exec');
