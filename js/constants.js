@@ -9,10 +9,6 @@ const Constants = {
 
     /* sessionStorageのkey */
     SESSION_TEAM_DATA: 'sessionTeamData',
-    TEAM_A_IS_ADDED: 'teamAIsAdded',
-    TEAM_B_IS_ADDED: 'teamBIsAdded',
-    TEAM_C_IS_ADDED: 'teamCIsAdded',
-    TEAM_D_IS_ADDED: 'teamDIsAdded',
 };
 
 Object.freeze(Constants);

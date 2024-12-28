@@ -1,6 +1,7 @@
 // 定数
 import { Constants } from './constants.js';
 import { CFI } from './constantsForIndex.js';
+import { TEAMS } from './constantsForIndex.js';
 
 /* ==========変数の設定========== */
 // response
@@ -9,14 +10,12 @@ let responseData;
 /* ==========固有定数の設定========== */
 // データの追加フラグ
 // 一度取得できれば更新の必要がないためsessionStorageで管理
-const teamAIsAdded = Constants.TEAM_A_IS_ADDED;
-sessionStorage.setItem(teamAIsAdded, 0);
-const teamBIsAdded = Constants.TEAM_B_IS_ADDED;
-sessionStorage.setItem(teamBIsAdded, 0);
-const teamCIsAdded = Constants.TEAM_C_IS_ADDED;
-sessionStorage.setItem(teamCIsAdded, 0);
-const teamDIsAdded = Constants.TEAM_D_IS_ADDED;
-sessionStorage.setItem(teamDIsAdded, 0);
+setSessionStorage();
+function setSessionStorage() {
+    Object.values(TEAMS).forEach(function(team) {
+        sessionStorage.setItem(team.IS_ADDED, 0);
+    });
+};
 
 // modal
 const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
@@ -45,14 +44,7 @@ async function main() {
     CFI.UPDATED_TIME.text(getCurrentTime());
 
     // チーム名の表示
-    CFI.TEAM_A.INFORMATION_NAME.text(CFI.TEAM_A.TEAM_NAME);
-    CFI.TEAM_B.INFORMATION_NAME.text(CFI.TEAM_B.TEAM_NAME);
-    CFI.TEAM_C.INFORMATION_NAME.text(CFI.TEAM_C.TEAM_NAME);
-    CFI.TEAM_D.INFORMATION_NAME.text(CFI.TEAM_D.TEAM_NAME);
-    CFI.TEAM_A.MODAL_NAME.text(CFI.TEAM_A.TEAM_NAME);
-    CFI.TEAM_B.MODAL_NAME.text(CFI.TEAM_B.TEAM_NAME);
-    CFI.TEAM_C.MODAL_NAME.text(CFI.TEAM_C.TEAM_NAME);
-    CFI.TEAM_D.MODAL_NAME.text(CFI.TEAM_D.TEAM_NAME);
+    handleTeamInformation();
 
     // sessionStorageのsessionTeamDataを優先して取得
     const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
@@ -120,17 +112,35 @@ async function fetchJsonData() {
 };
 
 /**
+ * チーム情報の処理
+ */
+function handleTeamInformation() {
+    Object.values(TEAMS).forEach(function(team) {
+        // チーム名の表示
+        team.INFORMATION_NAME.text(team.TEAM_NAME);
+        team.MODAL_NAME.text(team.TEAM_NAME);
+
+        // 履歴モーダルの監視
+        team.INFORMATION.on('click', function() {
+            setInformationToModal(team.TEAM_NAME, responseData[team.TEAM_KEY]);
+            teamInformationModal.show();
+        });
+
+        // チェックボックスの監視
+        team.TRAIN_VISIBILITY.on('change', function() {
+            changeTrainVisibility($(this), team.TRAIN, team.IS_ADDED);
+        });
+    });
+};
+
+/**
  * 位置情報（テキスト）のリセット
  */
 function clearTeamLocation() {
-    CFI.TEAM_A.LATEST_STATION.text('');
-    CFI.TEAM_A.LATEST_TIME.text('');
-    CFI.TEAM_B.LATEST_STATION.text('');
-    CFI.TEAM_B.LATEST_TIME.text('');
-    CFI.TEAM_C.LATEST_STATION.text('');
-    CFI.TEAM_C.LATEST_TIME.text('');
-    CFI.TEAM_D.LATEST_STATION.text('');
-    CFI.TEAM_D.LATEST_TIME.text('');
+    Object.values(TEAMS).forEach(function(team) {
+        team.LATEST_STATION.text('');
+        team.LATEST_TIME.text('');
+    });
 };
 
 /**
@@ -140,66 +150,23 @@ function clearTeamLocation() {
 function displayTeamLocation(data) {
     const nextStationCode = getStationCode(data.nextStation.slice(-1)[0].nextStation);
 
-    if(data.teamA.length > 0) {
-        // teamAの位置情報(文字)の表示
-        displayStringInformation(
-            data.teamA,
-            teamAIsAdded,
-            CFI.TEAM_A.LATEST_STATION,
-            CFI.TEAM_A.LATEST_TIME,
-            CFI.TEAM_A.REMAINING_SQUARES,
-            nextStationCode
-        );
-        // teamAの電車コマの移動
-        changeTrainPosition(CFI.TEAM_A.TRAIN, data.teamA, CFI.TEAM_A.TRAIN_VISIBILITY);
-    } else {
-        CFI.TEAM_A.TRAIN.addClass('invisible-train');
-    };
-    if(data.teamB.length > 0) {
-        // teamBの位置情報(文字)の表示
-        displayStringInformation(
-            data.teamB,
-            teamBIsAdded,
-            CFI.TEAM_B.LATEST_STATION,
-            CFI.TEAM_B.LATEST_TIME,
-            CFI.TEAM_B.REMAINING_SQUARES,
-            nextStationCode
-        );
-        // teamBの電車コマの移動
-        changeTrainPosition(CFI.TEAM_B.TRAIN, data.teamB, CFI.TEAM_B.TRAIN_VISIBILITY);
-    } else {
-        CFI.TEAM_B.TRAIN.addClass('invisible-train');
-    };
-    if(data.teamC.length > 0) {
-        // teamCの位置情報(文字)の表示
-        displayStringInformation(
-            data.teamC,
-            teamCIsAdded,
-            CFI.TEAM_C.LATEST_STATION,
-            CFI.TEAM_C.LATEST_TIME,
-            CFI.TEAM_C.REMAINING_SQUARES,
-            nextStationCode
-        );
-        // teamCの電車コマの移動
-        changeTrainPosition(CFI.TEAM_C.TRAIN, data.teamC, CFI.TEAM_C.TRAIN_VISIBILITY);
-    } else {
-        CFI.TEAM_C.TRAIN.addClass('invisible-train');
-    };
-    if(data.teamD.length > 0) {
-        // teamDの位置情報(文字)の表示
-        displayStringInformation(
-            data.teamD,
-            teamDIsAdded,
-            CFI.TEAM_D.LATEST_STATION,
-            CFI.TEAM_D.LATEST_TIME,
-            CFI.TEAM_D.REMAINING_SQUARES,
-            nextStationCode
-        );
-        // teamDの電車コマの移動
-        changeTrainPosition(CFI.TEAM_D.TRAIN, data.teamD, CFI.TEAM_D.TRAIN_VISIBILITY);
-    } else {
-        CFI.TEAM_D.TRAIN.addClass('invisible-train');
-    };
+    Object.values(TEAMS).forEach(function(team) {
+        if(data[team.TEAM_KEY].length > 0) {
+            // teamの位置情報(文字)の表示
+            displayStringInformation(
+                data[team.TEAM_KEY],
+                team.IS_ADDED,
+                team.LATEST_STATION,
+                team.LATEST_TIME,
+                team.REMAINING_SQUARES,
+                nextStationCode
+            );
+            // teamの電車コマの移動
+            changeTrainPosition(team.TRAIN, data[team.TEAM_KEY], team.TRAIN_VISIBILITY);
+        } else {
+            team.TRAIN.addClass(CFI.INVISIBLE_TRAIN);
+        }
+    });
 };
 
 /**
@@ -254,25 +221,11 @@ function changeTrainPosition(train, data, visibility) {
     const stationCode = getStationCode(location);
     const stationBox = $('#box-' + stationCode);
     if(visibility.prop('checked')) {
-        train.removeClass('invisible-train');
+        train.removeClass(CFI.INVISIBLE_TRAIN);
     };
     train.attr('x', stationBox.attr('x'));
     train.attr('y', stationBox.attr('y'));
 };
-
-// 各チェックボックスの監視
-CFI.TEAM_A.TRAIN_VISIBILITY.on('change', function() {
-    changeTrainVisibility($(this), CFI.TEAM_A.TRAIN, teamAIsAdded);
-});
-CFI.TEAM_B.TRAIN_VISIBILITY.on('change', function() {
-    changeTrainVisibility($(this), CFI.TEAM_B.TRAIN, teamBIsAdded);
-});
-CFI.TEAM_C.TRAIN_VISIBILITY.on('change', function() {
-    changeTrainVisibility($(this), CFI.TEAM_C.TRAIN, teamCIsAdded);
-});
-CFI.TEAM_D.TRAIN_VISIBILITY.on('change', function() {
-    changeTrainVisibility($(this), CFI.TEAM_D.TRAIN, teamDIsAdded);
-});
 
 /**
  * 電車コマの可視性の変更
@@ -283,9 +236,9 @@ CFI.TEAM_D.TRAIN_VISIBILITY.on('change', function() {
  */
 function changeTrainVisibility(elm, train, isAdded) {
     if(elm.prop('checked') && parseInt(sessionStorage.getItem(isAdded)) == 1) {
-        train.removeClass('invisible-train');
+        train.removeClass(CFI.INVISIBLE_TRAIN);
     } else {
-        train.addClass('invisible-train');
+        train.addClass(CFI.INVISIBLE_TRAIN);
     };
 };
 
@@ -304,25 +257,6 @@ function displayNextStation(nextStationList) {
         CFI.DIGITAL_DISPLAY_JP.text(nextStation.nextStation);
     };
 };
-
-
-/* 履歴モーダルの表示 */
-CFI.TEAM_A.INFORMATION.on('click', function() {
-    setInformationToModal(CFI.TEAM_A.TEAM_NAME, responseData.teamA);
-    teamInformationModal.show();
-});
-CFI.TEAM_B.INFORMATION.on('click', function() {
-    setInformationToModal(CFI.TEAM_B.TEAM_NAME, responseData.teamB);
-    teamInformationModal.show();
-});
-CFI.TEAM_C.INFORMATION.on('click', function() {
-    setInformationToModal(CFI.TEAM_C.TEAM_NAME, responseData.teamC);
-    teamInformationModal.show();
-});
-CFI.TEAM_D.INFORMATION.on('click', function() {
-    setInformationToModal(CFI.TEAM_D.TEAM_NAME, responseData.teamD);
-    teamInformationModal.show();
-});
 
 /**
  * 履歴テーブルの内容設定
