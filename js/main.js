@@ -1,20 +1,12 @@
 // 定数
 import { Constants } from './constants.js';
+import { CFI } from './constantsForIndex.js';
 
 /* ==========変数の設定========== */
 // response
 let responseData;
 
 /* ==========固有定数の設定========== */
-// メインメソッド実行間隔
-const interval = 7500;
-
-// 電光掲示板
-const digitalDisplayJP = $('#digital-display-jp');
-
-// チーム情報表示部
-const mapDiv = $('#map');
-
 // データの追加フラグ
 // 一度取得できれば更新の必要がないためsessionStorageで管理
 const teamAIsAdded = Constants.TEAM_A_IS_ADDED;
@@ -25,50 +17,6 @@ const teamCIsAdded = Constants.TEAM_C_IS_ADDED;
 sessionStorage.setItem(teamCIsAdded, 0);
 const teamDIsAdded = Constants.TEAM_D_IS_ADDED;
 sessionStorage.setItem(teamDIsAdded, 0);
-
-// 各チームの電車コマ
-const teamATrain = $('#team-a-train');
-const teamBTrain = $('#team-b-train');
-const teamCTrain = $('#team-c-train');
-const teamDTrain = $('#team-d-train');
-
-// 駅
-const destinationStation = $('#destination-station')
-
-// トグルボタン
-const teamATrainVisibility = $('#team-a-train-visibility');
-const teamBTrainVisibility = $('#team-b-train-visibility');
-const teamCTrainVisibility = $('#team-c-train-visibility');
-const teamDTrainVisibility = $('#team-d-train-visibility');
-// チーム名
-const teamAInformationName = $('#team-a-information-name');
-const teamBInformationName = $('#team-b-information-name');
-const teamCInformationName = $('#team-c-information-name');
-const teamDInformationName = $('#team-d-information-name');
-// 各チームのteam-information
-const teamAInformation = $('#team-a-information');
-const teamBInformation = $('#team-b-information');
-const teamCInformation = $('#team-c-information');
-const teamDInformation = $('#team-d-information');
-// 各チームの情報表示部
-const teamALatest = $('#team-a-latest-station');
-const teamALatestTime = $('#team-a-latest-time');
-const teamARemainingSquares = $('#team-a-remaining-squares');
-const teamBLatest = $('#team-b-latest-station');
-const teamBLatestTime = $('#team-b-latest-time');
-const teamBRemainingSquares = $('#team-b-remaining-squares');
-const teamCLatest = $('#team-c-latest-station');
-const teamCLatestTime = $('#team-c-latest-time');
-const teamCRemainingSquares = $('#team-c-remaining-squares');
-const teamDLatest = $('#team-d-latest-station');
-const teamDLatestTime = $('#team-d-latest-time');
-const teamDRemainingSquares = $('#team-d-remaining-squares');
-const updatedTime = $('#updated-time');
-// 各チームのmodalチーム名
-const teamAModalName = $('#team-a-modal-name');
-const teamBModalName = $('#team-b-modal-name');
-const teamCModalName = $('#team-c-modal-name');
-const teamDModalName = $('#team-d-modal-name');
 
 // modal
 const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
@@ -85,7 +33,7 @@ $(function() {
     });
 });
 main();
-setInterval(main, interval);
+setInterval(main, CFI.METHOD_INTERVAL);
 
 /* ==========function========== */
 /**
@@ -94,17 +42,17 @@ setInterval(main, interval);
  */
 async function main() {
     // 更新時刻の取得
-    updatedTime.text(getCurrentTime());
+    CFI.UPDATED_TIME.text(getCurrentTime());
 
     // チーム名の表示
-    teamAInformationName.text(Constants.TEAM_A_NAME);
-    teamBInformationName.text(Constants.TEAM_B_NAME);
-    teamCInformationName.text(Constants.TEAM_C_NAME);
-    teamDInformationName.text(Constants.TEAM_D_NAME);
-    teamAModalName.text(Constants.TEAM_A_NAME);
-    teamBModalName.text(Constants.TEAM_B_NAME);
-    teamCModalName.text(Constants.TEAM_C_NAME);
-    teamDModalName.text(Constants.TEAM_D_NAME);
+    CFI.TEAM_A.INFORMATION_NAME.text(CFI.TEAM_A.TEAM_NAME);
+    CFI.TEAM_B.INFORMATION_NAME.text(CFI.TEAM_B.TEAM_NAME);
+    CFI.TEAM_C.INFORMATION_NAME.text(CFI.TEAM_C.TEAM_NAME);
+    CFI.TEAM_D.INFORMATION_NAME.text(CFI.TEAM_D.TEAM_NAME);
+    CFI.TEAM_A.MODAL_NAME.text(CFI.TEAM_A.TEAM_NAME);
+    CFI.TEAM_B.MODAL_NAME.text(CFI.TEAM_B.TEAM_NAME);
+    CFI.TEAM_C.MODAL_NAME.text(CFI.TEAM_C.TEAM_NAME);
+    CFI.TEAM_D.MODAL_NAME.text(CFI.TEAM_D.TEAM_NAME);
 
     // sessionStorageのsessionTeamDataを優先して取得
     const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
@@ -159,7 +107,7 @@ function getCurrentTime() {
  * @returns {object} jsonデータ
  */
 async function fetchJsonData() {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzvSlhngYRqQ_xKVZ5mF7S-sNbEeA7YIfnq9na1r7mUvmNp1ReOLXgNR0BnyipltU1T/exec');
+    const response = await fetch(CFI.API_URL);
     const data = await response.json();
     return data;
 };
@@ -168,14 +116,14 @@ async function fetchJsonData() {
  * 位置情報（テキスト）のリセット
  */
 function clearTeamLocation() {
-    teamALatest.text('');
-    teamALatestTime.text('');
-    teamBLatest.text('');
-    teamBLatestTime.text('');
-    teamCLatest.text('');
-    teamCLatestTime.text('');
-    teamDLatest.text('');
-    teamDLatestTime.text('');
+    CFI.TEAM_A.LATEST_STATION.text('');
+    CFI.TEAM_A.LATEST_TIME.text('');
+    CFI.TEAM_B.LATEST_STATION.text('');
+    CFI.TEAM_B.LATEST_TIME.text('');
+    CFI.TEAM_C.LATEST_STATION.text('');
+    CFI.TEAM_C.LATEST_TIME.text('');
+    CFI.TEAM_D.LATEST_STATION.text('');
+    CFI.TEAM_D.LATEST_TIME.text('');
 };
 
 /**
@@ -187,35 +135,63 @@ function displayTeamLocation(data) {
 
     if(data.teamA.length > 0) {
         // teamAの位置情報(文字)の表示
-        displayStringInformation(data.teamA, teamAIsAdded, teamALatest, teamALatestTime, teamARemainingSquares, nextStationCode);
+        displayStringInformation(
+            data.teamA,
+            teamAIsAdded,
+            CFI.TEAM_A.LATEST_STATION,
+            CFI.TEAM_A.LATEST_TIME,
+            CFI.TEAM_A.REMAINING_SQUARES,
+            nextStationCode
+        );
         // teamAの電車コマの移動
-        changeTrainPosition(teamATrain, data.teamA, teamATrainVisibility);
+        changeTrainPosition(CFI.TEAM_A.TRAIN, data.teamA, CFI.TEAM_A.TRAIN_VISIBILITY);
     } else {
-        teamATrain.addClass('invisible-train');
+        CFI.TEAM_A.TRAIN.addClass('invisible-train');
     };
     if(data.teamB.length > 0) {
         // teamBの位置情報(文字)の表示
-        displayStringInformation(data.teamB, teamBIsAdded, teamBLatest, teamBLatestTime, teamBRemainingSquares, nextStationCode);
+        displayStringInformation(
+            data.teamB,
+            teamBIsAdded,
+            CFI.TEAM_B.LATEST_STATION,
+            CFI.TEAM_B.LATEST_TIME,
+            CFI.TEAM_B.REMAINING_SQUARES,
+            nextStationCode
+        );
         // teamBの電車コマの移動
-        changeTrainPosition(teamBTrain, data.teamB, teamBTrainVisibility);
+        changeTrainPosition(CFI.TEAM_B.TRAIN, data.teamB, CFI.TEAM_B.TRAIN_VISIBILITY);
     } else {
-        teamBTrain.addClass('invisible-train');
+        CFI.TEAM_B.TRAIN.addClass('invisible-train');
     };
     if(data.teamC.length > 0) {
         // teamCの位置情報(文字)の表示
-        displayStringInformation(data.teamC, teamCIsAdded, teamCLatest, teamCLatestTime, teamCRemainingSquares, nextStationCode);
+        displayStringInformation(
+            data.teamC,
+            teamCIsAdded,
+            CFI.TEAM_C.LATEST_STATION,
+            CFI.TEAM_C.LATEST_TIME,
+            CFI.TEAM_C.REMAINING_SQUARES,
+            nextStationCode
+        );
         // teamCの電車コマの移動
-        changeTrainPosition(teamCTrain, data.teamC, teamCTrainVisibility);
+        changeTrainPosition(CFI.TEAM_C.TRAIN, data.teamC, CFI.TEAM_C.TRAIN_VISIBILITY);
     } else {
-        teamCTrain.addClass('invisible-train');
+        CFI.TEAM_C.TRAIN.addClass('invisible-train');
     };
     if(data.teamD.length > 0) {
         // teamDの位置情報(文字)の表示
-        displayStringInformation(data.teamD, teamDIsAdded, teamDLatest, teamDLatestTime, teamDRemainingSquares, nextStationCode);
+        displayStringInformation(
+            data.teamD,
+            teamDIsAdded,
+            CFI.TEAM_D.LATEST_STATION,
+            CFI.TEAM_D.LATEST_TIME,
+            CFI.TEAM_D.REMAINING_SQUARES,
+            nextStationCode
+        );
         // teamDの電車コマの移動
-        changeTrainPosition(teamDTrain, data.teamD, teamDTrainVisibility);
+        changeTrainPosition(CFI.TEAM_D.TRAIN, data.teamD, CFI.TEAM_D.TRAIN_VISIBILITY);
     } else {
-        teamDTrain.addClass('invisible-train');
+        CFI.TEAM_D.TRAIN.addClass('invisible-train');
     };
 };
 
@@ -278,17 +254,17 @@ function changeTrainPosition(train, data, visibility) {
 };
 
 // 各チェックボックスの監視
-teamATrainVisibility.on('change', function() {
-    changeTrainVisibility($(this), teamATrain, teamAIsAdded);
+CFI.TEAM_A.TRAIN_VISIBILITY.on('change', function() {
+    changeTrainVisibility($(this), CFI.TEAM_A.TRAIN, teamAIsAdded);
 });
-teamBTrainVisibility.on('change', function() {
-    changeTrainVisibility($(this), teamBTrain, teamBIsAdded);
+CFI.TEAM_B.TRAIN_VISIBILITY.on('change', function() {
+    changeTrainVisibility($(this), CFI.TEAM_B.TRAIN, teamBIsAdded);
 });
-teamCTrainVisibility.on('change', function() {
-    changeTrainVisibility($(this), teamCTrain, teamCIsAdded);
+CFI.TEAM_C.TRAIN_VISIBILITY.on('change', function() {
+    changeTrainVisibility($(this), CFI.TEAM_C.TRAIN, teamCIsAdded);
 });
-teamDTrainVisibility.on('change', function() {
-    changeTrainVisibility($(this), teamDTrain, teamDIsAdded);
+CFI.TEAM_D.TRAIN_VISIBILITY.on('change', function() {
+    changeTrainVisibility($(this), CFI.TEAM_D.TRAIN, teamDIsAdded);
 });
 
 /**
@@ -315,29 +291,29 @@ function displayNextStation(nextStationList) {
         const nextStation = nextStationList.slice(-1)[0];
         const nextStationCode = getStationCode(nextStation.nextStation);
         const nextStationBox = $('#box-' + nextStationCode);
-        destinationStation.attr('x', nextStationBox.attr('x'));
-        destinationStation.attr('y', nextStationBox.attr('y'));
+        CFI.DESTINATION_STATION.attr('x', nextStationBox.attr('x'));
+        CFI.DESTINATION_STATION.attr('y', nextStationBox.attr('y'));
 
-        digitalDisplayJP.text(nextStation.nextStation);
+        CFI.DIGITAL_DISPLAY_JP.text(nextStation.nextStation);
     };
 };
 
 
 /* 履歴モーダルの表示 */
-teamAInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_A_NAME, responseData.teamA);
+CFI.TEAM_A.INFORMATION.on('click', function() {
+    setInformationToModal(CFI.TEAM_A.TEAM_NAME, responseData.teamA);
     teamInformationModal.show();
 });
-teamBInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_B_NAME, responseData.teamB);
+CFI.TEAM_B.INFORMATION.on('click', function() {
+    setInformationToModal(CFI.TEAM_B.TEAM_NAME, responseData.teamB);
     teamInformationModal.show();
 });
-teamCInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_C_NAME, responseData.teamC);
+CFI.TEAM_C.INFORMATION.on('click', function() {
+    setInformationToModal(CFI.TEAM_C.TEAM_NAME, responseData.teamC);
     teamInformationModal.show();
 });
-teamDInformation.on('click', function() {
-    setInformationToModal(Constants.TEAM_D_NAME, responseData.teamD);
+CFI.TEAM_D.INFORMATION.on('click', function() {
+    setInformationToModal(CFI.TEAM_D.TEAM_NAME, responseData.teamD);
     teamInformationModal.show();
 });
 
