@@ -22,15 +22,6 @@ const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
 /*========== 画面表示時の実行メソッド ==========*/
-/* 共通ヘッダーの読み込み */
-$(function() {
-    $.ajaxSetup({cache:false});
-    $('.header-contents').load('./header.html', function() {
-        $('#home-header').addClass('active');
-        $('#roulette-header').removeClass('active');
-        $('#googleform-header').removeClass('active');
-    });
-});
 main();
 setInterval(main, CFI.METHOD_INTERVAL);
 
