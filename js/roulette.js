@@ -14,15 +14,6 @@ let spinInterval;
 let nextStation;
 
 /*========== 画面表示時の実行メソッド ==========*/
-/* 共通ヘッダーの読み込み */
-$(function() {
-    $.ajaxSetup({cache:false});
-    $('.header-contents').load("./header.html", function() {
-        $('#home-header').removeClass('active');
-        $('#roulette-header').addClass('active');
-        $('#googleform-header').removeClass('active');
-    });
-})
 main();
 
 /* 現在の駅変更時 */
