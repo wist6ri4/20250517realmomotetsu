@@ -93,12 +93,11 @@ async function fetchJsonData() {
     try {
         const response = await fetch(CFI.API_URL);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            console.error('HTTP Error:', response.status);
         }
         return await response.json();
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
-        alert('データの取得に失敗しました。しばらくしてから再試行してください。');
     };
 };
 
