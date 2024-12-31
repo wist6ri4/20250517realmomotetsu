@@ -52,7 +52,7 @@ panzoomParent.addEventListener('touchend', (event) => {
             return;
         };
 
-        if((!event.touches || event.touches.length === 0) && Math.abs(panzoom.getScale() - panzoomMaxScale) < 0.1) {
+        if((!event.touches || event.touches.length === 0) && Math.abs(panzoom.getScale() - panzoomMaxScale) === 0) {
             panzoom.reset();
             console.log('reset');
         } else {
