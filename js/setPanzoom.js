@@ -48,13 +48,16 @@ panzoomParent.addEventListener('touchend', (event) => {
 
     if (tapInterval < 300 && tapInterval > 50) {
         if (event.touches.length > 0 || event.changedTouches.length > 1) {
+            console.log('return');
             return;
         };
 
         if((!event.touches || event.touches.length === 0) && Math.abs(panzoom.getScale() - panzoomMaxScale) < 0.1) {
             panzoom.reset();
+            console.log('reset');
         } else {
             panzoom.zoomIn();
+            console.log('zoomIn');
         };
     };
     lastTapTime = currentTime;
