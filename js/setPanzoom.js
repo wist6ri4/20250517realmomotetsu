@@ -6,7 +6,7 @@ let screenWidth = window.innerWidth;
 const imageElem = 'routemap';
 
 // zoomスケールの設定
-const panzoomMaxScale = 4;
+const panzoomMaxScale = 2.5;
 const panzoomMinScale = 1;
 
 // panzoomオブジェクトの親要素を取得
@@ -23,7 +23,7 @@ const panzoom = Panzoom(
         minScale: panzoomMinScale,
         // pinchAndPan: true,
         startScale: 1,
-        step: 0.6,
+        step: 0.5,
     }
 );
 
@@ -50,7 +50,8 @@ panzoomParent.addEventListener('touchend', (event) => {
         if (event.touches.length > 0 || event.changedTouches.length > 1) {
             return;
         };
-        if(Math.abs(panzoom.getScale() - panzoomMaxScale) < 0.01) {
+
+        if((!event.touches || event.touches.length === 0) && Math.abs(panzoom.getScale() - panzoomMaxScale) < 0.1) {
             panzoom.reset();
         } else {
             panzoom.zoomIn();
