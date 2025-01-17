@@ -1,8 +1,9 @@
 function doGet() {
     // シートからデータを取得
-    const teamSheet = SpreadsheetApp.openById('1g-jX9HySczn6EzK1gahPhALrXtcjEsYTmuIRhh2embk').getSheetByName('フォーム');
+    const sheet = SpreadsheetApp.openById('1g-jX9HySczn6EzK1gahPhALrXtcjEsYTmuIRhh2embk')
+    const teamSheet = sheet.getSheetByName('フォーム');
     const teamData = teamSheet.getRange(2, 1, teamSheet.getLastRow() - 1, 3).getValues();
-    const nextStationSheet = SpreadsheetApp.openById('1g-jX9HySczn6EzK1gahPhALrXtcjEsYTmuIRhh2embk').getSheetByName('nextStation');
+    const nextStationSheet = sheet.getSheetByName('nextStation');
     const nextStationData = nextStationSheet.getRange(2, 1, nextStationSheet.getLastRow() - 1, 2).getValues();
 
     let jsonData = {
@@ -18,6 +19,11 @@ function doGet() {
     let teamDList = [];
     let nextStationList = [];
 
+    const teamAName = 'チームA';
+    const teamBName = 'チームB';
+    const teamCName = 'チームC';
+    const teamDName = 'チームD';
+
     // 各チームのデータ整形
     teamData.forEach(function(row) {
         // 更新日時の取得
@@ -25,7 +31,7 @@ function doGet() {
         const strTime = ('0' + dt.getHours()).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ':' + ('0' + dt.getSeconds()).slice(-2);
 
         const team = {
-            time: new Date(row[0]),
+            time: dt,
             strTime: strTime,
             team: row[1],
             location: row[2]
@@ -33,16 +39,16 @@ function doGet() {
 
         // チームごとに分別
         switch(team.team) {
-            case 'チームA':
+            case teamAName:
                 teamAList.push(team);
                 break;
-            case 'チームB':
+            case teamBName:
                 teamBList.push(team);
                 break;
-            case 'チームC':
+            case teamCName:
                 teamCList.push(team);
                 break;
-            case 'チームD':
+            case teamDName:
                 teamDList.push(team);
                 break;
             default:
@@ -58,7 +64,7 @@ function doGet() {
 
         // 行の配列データをjson形式に整形
         const nextStation = {
-            time: new Date(row[0]),
+            time: dt,
             strTime: strTime,
             nextStation: row[1],
         };
