@@ -19,10 +19,11 @@ function doGet() {
     let teamDList = [];
     let nextStationList = [];
 
-    const teamAName = 'チームA';
-    const teamBName = 'チームB';
-    const teamCName = 'チームC';
-    const teamDName = 'チームD';
+    // フォームとこのチーム名を変えるとチーム名変更に対応できる
+    const TEAM_A_NAME = 'チームA';
+    const TEAM_B_NAME = 'チームB';
+    const TEAM_C_NAME = 'チームC';
+    const TEAM_D_NAME = 'チームD';
 
     // 各チームのデータ整形
     teamData.forEach(function(row) {
@@ -39,16 +40,16 @@ function doGet() {
 
         // チームごとに分別
         switch(team.team) {
-            case teamAName:
+            case TEAM_A_NAME:
                 teamAList.push(team);
                 break;
-            case teamBName:
+            case TEAM_B_NAME:
                 teamBList.push(team);
                 break;
-            case teamCName:
+            case TEAM_C_NAME:
                 teamCList.push(team);
                 break;
-            case teamDName:
+            case TEAM_D_NAME:
                 teamDList.push(team);
                 break;
             default:

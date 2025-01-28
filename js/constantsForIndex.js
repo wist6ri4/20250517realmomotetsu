@@ -3,7 +3,8 @@ import { Constants } from "./constants.js";
 
 const CFI = {
     METHOD_INTERVAL: 7500, // メソッド実行間隔
-    API_URL: 'https://script.google.com/macros/s/AKfycbxwkLIza8qvXIEiTKyRLi93M3zbmH2ibUVr7I3gSz7d3FeI3Ii9BWenAwNjNQ31IRTziA/exec', // API URL
+    //API_URL: 'https://script.google.com/macros/s/AKfycbxwkLIza8qvXIEiTKyRLi93M3zbmH2ibUVr7I3gSz7d3FeI3Ii9BWenAwNjNQ31IRTziA/exec', // API URL v5
+    API_URL: 'https://script.google.com/macros/s/AKfycbz_ZEDTO-TqXa73J1Wwf4R3Ih10z42HVsORgg8MthLyfdLyRLB4r-SibDc_rJrW-49UgA/exec', // API URL v6.1
     DIGITAL_DISPLAY_JP: $('#digital-display-jp'), // 電光掲示板
     DESTINATION_STATION: $('#destination-station'), // 電光掲示板
     UPDATED_TIME: $('#updated-time'), // 更新時刻表示部
