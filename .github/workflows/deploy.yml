@@ -25,18 +25,19 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install  # npm を使用している場合
+      #- name: Install dependencies
+        #run: npm install  # npm を使用している場合
 
       - name: Create environment file
         run: |
           echo "window._env_ = { API_URL: '${{ secrets.REAL_MOMOTETSU_API_URL }}' };" > public/env.js
 
-      - name: Build the site
-        run: npm run build  # ビルドコマンドを適宜変更
+      #- name: Build the site
+        #run: npm run build  # ビルドコマンドを適宜変更
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # ビルド後の出力ディレクトリ（適宜変更）
+          publish_dir: .
+          destubatuib: gh-pages-${{github.ref_name}}
