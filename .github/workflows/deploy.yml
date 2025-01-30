@@ -30,7 +30,7 @@ jobs:
 
       - name: Create environment file
         run: |
-          echo "window._env_ = { API_URL: '${{ secrets.REAL_MOMOTETSU_API_URL }}' };" > public/env.js
+          echo "window._env_ = { API_URL: '${{ secrets.REAL_MOMOTETSU_API_URL }}' };" > js/env.js
 
       #- name: Build the site
         #run: npm run build  # ビルドコマンドを適宜変更
