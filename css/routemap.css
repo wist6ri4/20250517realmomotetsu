@@ -1,0 +1,79 @@
+/*========== mapモーダルのCSS ==========*/
+
+#map-modal-content {
+    padding: 0;
+}
+
+#map-modal-body {
+    padding: 0;
+}
+
+#button-close {
+    position: fixed;
+    transform: translate(10px, 10px);
+    z-index: 9999;
+}
+
+.visibility-toggle {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    min-height: 10dvh;
+}
+
+/* svgの親クラス */
+.svg-container {
+    overflow: hidden;
+    /* aspect-ratio: 56/37; */
+    border:outset;
+    height: 90dvh;
+    max-width: 100%;
+    /* min-width: 100%; */
+    /* width: 100%; */
+}
+
+@media screen and (orientation: landscape) {
+    .svg-container {
+        height: 100dvh;
+    }
+}
+
+/* 路線図のSVG */
+#routemap {
+    height: 100%;
+}
+
+/* 目的地 */
+.destination-station {
+    fill: rgb(255, 0, 0) !important;
+}
+
+/* 特殊駅 */
+.special-station {
+    fill: rgba(255, 0, 0) !important;
+}
+
+/* 電車コマの非表示用クラス */
+.invisible-train {
+    visibility: hidden;
+}
+
+/* 電車コマの色 */
+.d {
+    fill:#cfcfcf;
+}
+.d,.e,.f,.g,.h {
+    stroke-width:0px;
+}
+.e {
+    fill:#211715;
+}
+.f {
+    fill:#645d5c;
+}
+/* .g {
+    fill:#fff;
+} */
+.h {
+    fill:#fff;
+}

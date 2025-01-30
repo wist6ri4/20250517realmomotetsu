@@ -1,0 +1,51 @@
+/*========== 共通CSS ==========*/
+
+html {
+    font-size: min(calc((1.3dvh + 2.3dvw)/2), 10px);
+}
+
+body {
+    background-attachment: fixed;
+    background-image: url('../img/system_bg_train.jpg');
+    background-position: center top;
+    background-repeat: repeat-y;
+    background-size: 100dvw;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 2rem;
+    font-style: normal;
+}
+
+.container {
+    max-width: 900px;
+}
+
+header {
+    text-align: center;
+}
+
+.header-contents {
+    margin: 1rem;
+}
+
+.header-tab {
+    font-size: 1.5rem;
+}
+
+#header-img {
+    width: 100dvw;
+    max-width: 900px;;
+}
+
+.custom-button {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 4rem;
+    width: 10rem;
+}
+
+.footer-contents {
+    font-size: 1.5rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+}
