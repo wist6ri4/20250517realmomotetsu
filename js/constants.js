@@ -9,6 +9,10 @@ const Constants = {
 
     /* sessionStorageのkey */
     SESSION_TEAM_DATA: 'sessionTeamData',
+
+    /* Supabase */
+    SUPABASE_URL: 'https://zrmxdhuwzcbvxvwbmtul.supabase.co', // Supabase URL
+    SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpybXhkaHV3emNidnh2d2JtdHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0MzkyMTAsImV4cCI6MjA1NTAxNTIxMH0.EujNJOmqOB6RHJVbzVYeMsDwDDSKwQVtiJW_gbTxRUU', // Supabase Key
 };
 
 Object.freeze(Constants);
