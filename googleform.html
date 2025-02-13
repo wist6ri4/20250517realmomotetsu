@@ -53,7 +53,31 @@
 <body>
     <div class="container">
         <!--google-formをiframeで読み込み-->
-        <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSeYWEZrCassadHR8aH8KfP7TcO9obtXFrf8dxsJBYpLkfaa7A/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        <!-- <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSeYWEZrCassadHR8aH8KfP7TcO9obtXFrf8dxsJBYpLkfaa7A/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe> -->
+
+        <div class="form-header">
+            <h1>フォーム</h1>
+            <div class="form-header-contents">
+                <p>以下のフォームに必要事項を入力してください。</p>
+                <p>※全ての項目を入力してください。</p>
+            </div>
+            <div id="form-team-name">
+                <label for="team-name">チーム名</label>
+                <select id="form-team-select">
+                    <!-- オプションは動的に作成 -->
+                    <option value="0">--</option>
+                </select>
+            </div>
+            <div id="form-station">
+                <label for="station">駅名</label>
+                <select id="form-station-select">
+                    <!-- オプションは動的に作成 -->
+                    <option value="0">--</option>
+                </select>
+            </div>
+            <div id="submit-button">
+                <button id="submit-form" class="btn btn-lg btn-primary">送信</button>
+        </div>
     </div>
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>
@@ -62,7 +86,7 @@
     <script type="text/javascript" src="./env/env.js" charset="UTF-8" defer="defer"></script>
     <script type="module" src="./js/constants.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="./js/stationCode.js" charset="UTF-8" defer="defer"></script>
-    <script type="text/javascript" src="./js/googleform.js" charset="UTF-8" defer="defer"></script>
+    <script type="module" src="./js/googleform.js" charset="UTF-8" defer="defer"></script>
 </body>
 <footer>
     <div class="container">

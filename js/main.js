@@ -2,6 +2,7 @@
 import { Constants } from './constants.js';
 import { CFI } from './constantsForIndex.js';
 import { TEAMS } from './constantsForIndex.js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 /* ==========変数の設定========== */
 // response
@@ -17,13 +18,16 @@ function setSessionStorage() {
     });
 };
 
+// SUPABASEのクライアントの作成
+const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
+
 // modal
 const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
 /*========== 画面表示時の実行メソッド ==========*/
 main();
-setInterval(main, CFI.METHOD_INTERVAL);
+// setInterval(main, CFI.METHOD_INTERVAL);
 
 /* ==========function========== */
 /**
@@ -86,19 +90,90 @@ function getCurrentTime() {
 };
 
 /**
+ * UTCからJST文字列に変換
+ */
+function convertUTCtoJST(utc) {
+    const date = new Date(utc);
+    return date.toLocaleString();
+}
+
+/**
  * APIにアクセスしてデータを取得
  * @returns {object} jsonデータ
  */
 async function fetchJsonData() {
     try {
-        const response = await fetch(CFI.API_URL);
-        if (!response.ok) {
-            console.error('HTTP Error:', response.status);
+        // transit_stationsからデータを取得
+        var {data: tsData, error: tsError} = await supabase
+            .from('transit_stations')
+            .select('*');
+        // goal_stationsからデータを取得
+        var {data: nsData, error: nsError} = await supabase
+            .from('goal_stations')
+            .select('*');
+        if(tsError || nsError) {
+            console.error('Error:', tsError, nsError);
         }
-        return await response.json();
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
+    } finally {
+        // jsonデータの作成
+        return await createJsonData(tsData, nsData);
+    }
+};
+
+/**
+ * jsonデータの作成
+ *
+ * @param {object} tsData transit_stationsのデータ
+ * @param {object} nsData goal_stationsのデータ
+ * @returns {object} jsonデータ
+ */
+async function createJsonData(tsData, nsData) {
+    let jsonData = {
+        teamA: [],
+        teamB: [],
+        teamC: [],
+        teamD: [],
+        nextStation: []
     };
+
+    // 経由駅をリスト化
+    tsData.forEach(function(record) {
+        const modifiedRecord = {
+            strTime: convertUTCtoJST(record.created_at),
+            team: record.team_id,
+            location: getStationName(record.station_id),
+        }
+
+        switch(modifiedRecord.team) {
+            case 'teamA':
+                jsonData.teamA.push(modifiedRecord);
+                break;
+            case 'teamB':
+                jsonData.teamB.push(modifiedRecord);
+                break;
+            case 'teamC':
+                jsonData.teamC.push(modifiedRecord);
+                break;
+            case 'teamD':
+                jsonData.teamD.push(modifiedRecord);
+                break;
+        };
+    });
+
+    // 目的駅をリスト化
+    nsData.forEach(function(record) {
+        const modifiedRecord = {
+            strTime: convertUTCtoJST(record.created_at),
+            nextStation: getStationName(record.station_id),
+        }
+
+        jsonData.nextStation.push(modifiedRecord);
+    });
+
+    console.log(jsonData);
+    return jsonData;
 };
 
 /**
@@ -155,7 +230,11 @@ function displayTeamLocation(data) {
             changeTrainPosition(team.TRAIN, data[team.TEAM_KEY], team.TRAIN_VISIBILITY);
         } else {
             team.TRAIN.addClass(CFI.INVISIBLE_TRAIN);
-        }
+            changeCharacterSize(team.LATEST_STATION, 'データがありません');
+            team.LATEST_STATION.text('データがありません');
+            team.LATEST_TIME.text('--:--:--');
+            team.REMAINING_SQUARES.text('-');
+        };
     });
 };
 
@@ -170,9 +249,15 @@ function displayTeamLocation(data) {
 function displayStringInformation(data, isAdded, latestStation, latestTime, remainingSquares, nextStationCode) {
     // データが登録されているのでsessionStorageのisAddedをtrueにする
     sessionStorage.setItem(isAdded, 1);
-    // 最後から2行目の取得
-    const latestLocationData = data.slice(-2)[0];
 
+    let latestLocationData = null;
+    if(data.length < 2) {
+        // データが1つしかない場合
+        latestLocationData = data[0];
+    } else {
+        // 最後から2行目の取得
+        latestLocationData = data.slice(-2)[0];
+    };
     changeCharacterSize(latestStation, latestLocationData.location)
     latestStation.text(latestLocationData.location);
     latestTime.text(latestLocationData.strTime);
