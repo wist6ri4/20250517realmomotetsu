@@ -56,27 +56,43 @@
         <!-- <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSeYWEZrCassadHR8aH8KfP7TcO9obtXFrf8dxsJBYpLkfaa7A/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe> -->
 
         <div class="form-header">
-            <h1>フォーム</h1>
-            <div class="form-header-contents">
-                <p>以下のフォームに必要事項を入力してください。</p>
-                <p>※全ての項目を入力してください。</p>
+            <h1 class="form-title">今いる駅は?</h1>
+            <div class="form-header-contents ms-3 me-3 ps-3 pe-3 pt-2 pb-2">
+                <p>【いつ送る?】<br>
+                    1.サイコロを２回振ってカードを決定<br>
+                    2.カードの効果を処理する<br>
+                    3.もう一度サイコロを振って行き先を決定<br>
+                    4.移動したら移動先の駅名を<b>このフォームから送信</b><br>
+                    5.1~4を繰り返す
+                </p>
             </div>
-            <div id="form-team-name">
-                <label for="team-name">チーム名</label>
-                <select id="form-team-select">
-                    <!-- オプションは動的に作成 -->
-                    <option value="0">--</option>
-                </select>
+        </div>
+        <div class="form-body-contents">
+            <div class="form-item">
+                <div>
+                    <label for="form-team-select">チーム名</label>
+                </div>
+                <div>
+                    <select id="form_team_select" name="form-team-select">
+                        <option value="0">--</option>
+                        <!-- オプションは動的に作成 -->
+                    </select>
+                </div>
             </div>
-            <div id="form-station">
-                <label for="station">駅名</label>
-                <select id="form-station-select">
-                    <!-- オプションは動的に作成 -->
-                    <option value="0">--</option>
-                </select>
+            <div class="form-item">
+                <div>
+                    <label for="form-station-select">今いる駅</label>
+                </div>
+                <div>
+                    <select id="form_station_select" name="form-station-select">
+                        <option value="0">--</option>
+                        <!-- オプションは動的に作成 -->
+                    </select>
+                </div>
             </div>
-            <div id="submit-button">
-                <button id="submit-form" class="btn btn-lg btn-primary">送信</button>
+        </div>
+        <div class="form-footer">
+            <button id="button_submit" class="btn btn-lg btn-primary custom-button">送信</button>
         </div>
     </div>
     <!--jQuery-->

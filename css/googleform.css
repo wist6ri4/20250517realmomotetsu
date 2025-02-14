@@ -5,3 +5,28 @@
     width: 100%;
     height: 800px;
 }
+
+.form-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-header-contents {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+}
+
+.form-body-contents {
+    font-size: 2rem;
+    padding: 1rem;;
+}
+
+.form-item {
+    padding: 1rem;
+}
+
+.form-footer {
+    text-align: center;
+    padding: 1rem;
+}
