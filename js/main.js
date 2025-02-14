@@ -27,21 +27,24 @@ const teamInformationModal = new bootstrap.Modal(document.getElementById('team-i
 
 /*========== 画面表示時の実行メソッド ==========*/
 main();
+// TODO インターバルいれるか検討
 // setInterval(main, CFI.METHOD_INTERVAL);
 
 /* ==========function========== */
 /**
  * メインメソッド
+ * TODO インターバルいれるか検討
  * 画面表示時と10秒おきに実行する
  */
 async function main() {
     // 更新時刻の取得
-    CFI.UPDATED_TIME.text(getCurrentTime());
+    CFI.$UPDATED_TIME.text(getCurrentTime());
 
     // チーム名の表示
     handleTeamInformation();
 
     // sessionStorageのsessionTeamDataを優先して取得
+    // TODO インターバルをいれない場合、要ロジック修正
     const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
     try {
         if(sessionTeamData) {
@@ -72,7 +75,7 @@ function display(responseData) {
 
     // 次の目的地の表示
     displayNextStation(responseData.nextStation);
-}
+};
 
 /**
  * 現在時刻の取得
@@ -91,11 +94,14 @@ function getCurrentTime() {
 
 /**
  * UTCからJST文字列に変換
+ *
+ * @param {string} utc UTC文字列
+ * @returns {string} JST文字列
  */
 function convertUTCtoJST(utc) {
     const date = new Date(utc);
-    return date.toLocaleString();
-}
+    return date.toLocaleTimeString();
+};
 
 /**
  * APIにアクセスしてデータを取得
@@ -135,7 +141,7 @@ async function createJsonData(tsData, nsData) {
         teamB: [],
         teamC: [],
         teamD: [],
-        nextStation: []
+        nextStation: [],
     };
 
     // 経由駅をリスト化
@@ -144,7 +150,7 @@ async function createJsonData(tsData, nsData) {
             strTime: convertUTCtoJST(record.created_at),
             team: record.team_id,
             location: getStationName(record.station_id),
-        }
+        };
 
         switch(modifiedRecord.team) {
             case 'teamA':
@@ -167,7 +173,7 @@ async function createJsonData(tsData, nsData) {
         const modifiedRecord = {
             strTime: convertUTCtoJST(record.created_at),
             nextStation: getStationName(record.station_id),
-        }
+        };
 
         jsonData.nextStation.push(modifiedRecord);
     });
@@ -182,18 +188,18 @@ async function createJsonData(tsData, nsData) {
 function handleTeamInformation() {
     Object.values(TEAMS).forEach(function(team) {
         // チーム名の表示
-        team.INFORMATION_NAME.text(team.TEAM_NAME);
-        team.MODAL_NAME.text(team.TEAM_NAME);
+        team.$INFORMATION_NAME.text(team.TEAM_NAME);
+        team.$MODAL_NAME.text(team.TEAM_NAME);
 
         // 履歴モーダルの監視
-        team.INFORMATION.on('click', function() {
+        team.$INFORMATION.on("click", function () {
             setInformationToModal(team.TEAM_NAME, responseData[team.TEAM_KEY]);
             teamInformationModal.show();
         });
 
         // チェックボックスの監視
-        team.TRAIN_VISIBILITY.on('change', function() {
-            changeTrainVisibility($(this), team.TRAIN, team.IS_ADDED);
+        team.$TRAIN_VISIBILITY.on("change", function () {
+            changeTrainVisibility($(this), team.$TRAIN, team.IS_ADDED);
         });
     });
 };
@@ -203,8 +209,8 @@ function handleTeamInformation() {
  */
 function clearTeamLocation() {
     Object.values(TEAMS).forEach(function(team) {
-        team.LATEST_STATION.text('');
-        team.LATEST_TIME.text('');
+        team.$LATEST_STATION.text("");
+        team.$LATEST_TIME.text("");
     });
 };
 
@@ -221,19 +227,19 @@ function displayTeamLocation(data) {
             displayStringInformation(
                 data[team.TEAM_KEY],
                 team.IS_ADDED,
-                team.LATEST_STATION,
-                team.LATEST_TIME,
-                team.REMAINING_SQUARES,
+                team.$LATEST_STATION,
+                team.$LATEST_TIME,
+                team.$REMAINING_SQUARES,
                 nextStationCode
             );
             // teamの電車コマの移動
-            changeTrainPosition(team.TRAIN, data[team.TEAM_KEY], team.TRAIN_VISIBILITY);
+            changeTrainPosition(team.$TRAIN, data[team.TEAM_KEY], team.$TRAIN_VISIBILITY);
         } else {
-            team.TRAIN.addClass(CFI.INVISIBLE_TRAIN);
-            changeCharacterSize(team.LATEST_STATION, 'データがありません');
-            team.LATEST_STATION.text('データがありません');
-            team.LATEST_TIME.text('--:--:--');
-            team.REMAINING_SQUARES.text('-');
+            team.$TRAIN.addClass(CFI.INVISIBLE_TRAIN);
+            changeCharacterSize(team.$LATEST_STATION, "データがありません");
+            team.$LATEST_STATION.text("データがありません");
+            team.$LATEST_TIME.text("--:--:--");
+            team.$REMAINING_SQUARES.text("-");
         };
     });
 };
@@ -256,15 +262,17 @@ function displayStringInformation(data, isAdded, latestStation, latestTime, rema
         latestLocationData = data[0];
     } else {
         // 最後から2行目の取得
-        latestLocationData = data.slice(-2)[0];
+        // latestLocationData = data.slice(-2)[0];
+        // TODO 最新駅のデータでもよいか検討
+        latestLocationData = data.slice(-1)[0];
     };
-    changeCharacterSize(latestStation, latestLocationData.location)
+    changeCharacterSize(latestStation, latestLocationData.location);
     latestStation.text(latestLocationData.location);
     latestTime.text(latestLocationData.strTime);
 
     // 残りマス数の取得と表示
     const stationCode = getStationCode(latestLocationData.location);
-    const numRemainingSquares = (calculateTravelTimes(stationGraph, stationCode))[nextStationCode].stations;
+    const numRemainingSquares = calculateTravelTimes(stationGraph, stationCode)[nextStationCode].stations;
     remainingSquares.text(numRemainingSquares);
 };
 
@@ -292,7 +300,9 @@ function changeCharacterSize(elem, str) {
  */
 function changeTrainPosition(train, data, visibility) {
     // 最終到着駅を取得
-    const location = data.slice(-2)[0].location;
+    // const location = data.slice(-2)[0].location;
+    // TODO 最新駅のデータでもよいか検討
+    const location = data.slice(-1)[0].location;
     const stationCode = getStationCode(location);
     const stationBox = $('#box-' + stationCode);
     if(visibility.prop('checked')) {
@@ -329,7 +339,7 @@ function displayNextStation(nextStationList) {
         CFI.DESTINATION_STATION.attr('x', nextStationBox.attr('x'));
         CFI.DESTINATION_STATION.attr('y', nextStationBox.attr('y'));
 
-        CFI.DIGITAL_DISPLAY_JP.text(nextStation.nextStation);
+        CFI.$DIGITAL_DISPLAY_JP.text(nextStation.nextStation);
     };
 };
 
@@ -345,7 +355,8 @@ function setInformationToModal(teamName, data) {
     $('#table-body-history').empty();
     // 次の目的駅を取り除く
     const displayData = [...data];
-    displayData.pop();
+    // TODO 最新のデータでもよいか検討
+    // displayData.pop();
     // 履歴分の数の行をテーブルに追加
     for(const history of displayData) {
         const tdStrTime = $('<td></td>').text(history.strTime);
