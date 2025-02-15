@@ -2,7 +2,7 @@
 import { Constants } from './constants.js';
 import { CFI } from './constantsForIndex.js';
 import { TEAMS } from './constantsForIndex.js';
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { Supabase } from './supabase.js';
 
 /* ==========変数の設定========== */
 // response
@@ -17,9 +17,6 @@ function setSessionStorage() {
         sessionStorage.setItem(team.IS_ADDED, 0);
     });
 };
-
-// SUPABASEのクライアントの作成
-const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
 
 // modal
 const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
@@ -60,7 +57,7 @@ async function main() {
         display(responseData);
     } finally {
         sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
-    }
+    };
 };
 
 /**
@@ -108,24 +105,10 @@ function convertUTCtoJST(utc) {
  * @returns {object} jsonデータ
  */
 async function fetchJsonData() {
-    try {
-        // transit_stationsからデータを取得
-        var {data: tsData, error: tsError} = await supabase
-            .from('transit_stations')
-            .select('*');
-        // goal_stationsからデータを取得
-        var {data: nsData, error: nsError} = await supabase
-            .from('goal_stations')
-            .select('*');
-        if(tsError || nsError) {
-            console.error('Error:', tsError, nsError);
-        }
-    } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-    } finally {
-        // jsonデータの作成
-        return await createJsonData(tsData, nsData);
-    }
+    const transitStations = await Supabase.getTransitStations();
+    const goalStations = await Supabase.getGoalStations();
+
+    return await createJsonData(transitStations, goalStations);
 };
 
 /**
@@ -185,15 +168,18 @@ async function createJsonData(tsData, nsData) {
 /**
  * チーム情報の処理
  */
-function handleTeamInformation() {
-    Object.values(TEAMS).forEach(function(team) {
+async function handleTeamInformation() {
+    const teams = await Supabase.getTeams();
+    console.log(teams);
+    Object.values(TEAMS).forEach(function (team) {
         // チーム名の表示
-        team.$INFORMATION_NAME.text(team.TEAM_NAME);
-        team.$MODAL_NAME.text(team.TEAM_NAME);
+        const teamName = teams.find((t) => t.team_id === team.TEAM_ID).team_name;
+        team.$INFORMATION_NAME.text(teamName);
+        team.$MODAL_NAME.text(teamName);
 
         // 履歴モーダルの監視
         team.$INFORMATION.on("click", function () {
-            setInformationToModal(team.TEAM_NAME, responseData[team.TEAM_KEY]);
+            setInformationToModal(teamName, responseData[team.TEAM_ID]);
             teamInformationModal.show();
         });
 
@@ -222,10 +208,10 @@ function displayTeamLocation(data) {
     const nextStationCode = getStationCode(data.nextStation.slice(-1)[0].nextStation);
 
     Object.values(TEAMS).forEach(function(team) {
-        if(data[team.TEAM_KEY].length > 0) {
+        if(data[team.TEAM_ID].length > 0) {
             // teamの位置情報(文字)の表示
             displayStringInformation(
-                data[team.TEAM_KEY],
+                data[team.TEAM_ID],
                 team.IS_ADDED,
                 team.$LATEST_STATION,
                 team.$LATEST_TIME,
@@ -233,7 +219,7 @@ function displayTeamLocation(data) {
                 nextStationCode
             );
             // teamの電車コマの移動
-            changeTrainPosition(team.$TRAIN, data[team.TEAM_KEY], team.$TRAIN_VISIBILITY);
+            changeTrainPosition(team.$TRAIN, data[team.TEAM_ID], team.$TRAIN_VISIBILITY);
         } else {
             team.$TRAIN.addClass(CFI.INVISIBLE_TRAIN);
             changeCharacterSize(team.$LATEST_STATION, "データがありません");
@@ -320,7 +306,7 @@ function changeTrainPosition(train, data, visibility) {
  * トグルボタンがtrueかつsessionStorageのisAddedがtrueのときに電車を表示
  */
 function changeTrainVisibility(elm, train, isAdded) {
-    if(elm.prop('checked') && parseInt(sessionStorage.getItem(isAdded)) == 1) {
+    if (elm.prop("checked") && parseInt(sessionStorage.getItem(isAdded)) == 1) {
         train.removeClass(CFI.INVISIBLE_TRAIN);
     } else {
         train.addClass(CFI.INVISIBLE_TRAIN);
