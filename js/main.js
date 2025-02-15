@@ -322,8 +322,8 @@ function displayNextStation(nextStationList) {
         const nextStation = nextStationList.slice(-1)[0];
         const nextStationCode = getStationCode(nextStation.nextStation);
         const nextStationBox = $('#box-' + nextStationCode);
-        CFI.DESTINATION_STATION.attr('x', nextStationBox.attr('x'));
-        CFI.DESTINATION_STATION.attr('y', nextStationBox.attr('y'));
+        CFI.$DESTINATION_STATION.attr('x', nextStationBox.attr('x'));
+        CFI.$DESTINATION_STATION.attr('y', nextStationBox.attr('y'));
 
         CFI.$DIGITAL_DISPLAY_JP.text(nextStation.nextStation);
     };
