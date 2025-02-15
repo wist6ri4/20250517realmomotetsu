@@ -16,7 +16,7 @@ const TEAMS = {
     TEAM_A: {
         IS_ADDED: 'teamAIsAdded', // 追加されたかどうか
         TEAM_NAME: Constants.TEAM_A_NAME, // チーム名
-        TEAM_KEY: 'teamA', // チームキー
+        TEAM_ID: 'teamA', // チームID
         $TRAIN: $('#team-a-train'), // 電車コマ
         $TRAIN_VISIBILITY: $('#team-a-train-visibility'), // 電車コマの表示・非表示
         $INFORMATION_NAME: $('#team-a-information-name'), // チーム情報表示部のチーム名
@@ -29,7 +29,7 @@ const TEAMS = {
     TEAM_B: {
         IS_ADDED: 'teamBIsAdded', // 追加されたかどうか
         TEAM_NAME: Constants.TEAM_B_NAME, // チーム名
-        TEAM_KEY: 'teamB', // チームキー
+        TEAM_ID: 'teamB', // チームID
         $TRAIN: $('#team-b-train'), // 電車コマ
         $TRAIN_VISIBILITY: $('#team-b-train-visibility'), // 電車コマの表示・非表示
         $INFORMATION_NAME: $('#team-b-information-name'), // チーム情報表示部のチーム名
@@ -42,7 +42,7 @@ const TEAMS = {
     TEAM_C: {
         IS_ADDED: 'teamCIsAdded', // 追加されたかどうか
         TEAM_NAME: Constants.TEAM_C_NAME, // チーム名
-        TEAM_KEY: 'teamC', // チームキー
+        TEAM_ID: 'teamC', // チームID
         $TRAIN: $('#team-c-train'), // 電車コマ
         $TRAIN_VISIBILITY: $('#team-c-train-visibility'), // 電車コマの表示・非表示
         $INFORMATION_NAME: $('#team-c-information-name'), // チーム情報表示部のチーム名
@@ -55,7 +55,7 @@ const TEAMS = {
     TEAM_D: {
         IS_ADDED: 'teamDIsAdded', // 追加されたかどうか
         TEAM_NAME: Constants.TEAM_D_NAME, // チーム名
-        TEAM_KEY: 'teamD', // チームキー
+        TEAM_ID: 'teamD', // チームID
         $TRAIN: $('#team-d-train'), // 電車コマ
         $TRAIN_VISIBILITY: $('#team-d-train-visibility'), // 電車コマの表示・非表示
         $INFORMATION_NAME: $('#team-d-information-name'), // チーム情報表示部のチーム名
