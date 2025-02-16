@@ -122,7 +122,7 @@ async function getGoalStations() {
 };
 
 /**
- * 未チャージポイントを取得する
+ * 未チャージポイントを取得し、各チームごとに総計する
  */
 async function getNotChargedPoints() {
     try {
@@ -133,7 +133,8 @@ async function getNotChargedPoints() {
         if (error) {
             throw new Error(error);
         } else {
-            return notChargedPoints;
+            const groupedPoints = groupByAndSum(notChargedPoints, ['team_id', 'point']);
+            return groupedPoints;
         }
     } catch (error) {
         throw new Error(error);
@@ -155,7 +156,8 @@ async function getChargedPoints() {
             console.error(error);
             return;
         } else {
-            return chargedPoints;
+            const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
+            return groupedPoints;
         }
     } catch (error) {
         console.error(error);
@@ -189,7 +191,24 @@ async function insertMovingPoints(teamId) {
     };
 };
 
+/**
+ * 配列を指定のキーでグループ化し、指定のキーで合計する
+ *
+ * @param {Array} array 配列
+ * @param {Array} keys キーの配列(2つ)
+ */
+function groupByAndSum(array, keys) {
+    const result = array.reduce((acc, entry) => {
+        if(acc[entry[keys[0]]]) {
+            acc[entry[keys[0]]] += entry[keys[1]];
+        } else {
+            acc[entry[keys[0]]] = entry[keys[1]];
+        };
+        return acc;
+    }, {});
 
+    return result;
+};
 
 
 export { Supabase };

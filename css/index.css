@@ -82,6 +82,26 @@
     font-size: 1.2rem;
 }
 
+/* team-informationのポイント表示 */
+.team-information-points {
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 1.2rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+.points-table {
+    width: 100%;
+}
+
+.points-table td {
+    white-space: nowrap;
+}
+
+.points-table .points-table-second {
+    text-align: right;
+}
+
 /* team-informationの時刻表示 */
 .information-time {
     font-size: 1.2rem;

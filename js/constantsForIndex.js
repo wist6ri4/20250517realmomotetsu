@@ -24,6 +24,8 @@ const TEAMS = {
         $LATEST_STATION: $('#team-a-latest-station'), // 最終到着駅表示部
         $LATEST_TIME: $('#team-a-latest-time'), // 最終更新時刻表示部
         $REMAINING_SQUARES: $('#team-a-remaining-squares'), // 残りマス数表示部
+        $NOT_CHARGED_POINTS: $('#team-a-not-charged-points'), // 未チャージポイント表示部
+        $CHARGED_POINTS: $('#team-a-charged-points'), // チャージ済ポイント表示部
         $MODAL_NAME: $('#team-a-modal-name'), // チーム情報モーダルのチーム名
     },
     TEAM_B: {
@@ -37,6 +39,8 @@ const TEAMS = {
         $LATEST_STATION: $('#team-b-latest-station'), // 最終到着駅表示部
         $LATEST_TIME: $('#team-b-latest-time'), // 最終更新時刻表示部
         $REMAINING_SQUARES: $('#team-b-remaining-squares'), // 残りマス数表示部
+        $NOT_CHARGED_POINTS: $('#team-b-not-charged-points'), // 未チャージポイント表示部
+        $CHARGED_POINTS: $('#team-b-charged-points'), // チャージ済ポイント表示部
         $MODAL_NAME: $('#team-b-modal-name'), // チーム情報モーダルのチーム名
     },
     TEAM_C: {
@@ -50,6 +54,8 @@ const TEAMS = {
         $LATEST_STATION: $('#team-c-latest-station'), // 最終到着駅表示部
         $LATEST_TIME: $('#team-c-latest-time'), // 最終更新時刻表示部
         $REMAINING_SQUARES: $('#team-c-remaining-squares'), // 残りマス数表示部
+        $NOT_CHARGED_POINTS: $('#team-c-not-charged-points'), // 未チャージポイント表示部
+        $CHARGED_POINTS: $('#team-c-charged-points'), // チャージ済ポイント表示部
         $MODAL_NAME: $('#team-c-modal-name'), // チーム情報モーダルのチーム名
     },
     TEAM_D: {
@@ -63,6 +69,8 @@ const TEAMS = {
         $LATEST_STATION: $('#team-d-latest-station'), // 最終到着駅表示部
         $LATEST_TIME: $('#team-d-latest-time'), // 最終更新時刻表示部
         $REMAINING_SQUARES: $('#team-d-remaining-squares'), // 残りマス数表示部
+        $NOT_CHARGED_POINTS: $('#team-d-not-charged-points'), // 未チャージポイント表示部
+        $CHARGED_POINTS: $('#team-d-charged-points'), // チャージ済ポイント表示部
         $MODAL_NAME: $('#team-d-modal-name'), // チーム情報モーダルのチーム名
     },
 };

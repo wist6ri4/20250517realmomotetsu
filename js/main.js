@@ -69,6 +69,8 @@ function display(responseData) {
     clearTeamLocation();
     // 位置情報の表示
     displayTeamLocation(responseData);
+    // ポイントの表示
+    displayPoints(responseData);
 
     // 次の目的地の表示
     displayNextStation(responseData.nextStation);
@@ -107,8 +109,15 @@ function convertUTCtoJST(utc) {
 async function fetchJsonData() {
     const transitStations = await Supabase.getTransitStations();
     const goalStations = await Supabase.getGoalStations();
+    const notChargedPoints = await Supabase.getNotChargedPoints();
+    const chargedPoints = await Supabase.getChargedPoints();
 
-    return await createJsonData(transitStations, goalStations);
+    return await createJsonData(
+        transitStations,
+        goalStations,
+        notChargedPoints,
+        chargedPoints
+    );
 };
 
 /**
@@ -118,13 +127,15 @@ async function fetchJsonData() {
  * @param {object} nsData goal_stationsのデータ
  * @returns {object} jsonデータ
  */
-async function createJsonData(tsData, nsData) {
+async function createJsonData(tsData, nsData, ncPoints, cPoints) {
     let jsonData = {
         teamA: [],
         teamB: [],
         teamC: [],
         teamD: [],
         nextStation: [],
+        notChargedPoints: ncPoints,
+        chargedPoints: cPoints,
     };
 
     // 経由駅をリスト化
@@ -275,6 +286,21 @@ function changeCharacterSize(elem, str) {
     } else {
         elem.css('font-size', '2.7rem');
     };
+};
+
+/**
+ * ポイントの表示
+ *
+ * @param {object} responseData レスポンスデータ
+ */
+function displayPoints(responseData) {
+    Object.values(TEAMS).forEach(function(team) {
+        const notChargedPoints = responseData.notChargedPoints[team.TEAM_ID];
+        const chargedPoints = responseData.chargedPoints[team.TEAM_ID];
+
+        team.$NOT_CHARGED_POINTS.text(notChargedPoints ? notChargedPoints.toLocaleString() : 0);
+        team.$CHARGED_POINTS.text(chargedPoints ? chargedPoints.toLocaleString() : 0);
+    });
 };
 
 /**
