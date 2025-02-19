@@ -16,7 +16,8 @@ const Supabase = {
     insertMovingPoints,
     insertAdditionalPoints,
     insertSubtractionPoints,
-    insertAddAndSubPoints
+    insertAddAndSubPoints,
+    updateNotChargedPoints
 };
 
 /**

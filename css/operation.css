@@ -1,0 +1,32 @@
+.form-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-header-contents {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+}
+
+.form-body-contents {
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 1.7rem;
+    padding: 0.7rem;
+}
+
+.form-item {
+    padding: 0.5rem;
+}
+
+.form-footer-contents {
+    text-align: end;
+    padding: 1rem;
+}
+
+.submit-button {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 3rem;
+    width: 7rem;
+}
