@@ -9,6 +9,8 @@ const Constants = {
 
     /* sessionStorageのkey */
     SESSION_TEAM_DATA: 'sessionTeamData',
+    SESSION_TEAM_NAME: 'sessionTeamName',
+    SESSION_STATIONS: 'sessionStations',
 
     /* Supabase */
     SUPABASE_URL: 'https://zrmxdhuwzcbvxvwbmtul.supabase.co', // Supabase URL
