@@ -207,3 +207,12 @@ function getStationCode(value) {
 function getStationName(key) {
     return stationMapping[key];
 };
+
+
+const StationCode = {
+    stationMapping,
+    stationGraph,
+    getStationCode,
+    getStationName,
+};
+export { StationCode };

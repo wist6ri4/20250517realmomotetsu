@@ -1,10 +1,15 @@
-/*========== 固有定数の設定 ========== */
-// ルーレット表示部
-const roulette = $('#roulette');
+/* ========== モジュールのインポート ========== */
+import { StationCode } from "./stationCode.js";
+import { Common } from "./common.js";
+
+/*========== 画面要素の取得 ==========*/
+const roulette = $('#roulette'); // ルーレット表示部
+const startButton = $('#start-button'); // スタートボタン
+const stopButton = $('#stop-button'); // ストップボタン
 
 /*========== 変数の設定 ==========*/
 // ルーレット開始駅
-let startStation = $('#current-station').val();
+let startStationName;
 // スピンフラグ
 // ルーレットが回っているかどうかの判定フラグ
 let isSpin = false;
@@ -18,11 +23,14 @@ main();
 
 /* 現在の駅変更時 */
 $('#current-station').on('change', function() {
-    startStation = this.value;
+    startStationName = this.value;
     if(isSpin)
         stopRoulette();
-    console.log('今の駅：' + startStation);
+    console.log('今の駅：' + startStationName);
 });
+
+startButton.on('click', startRoulette);
+stopButton.on('click', stopRoulette);
 
 /*========== function ==========*/
 /**
@@ -31,6 +39,9 @@ $('#current-station').on('change', function() {
  */
 function main() {
     isSpin = false;
+
+    // チーム名の取得
+    Common.getAndSetTeamName();
 
     // 駅の初期表示
     getRandomStation();
@@ -41,11 +52,12 @@ function main() {
  * @returns isSpinがtrueの場合
  */
 function startRoulette() {
+    startStationName = $('#current-station').val()
     if(isSpin) {
         return;
     } else {
         isSpin = true;
-        spinInterval = setInterval(getRandomStation, 100);
+        spinInterval = setInterval(() => {getRandomStation(startStationName)} , 100);
         nextStation = getNextStation();
     };
 };
@@ -53,8 +65,8 @@ function startRoulette() {
 /**
  * ランダムに駅を表示
  */
-function getRandomStation() {
-    const stationNames = Object.values(stationMapping);
+function getRandomStation(startStation) {
+    const stationNames = Object.values(StationCode.stationMapping).filter(station => station !== startStation);
     const randomIndex = Math.floor(Math.random() * (stationNames.length))
     const randomStation = stationNames[randomIndex];
     changeCharacterSize(roulette, randomStation);
@@ -96,12 +108,12 @@ function changeCharacterSize(elem, str) {
  */
 function getNextStation() {
     // 取得した駅名をコードに変換
-    const startStationCode = getStationCode(startStation);
+    const startStationCode = StationCode.getStationCode(startStationName);
 
     // 各駅への最短所要時間を取得
-    const times = calculateTravelTimes(stationGraph, startStationCode);
+    const times = calculateTravelTimes(StationCode.stationGraph, startStationCode);
     // 10分以下の駅を削除
-    for(key of Object.keys(times)) {
+    for(const key of Object.keys(times)) {
         if(times[key].time <= 10) {
             delete times[key];
         };
@@ -113,7 +125,7 @@ function getNextStation() {
     // 次の目的駅を選択
     const nextStationCode = chooseNextStation(probabilities);
 
-    const nextStation = getStationName(nextStationCode);
+    const nextStation = StationCode.getStationName(nextStationCode);
     return nextStation;
 };
 
@@ -197,3 +209,5 @@ function chooseNextStation(probabilities) {
         };
     };
 };
+
+export { calculateTravelTimes };

@@ -13,11 +13,17 @@ const Supabase = {
     getGoalStations,
     getNotChargedPoints,
     getChargedPoints,
-    insertMovingPoints
+    insertMovingPoints,
+    insertAdditionalPoints,
+    insertSubtractionPoints,
+    insertAddAndSubPoints
 };
 
 /**
  * teamsを取得する
+ *
+ * @returns {Array} teams
+ * @throws {Error} error
  */
 async function getTeams() {
     try {
@@ -38,6 +44,9 @@ async function getTeams() {
 
 /**
  * stationsを取得する
+ *
+ * @returns {Array} stations
+ * @throws {Error} error
  */
 async function getStations() {
     try {
@@ -58,6 +67,9 @@ async function getStations() {
 
 /**
  * transit_stationsを取得する
+ *
+ * @returns {Array} transitStations
+ * @throws {Error} error
  */
 async function getTransitStations() {
     try {
@@ -81,6 +93,8 @@ async function getTransitStations() {
  *
  * @param {number} teamId チームID
  * @param {number} stationId 駅ID
+ * @returns {Object} data
+ * @throws {Error} error
  */
 async function insertTransitStations(teamId, stationId) {
     try {
@@ -103,6 +117,9 @@ async function insertTransitStations(teamId, stationId) {
 
 /**
  * goal_stationsを取得する
+ *
+ * @returns {Array} goalStations
+ * @throws {Error} error
  */
 async function getGoalStations() {
     try {
@@ -123,6 +140,9 @@ async function getGoalStations() {
 
 /**
  * 未チャージポイントを取得し、各チームごとに総計する
+ *
+ * @returns {Object} groupedPoints
+ * @throws {Error} error
  */
 async function getNotChargedPoints() {
     try {
@@ -145,6 +165,9 @@ async function getNotChargedPoints() {
 
 /**
  * チャージ済みポイントを取得する
+ *
+ * @returns {Object} groupedPoints
+ * @throws {Error} error
  */
 async function getChargedPoints() {
     try {
@@ -153,14 +176,13 @@ async function getChargedPoints() {
             .select('*')
             .eq('is_charged', true);
         if (error) {
-            console.error(error);
-            return;
+            throw new Error(error);
         } else {
             const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
             return groupedPoints;
         }
     } catch (error) {
-        console.error(error);
+        throw new Error(error);
     } finally {
         console.log('getChargedPoints() done');
     };
@@ -170,6 +192,8 @@ async function getChargedPoints() {
  * 移動ポイントを追加する
  *
  * @param {number} teamId チームID
+ * @returns {Object} data
+ * @throws {Error} error
  */
 async function insertMovingPoints(teamId) {
     try {
@@ -179,23 +203,138 @@ async function insertMovingPoints(teamId) {
                 { team_id: teamId, point: Constants.POINT_FOR_MOVING }
             ]);
         if (error) {
-            console.error(error);
-            return;
+            throw new Error(error);
         } else {
             return data;
         }
     } catch (error) {
-        console.error(error);
+        throw new Error(error);
     } finally {
         console.log('insertMovingPoints() done');
     };
 };
 
 /**
+ * チームを指定してポイントを加算する
+ *
+ * @param {number} teamId チームID
+ * @param {number} point 加算ポイント
+ * @returns {Object} data
+ * @throws {Error} error
+ */
+async function insertAdditionalPoints(teamId, point) {
+    try {
+        const { data, error } = await supabase
+            .from('points')
+            .insert([
+                { team_id: teamId, point: point }
+            ]);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return data;
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertAdditionalPoints() done');
+    };
+};
+
+
+/**
+ * チームを指定してポイントを減算する
+ *
+ * @param {number} teamId チームID
+ * @param {number} point 減算ポイント
+ * @returns {Object} data
+ * @throws {Error} error
+ */
+async function insertSubtractionPoints(teamId, point) {
+    try {
+        const { data, error } = await supabase
+            .from('points')
+            .insert([
+                { team_id: teamId, point: -point }
+            ]);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return data;
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertSubtractionPoints() done');
+    };
+};
+
+/**
+ * チーム間でポイントを移動する
+ *
+ * @param {string} addTeamId 加算チームID
+ * @param {string} subTeamId 減算チームID
+ * @param {number} point ポイント
+ * @returns {Object} data
+ * @throws {Error} error
+ */
+async function insertAddAndSubPoints(addTeamId, subTeamId, point) {
+    try {
+        const { data: addData, error: addError } = await supabase
+            .from('points')
+            .insert([
+                { team_id: addTeamId, point: point }
+            ]);
+        const { data: subData, error: subError } = await supabase
+            .from('points')
+            .insert([
+                { team_id: subTeamId, point: -(point) }
+            ]);
+
+        if (addError || subError) {
+            throw new Error(addError || subError);
+        } else {
+            return { addData, subData };
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertAddAndSubPoints() done');
+    };
+};
+
+/**
+ * チームIDを指定して未チャージポイントをチャージ済みに更新する
+ *
+ * @param {number} teamId チームID
+ * @returns {Object} notChargedPoints
+ * @throws {Error} error
+ */
+async function updateNotChargedPoints(teamId) {
+    try {
+        const { data: notChargedPoints, error } = await supabase
+            .from('points')
+            .update({ is_charged: true })
+            .eq('team_id', teamId)
+            .eq('is_charged', false);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return notChargedPoints;
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('updateNotChargedPoints() done');
+    };
+}
+
+/**
  * 配列を指定のキーでグループ化し、指定のキーで合計する
  *
  * @param {Array} array 配列
  * @param {Array} keys キーの配列(2つ)
+ * @returns {Object} result
  */
 function groupByAndSum(array, keys) {
     const result = array.reduce((acc, entry) => {

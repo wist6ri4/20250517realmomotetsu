@@ -1,11 +1,9 @@
+/* ========== モジュールのインポート ========== */
 import { Constants } from './constants.js';
+import { Common } from './common.js';
 import { Supabase } from './supabase.js';
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// SUPABASEのクライアントの作成
-const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
-
-// 画面要素の取得（初期表示用）
+/*========== 画面要素の取得 ==========*/
 const formTeamNameSelect = $('#form_team_select'); // フォーム（チーム名）
 const formStationNameSelect = $('#form_station_select'); // フォーム（駅名）
 const buttonSubmit = $('#button_submit'); // 送信ボタン
@@ -20,20 +18,23 @@ main();
  * 画面表示時に実行する
  */
 async function main() {
+    // チーム名の取得
+    await Common.getAndSetTeamName();
     // チーム名のオプションを作成
-    const teams = await Supabase.getTeams();
+    const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
     teams.forEach(function(team) {
         formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
     });
 
     // formTeamNameSelect.append($('<option>').val(0).text('チームA'));
 
+    // 駅名の取得
+    await Common.getAndSetStations();
     // 駅名のオプションを作成
-    const stations = await Supabase.getStations();
+    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
     stations.forEach(function(station) {
         formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
     });
-    // formStationNameSelect.append($('<option>').val(0).text('南町田グランベリーパーク'));
 };
 
 

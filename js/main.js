@@ -1,14 +1,17 @@
-// 定数
+/* ========== モジュールのインポート ========== */
 import { Constants } from './constants.js';
 import { CFI } from './constantsForIndex.js';
 import { TEAMS } from './constantsForIndex.js';
+import { StationCode } from './stationCode.js';
+import { Common } from './common.js';
+import { calculateTravelTimes } from './roulette.js';
 import { Supabase } from './supabase.js';
 
-/* ==========変数の設定========== */
+/* ========== 変数の設定 ========== */
 // response
 let responseData;
 
-/* ==========固有定数の設定========== */
+/* ========== 固有定数の設定 ========== */
 // データの追加フラグ
 // 一度取得できれば更新の必要がないためsessionStorageで管理
 setSessionStorage();
@@ -27,7 +30,7 @@ main();
 // TODO インターバルいれるか検討
 // setInterval(main, CFI.METHOD_INTERVAL);
 
-/* ==========function========== */
+/* ========== functions ========== */
 /**
  * メインメソッド
  * TODO インターバルいれるか検討
@@ -36,6 +39,9 @@ main();
 async function main() {
     // 更新時刻の取得
     CFI.$UPDATED_TIME.text(getCurrentTime());
+
+    // チーム名の取得
+    Common.getAndSetTeamName();
 
     // チーム名の表示
     handleTeamInformation();
@@ -143,7 +149,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
         const modifiedRecord = {
             strTime: convertUTCtoJST(record.created_at),
             team: record.team_id,
-            location: getStationName(record.station_id),
+            location: StationCode.getStationName(record.station_id),
         };
 
         switch(modifiedRecord.team) {
@@ -166,7 +172,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
     nsData.forEach(function(record) {
         const modifiedRecord = {
             strTime: convertUTCtoJST(record.created_at),
-            nextStation: getStationName(record.station_id),
+            nextStation: StationCode.getStationName(record.station_id),
         };
 
         jsonData.nextStation.push(modifiedRecord);
@@ -180,8 +186,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
  * チーム情報の処理
  */
 async function handleTeamInformation() {
-    const teams = await Supabase.getTeams();
-    console.log(teams);
+    const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
     Object.values(TEAMS).forEach(function (team) {
         // チーム名の表示
         const teamName = teams.find((t) => t.team_id === team.TEAM_ID).team_name;
@@ -216,7 +221,7 @@ function clearTeamLocation() {
  * @param {object} data オブジェクトに変換したデータ
  */
 function displayTeamLocation(data) {
-    const nextStationCode = getStationCode(data.nextStation.slice(-1)[0].nextStation);
+    const nextStationCode = StationCode.getStationCode(data.nextStation.slice(-1)[0].nextStation);
 
     Object.values(TEAMS).forEach(function(team) {
         if(data[team.TEAM_ID].length > 0) {
@@ -268,8 +273,8 @@ function displayStringInformation(data, isAdded, latestStation, latestTime, rema
     latestTime.text(latestLocationData.strTime);
 
     // 残りマス数の取得と表示
-    const stationCode = getStationCode(latestLocationData.location);
-    const numRemainingSquares = calculateTravelTimes(stationGraph, stationCode)[nextStationCode].stations;
+    const stationCode = StationCode.getStationCode(latestLocationData.location);
+    const numRemainingSquares = calculateTravelTimes(StationCode.stationGraph, stationCode)[nextStationCode].stations;
     remainingSquares.text(numRemainingSquares);
 };
 
@@ -315,7 +320,7 @@ function changeTrainPosition(train, data, visibility) {
     // const location = data.slice(-2)[0].location;
     // TODO 最新駅のデータでもよいか検討
     const location = data.slice(-1)[0].location;
-    const stationCode = getStationCode(location);
+    const stationCode = StationCode.getStationCode(location);
     const stationBox = $('#box-' + stationCode);
     if(visibility.prop('checked')) {
         train.removeClass(CFI.INVISIBLE_TRAIN);
@@ -346,7 +351,7 @@ function changeTrainVisibility(elm, train, isAdded) {
 function displayNextStation(nextStationList) {
     if(nextStationList.length > 0) {
         const nextStation = nextStationList.slice(-1)[0];
-        const nextStationCode = getStationCode(nextStation.nextStation);
+        const nextStationCode = StationCode.getStationCode(nextStation.nextStation);
         const nextStationBox = $('#box-' + nextStationCode);
         CFI.$DESTINATION_STATION.attr('x', nextStationBox.attr('x'));
         CFI.$DESTINATION_STATION.attr('y', nextStationBox.attr('y'));

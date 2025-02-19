@@ -47,6 +47,9 @@
                 <li class="nav-item">
                     <a id="googleform-header" class="nav-link tab-link header-tab" href="./googleform.html" data-cache="true"><i class="fa-solid fa-align-right"></i> フォーム</a>
                 </li>
+                <li class="nav-item">
+                    <a id="operation-header" class="nav-link tab-link header-tab" href="./operation.html" data-cache="true"><i class="fa-solid fa-wrench"></i></a>
+                </li>
             </ul>
         </div>
     </div>
@@ -163,8 +166,8 @@
         </div>
         <!--スタート/ストップボタン-->
         <div class="roulette-button mx-3 my-3">
-            <input type="button" id="start-button" class="btn btn-lg btn-success mx-2 custom-button" value="スタート" onclick="startRoulette()">
-            <input type="button" id="stop-button" class="btn btn-lg btn-danger mx-2 custom-button" value="ストップ" onclick="stopRoulette()">
+            <input type="button" id="start-button" class="btn btn-lg btn-success mx-2 custom-button" value="スタート">
+            <input type="button" id="stop-button" class="btn btn-lg btn-danger mx-2 custom-button" value="ストップ">
         </div>
     </div>
     <!--jQuery-->
@@ -173,10 +176,9 @@
     <!--Panzoom-->
     <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
     <!--JavaScript-->
-    <script type="text/javascript" src="./env/env.js" charset="UTF-8" defer="defer"></script>
+    <script type="module" src="./js/common.js" charset="UTF-8" defer="defer"></script>
     <script type="module" src="./js/constants.js" charset="UTF-8" defer="defer"></script>
-    <script type="text/javascript" src="./js/stationCode.js" charset="UTF-8" defer="defer"></script>
-    <script type="text/javascript" src="./js/roulette.js" charset="UTF-8" defer="defer"></script>
+    <script type="module" src="./js/roulette.js" charset="UTF-8" defer="defer"></script>
     <!-- <script type="text/javascript" src="./js/setPanzoom.js" charset="UTF-8" defer="defer"></script> -->
 </body>
 <footer>
