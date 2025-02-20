@@ -6,11 +6,14 @@ import { Supabase } from "./supabase.js";
 /*========== 画面要素の取得 ==========*/
 const $addPointTeamSelect = $('#add-point-team-select'); // ポイント加算チーム選択
 const $addPoint = $('#add-point'); // 加算ポイント
+const $isChargedForAdd = $('#is-charged-for-add'); // 加算時の換金フラグ
 const $subPointTeamSelect = $('#sub-point-team-select'); // ポイント減算チーム選択
 const $subPoint = $('#sub-point'); // 減算ポイント
+const $isChargedForSub = $('#is-charged-for-sub'); // 減算時の換金フラグ
 const $movePointFromSelect = $('#move-point-from-select'); // ポイント移動元チーム選択
 const $movePointToSelect = $('#move-point-to-select'); // ポイント移動先チーム選択
 const $movePoint = $('#move-point'); // 移動ポイント
+const $isChargedForMove = $('#is-charged-for-move'); // 移動時の換金フラグ
 const $chargePointTeamSelect = $('#charge-point-team-select'); // ポイント換金チーム選択
 
 /*========== 画面表示時の実行メソッド ==========*/
@@ -45,6 +48,7 @@ async function addPoint() {
     const teamId = $addPointTeamSelect.val();
     const teamName = $('#add-point-team-select option:selected').text();
     const point = $('#add-point').val();
+    const isCharged = $isChargedForAdd.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
     if(teamId == 0 || point == 0) {
@@ -53,14 +57,19 @@ async function addPoint() {
     };
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：' + point + ' pt');
+    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：' + point + ' pt' + (isCharged ? '（換金あり）' : '（換金なし）'));
     if(!is_approved) {
         return;
     };
 
     // 送信処理
     try {
-        const result = await Supabase.insertAdditionalPoints(teamId, point);
+        let result;
+        if(isCharged) {
+            result = await Supabase.insertAdditionalChargedPoints(teamId, point);
+        } else {
+            result = await Supabase.insertAdditionalPoints(teamId, point);
+        }
         alert('送信しました。');
     } catch (error) {
         alert('送信に失敗しました。', error);
@@ -80,6 +89,7 @@ async function subPoint() {
     const teamId = $subPointTeamSelect.val();
     const teamName = $('#sub-point-team-select option:selected').text();
     const point = $('#sub-point').val();
+    const isCharged = $isChargedForSub.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
     if(teamId == 0 || point == 0) {
@@ -88,14 +98,19 @@ async function subPoint() {
     };
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：－' + point + ' pt');
+    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：－' + point + ' pt' + (isCharged ? '（換金あり）' : '（換金なし）'));
     if(!is_approved) {
         return;
     };
 
     // 送信処理
     try {
-        const result = await Supabase.insertSubtractionPoints(teamId, point);
+        let result;
+        if(isCharged) {
+            result = await Supabase.insertSubtractionChargedPoints(teamId, point);
+        } else {
+            result = await Supabase.insertSubtractionPoints(teamId, point);
+        }
         alert('送信しました。');
     } catch (error) {
         alert('送信に失敗しました。', error);
@@ -115,6 +130,7 @@ async function movePoint() {
     const fromTeamId = $movePointFromSelect.val();
     const toTeamId = $movePointToSelect.val();
     const point = $movePoint.val();
+    const isCharged = $isChargedForMove.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
     if(fromTeamId == 0 || toTeamId == 0 || point == 0) {
@@ -123,7 +139,8 @@ async function movePoint() {
     };
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nポイント数：' + point + ' pt\n'
+    const is_approved = confirm('以下の内容で送信しますか？\n\nポイント数：' + point + ' pt'
+        + (isCharged ? '（換金あり）' : '（換金なし）') + '\n'
         + '移動元：' + $('#move-point-from-select option:selected').text() + '\n'
         + '移動先：' + $('#move-point-to-select option:selected').text());
     if(!is_approved) {
@@ -132,7 +149,12 @@ async function movePoint() {
 
     // 送信処理
     try {
-        const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
+        let result;
+        if(isCharged) {
+            result = await Supabase.insertAddAndSubChargedPoints(toTeamId, fromTeamId, point);
+        } else {
+            const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
+        }
         alert('送信しました。');
     } catch (error) {
         alert('送信に失敗しました。', error);
@@ -180,10 +202,13 @@ async function chargePoint() {
 function clearForms() {
     $addPointTeamSelect.val(0);
     $addPoint.val(0);
+    $isChargedForAdd.prop('checked', false);
     $subPointTeamSelect.val(0);
     $subPoint.val(0);
+    $isChargedForSub.prop('checked',false);
     $movePointFromSelect.val(0);
     $movePointToSelect.val(0);
     $movePoint.val(0);
+    $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
 };

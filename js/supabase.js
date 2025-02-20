@@ -17,7 +17,10 @@ const Supabase = {
     insertAdditionalPoints,
     insertSubtractionPoints,
     insertAddAndSubPoints,
-    updateNotChargedPoints
+    updateNotChargedPoints,
+    insertAdditionalChargedPoints,
+    insertSubtractionChargedPoints,
+    insertAddAndSubChargedPoints
 };
 
 /**
@@ -327,6 +330,94 @@ async function updateNotChargedPoints(teamId) {
         throw new Error(error);
     } finally {
         console.log('updateNotChargedPoints() done');
+    };
+};
+
+/**
+ *  チームを指定してチャージ済みポイントを加算する
+ *
+ * @param {number} teamId チームID
+ * @param {number} point 加算ポイント
+ * @returns {Object} chargedPoints
+ * @throws {Error} error
+ */
+async function insertAdditionalChargedPoints(teamId, point) {
+    try {
+        const { data: chargedPoints, error } = await supabase
+            .from('points')
+            .insert([
+                { team_id: teamId, point: point, is_charged: true }
+            ]);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return chargedPoints;
+        };
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertAdditionalMoney() done');
+    };
+};
+
+/**
+ * チームを指定してチャージ済みポイントを減算する
+ *
+ * @param {number} teamId チームID
+ * @param {number} point 減算ポイント
+ * @returns {Object} chargedPoints
+ * @throws {Error} error
+ */
+async function insertSubtractionChargedPoints(teamId, point) {
+    try {
+        const { data: chargedPoints, error } = await supabase
+            .from('points')
+            .insert([
+                { team_id: teamId, point: -(point), is_charged: true }
+            ]);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return chargedPoints;
+        };
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertSubtractionMoney() done');
+    };
+};
+
+/**
+ * チーム間でチャージ済みポイントを移動する
+ *
+ * @param {string} addTeamId 加算チームID
+ * @param {string} subTeamId 減算チームID
+ * @param {number} point ポイント
+ * @returns {Object} data
+ * @throws {Error} error
+ */
+async function insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
+    try {
+        const { data: addData, error: addError } = await supabase
+            .from('points')
+            .insert([
+                { team_id: addTeamId, point: point, is_charged: true }
+            ]);
+        const { data: subData, error: subError } = await supabase
+            .from('points')
+            .insert([
+                { team_id: subTeamId, point: -(point), is_charged: true }
+            ]);
+
+        if (addError || subError) {
+            throw new Error(addError || subError);
+        } else {
+            return { addData, subData };
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertAddAndSubChargedPoints() done');
     };
 }
 
