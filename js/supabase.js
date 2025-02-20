@@ -11,6 +11,7 @@ const Supabase = {
     getTransitStations,
     insertTransitStations,
     getGoalStations,
+    insertGoalStations,
     getNotChargedPoints,
     getChargedPoints,
     insertMovingPoints,
@@ -141,6 +142,32 @@ async function getGoalStations() {
         console.log('getGoalStations() done');
     };
 };
+
+/**
+ * goal_stationsにデータを追加する
+ *
+ * @param {number} stationId 駅ID
+ * @returns {Object} data
+ * @throws {Error} error
+ */
+async function insertGoalStations(stationId) {
+    try {
+        const { data, error } = await supabase
+            .from('goal_stations')
+            .insert([
+                { station_id: stationId }
+            ]);
+        if (error) {
+            throw new Error(error);
+        } else {
+            return data;
+        }
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        console.log('insertGoalStations() done');
+    };
+}
 
 /**
  * 未チャージポイントを取得し、各チームごとに総計する

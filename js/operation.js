@@ -4,6 +4,7 @@ import { Common } from "./common.js";
 import { Supabase } from "./supabase.js";
 
 /*========== 画面要素の取得 ==========*/
+const $goalStationSelect = $('#goal-station-select'); // 目的駅選択
 const $addPointTeamSelect = $('#add-point-team-select'); // ポイント加算チーム選択
 const $addPoint = $('#add-point'); // 加算ポイント
 const $isChargedForAdd = $('#is-charged-for-add'); // 加算時の換金フラグ
@@ -35,7 +36,49 @@ async function main() {
         $movePointToSelect.append($('<option>').val(team.team_id).text(team.team_name));
         $chargePointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
     });
+
+    // 駅名の取得
+    await Common.getAndSetStations();
+    // 駅名のオプションを作成
+    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+    stations.forEach(function(station) {
+        $goalStationSelect.append($('<option>').val(station.station_id).text(station.station_name));
+    });
 };
+
+
+$('#set-goal-station-button').on('click', setGoalStation);
+
+/**
+ * 目的駅を設定する
+ */
+async function setGoalStation() {
+    // フォームの値を取得
+    const stationId = $goalStationSelect.val();
+    const stationName = $('#goal-station-select option:selected').text();
+
+    // 駅名が選択されていない場合はアラートを表示
+    if(stationId == 0) {
+        alert('駅名を選択してください。');
+        return;
+    };
+
+    // 送信確認
+    const is_approved = confirm('以下の内容で送信しますか？\n\n目的駅：' + stationName);
+    if(!is_approved) {
+        return;
+    };
+
+    // 送信処理
+    try {
+        const result = await Supabase.insertGoalStations(stationId);
+        alert('送信しました。');
+    } catch (error) {
+        alert('送信に失敗しました。', error);
+    } finally {
+        clearForms();
+    };
+}
 
 
 $('#add-point-button').on('click', addPoint);
