@@ -243,6 +243,7 @@ async function chargePoint() {
  * フォームの値をリセットする
  */
 function clearForms() {
+    $goalStationSelect.val(0);
     $addPointTeamSelect.val(0);
     $addPoint.val(0);
     $isChargedForAdd.prop('checked', false);
