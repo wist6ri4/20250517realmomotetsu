@@ -21,19 +21,21 @@ function setSessionStorage() {
     });
 };
 
+/* ========== 画面要素の取得 ========== */
 // modal
 const mapModal = new bootstrap.Modal(document.getElementById('map-modal'));
 const teamInformationModal = new bootstrap.Modal(document.getElementById('team-information-modal'));
 
+const $updateButton = $('#update-button');
+
 /*========== 画面表示時の実行メソッド ==========*/
 main();
-// TODO インターバルいれるか検討
-// setInterval(main, CFI.METHOD_INTERVAL);
+
+$updateButton.on('click', main);
 
 /* ========== functions ========== */
 /**
  * メインメソッド
- * TODO インターバルいれるか検討
  * 画面表示時と10秒おきに実行する
  */
 async function main() {
@@ -41,28 +43,24 @@ async function main() {
     CFI.$UPDATED_TIME.text(getCurrentTime());
 
     // チーム名の取得
-    Common.getAndSetTeamName();
+    await Common.getAndSetTeamName();
 
     // チーム名の表示
     handleTeamInformation();
 
     // sessionStorageのsessionTeamDataを優先して取得
-    // TODO インターバルをいれない場合、要ロジック修正
     const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
     try {
+        responseData = await fetchJsonData();
+        display(responseData);
+        sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
+    } catch {
         if(sessionTeamData) {
             responseData = JSON.parse(sessionTeamData);
             display(responseData);
-            responseData = await fetchJsonData();
         } else {
-            responseData = await fetchJsonData();
-            display(responseData);
-        };
-    } catch {
-        responseData = await fetchJsonData();
-        display(responseData);
-    } finally {
-        sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
+            alert('データの取得に失敗しました。');
+        }
     };
 };
 
