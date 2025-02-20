@@ -60,6 +60,28 @@
 </header>
 <body>
     <div class="container">
+        <!-- 目的駅設定 -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title">目的駅設定</h1>
+            </div>
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-4">
+                        <label for="goal-station">目的駅</label>
+                    </div>
+                    <div class="col-8">
+                        <select id="goal-station-select" name="goal-station">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer-contents">
+                <button id="set-goal-station-button" class="btn btn-primary submit-button">送信</button>
+            </div>
+        </div>
         <!-- ポイント加算 -->
         <div class="form-wrapper">
             <div class="form-header">
