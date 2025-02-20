@@ -3,6 +3,7 @@ import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
 
 /*========== 画面要素の取得 ==========*/
+const $isRandom = $('#is-random'); // ランダムフラグ
 const roulette = $('#roulette'); // ルーレット表示部
 const startButton = $('#start-button'); // スタートボタン
 const stopButton = $('#stop-button'); // ストップボタン
@@ -58,7 +59,11 @@ function startRoulette() {
     } else {
         isSpin = true;
         spinInterval = setInterval(() => {getRandomStation(startStationName)} , 100);
-        nextStation = getNextStation();
+        if($isRandom.prop('checked')) {
+            nextStation = getRandomStation(startStationName);
+        } else {
+            nextStation = getNextStation();
+        };
     };
 };
 
@@ -71,6 +76,7 @@ function getRandomStation(startStation) {
     const randomStation = stationNames[randomIndex];
     changeCharacterSize(roulette, randomStation);
     roulette.text(randomStation);
+    return randomStation;
 }
 
 /**
@@ -188,7 +194,6 @@ function weightedRoulette(start, times) {
     for(const station in weights) {
         probabilities[station] = weights[station] / totalWeight;
     };
-
     return probabilities;
 };
 

@@ -4,6 +4,21 @@
     --next-station-bg: rgb(36, 110, 204);
 }
 
+.description-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.description-header-contents {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+}
+
+.roulette-options {
+    font-size: 1.8rem
+}
+
 /* 次の駅表示部の文字 */
 .information-context {
     font-size: 1.5rem;
