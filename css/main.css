@@ -1,7 +1,7 @@
 /*========== 共通CSS ==========*/
 
 html {
-    font-size: min(calc((1.3dvh + 2.3dvw)/2), 10px);
+    font-size: min(calc((1.3lvh + 2.3dvw)/2), 10px);
 }
 
 body {
