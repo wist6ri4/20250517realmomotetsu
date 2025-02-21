@@ -345,7 +345,7 @@ async function updateNotChargedPoints(teamId) {
     try {
         const { data: notChargedPoints, error } = await supabase
             .from('points')
-            .update({ is_charged: true })
+            .update({ is_charged: true, updated_at: new Date().toISOString() })
             .eq('team_id', teamId)
             .eq('is_charged', false);
         if (error) {
