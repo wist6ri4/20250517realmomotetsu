@@ -1,5 +1,8 @@
 import { Constants } from "./constants.js";
 
+/* パスワード */
+const password = Constants.PASSWORD;
+
 /**
  * Cookieを取得する
  */
@@ -22,17 +25,24 @@ function setCookie(name, value, hours) {
     document.cookie = name + "=" + value + "; path=/" + expires;
 };
 
-const password = Constants.PASSWORD;
+// ページ読み込み時にCookieをチェックする
+checkCookie();
 
-if(getCookie(Constants.COOKIE_KEY) !== 'true') {
-    const userInput = prompt("パスワードを入力してください:");
-    if(userInput === password) {
-        setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
+/**
+ * Cookieをチェックしてパスワードを入力する
+ */
+function checkCookie() {
+    if(getCookie(Constants.COOKIE_KEY) === 'true') {
         window.location.href = './operation.html';
     } else {
-        alert("パスワードが違います。");
+        setTimeout(() => {
+            const userInput = prompt("パスワードを入力してください:");
+            if(userInput === password) {
+                setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
+                window.location.href = './operation.html';
+            } else {
+                alert("パスワードが違います。");
+            };
+        }, 1500);
     };
-} else {
-    window.location.href = './operation.html';
 };
-
