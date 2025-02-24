@@ -17,7 +17,12 @@ const Constants = {
     SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpybXhkaHV3emNidnh2d2JtdHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0MzkyMTAsImV4cCI6MjA1NTAxNTIxMH0.EujNJOmqOB6RHJVbzVYeMsDwDDSKwQVtiJW_gbTxRUU', // Supabase Key
 
     /* ポイント */
-    POINT_FOR_MOVING: 5 // 移動時のポイント
+    POINT_FOR_MOVING: 5, // 移動時のポイント
+
+    /* パスワード */
+    PASSWORD: 'rm517',
+    /* Cookie */
+    COOKIE_KEY: 'realmomotetsu_access_granted',
 };
 
 Object.freeze(Constants);

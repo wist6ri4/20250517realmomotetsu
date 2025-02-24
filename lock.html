@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="東急線リアル桃鉄">
+    <meta property="og:description" content="2025/5/17 東急線リアル桃鉄">
+    <meta property="og:image" content="./img/realmomotesu_header.png">
+    <meta property="og:url" content="">
     <title>東急線リアル桃鉄</title>
     <!--DotGothic16-->
-    <link rel="icon" href="./img/momotetsu.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
@@ -13,6 +16,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Kosugi+Maru&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <!--favicon-->
+    <link rel="icon" href="./img/momotetsu.jpg">
     <!--font awesome-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet">
@@ -28,7 +33,7 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <!--custom css-->
     <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/googleform.css">
+    <link rel="stylesheet" href="./css/operation.css">
 </head>
 <header>
     <div>
@@ -44,10 +49,10 @@
                     <a id="roulette-header" class="nav-link tab-link header-tab" href="./roulette.html" data-cache="true"><i class="fa-solid fa-location-dot"></i> 駅</a>
                 </li>
                 <li class="nav-item">
-                    <a id="googleform-header" class="nav-link tab-link header-tab active" href="./googleform.html" data-cache="true"><i class="fa-solid fa-align-right"></i> フォーム</a>
+                    <a id="googleform-header" class="nav-link tab-link header-tab" href="./googleform.html" data-cache="true"><i class="fa-solid fa-align-right"></i> フォーム</a>
                 </li>
                 <li class="nav-item">
-                    <a id="operation-header" class="nav-link tab-link header-tab" href="./lock.html" data-cache="true"><i class="fa-solid fa-wrench"></i></a>
+                    <a id="operation-header" class="nav-link tab-link header-tab active" href="./lock.html" data-cache="true"><i class="fa-solid fa-wrench"></i></a>
                 </li>
             </ul>
         </div>
@@ -55,49 +60,8 @@
 </header>
 <body>
     <div class="container">
-        <!--google-formをiframeで読み込み-->
-        <!-- <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSeYWEZrCassadHR8aH8KfP7TcO9obtXFrf8dxsJBYpLkfaa7A/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe> -->
-
-        <div class="form-wrapper">
-            <div class="form-header">
-                <h1 class="form-title">今いる駅は?</h1>
-                <div class="form-header-contents ms-3 me-3 ps-3 pe-3 pt-2 pb-2">
-                    <p>【いつ送る?】<br>
-                        1.サイコロを２回振ってカードを決定<br>
-                        2.カードの効果を処理する<br>
-                        3.もう一度サイコロを振って行き先を決定<br>
-                        4.移動したら移動先の駅名を<b>このフォームから送信</b><br>
-                        5.1~4を繰り返す
-                    </p>
-                </div>
-            </div>
-            <div class="form-body-contents">
-                <div class="form-item">
-                    <div>
-                        <label for="form-team-select">チーム名</label>
-                    </div>
-                    <div>
-                        <select id="form_team_select" name="form-team-select">
-                            <option value="0">--</option>
-                            <!-- オプションは動的に作成 -->
-                        </select>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <div>
-                        <label for="form-station-select">今いる駅</label>
-                    </div>
-                    <div>
-                        <select id="form_station_select" name="form-station-select">
-                            <option value="0">--</option>
-                            <!-- オプションは動的に作成 -->
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-footer-contents">
-                <button id="button_submit" class="btn btn-lg btn-primary custom-button">送信</button>
-            </div>
+        <div class="row">
+            <p style="text-align: center;">管理画面はロックされています。</p>
         </div>
     </div>
     <!--jQuery-->
@@ -105,8 +69,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" charset="UTF-8" defer="defer"></script>
     <!--JavaScript-->
     <script type="module" src="./js/common.js" charset="UTF-8" defer="defer"></script>
-    <script type="module" src="./js/constants.js" charset="UTF-8" defer="defer"></script>
-    <script type="module" src="./js/googleform.js" charset="UTF-8" defer="defer"></script>
+    <script type="module" src="./js/lock.js" charset="UTF-8" defer="defer"></script>
 </body>
 <footer>
     <div class="container">
