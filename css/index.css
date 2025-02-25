@@ -1,6 +1,7 @@
 /*========== 現在地画面のCSS ==========*/
 
 :root {
+    --mission-set-station-color: orange;
     --team-a-color: rgb(0, 89, 255);
     --team-b-color: rgb(241, 27, 27);
     --team-c-color: rgb(231, 169, 35);
@@ -175,3 +176,7 @@
     border-color: black;
 }
 
+/* ミッション駅マス */
+.mission-set-station {
+    fill: var(--mission-set-station-color) !important;
+}

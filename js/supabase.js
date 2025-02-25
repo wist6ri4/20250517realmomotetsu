@@ -34,7 +34,8 @@ async function getTeams() {
     try {
         const { data: teams, error } = await supabase
             .from('teams')
-            .select('*');
+            .select('*')
+            .order('team_id');
         if (error) {
             throw new Error(error);
         } else {
@@ -57,7 +58,8 @@ async function getStations() {
     try {
         const { data: stations, error } = await supabase
             .from('stations')
-            .select('*');
+            .select('*')
+            .order('station_id');
         if (error) {
             throw new Error(error);
         } else {
@@ -80,7 +82,8 @@ async function getTransitStations() {
     try {
         const { data: transitStations, error } = await supabase
             .from('transit_stations')
-            .select('*');
+            .select('*')
+            .order('transit_station_id');
         if (error) {
             throw new Error(error);
         } else {
@@ -130,7 +133,8 @@ async function getGoalStations() {
     try {
         const { data: goalStations, error } = await supabase
             .from('goal_stations')
-            .select('*');
+            .select('*')
+            .order('goal_station_id');
         if (error) {
             throw new Error(error);
         } else {
@@ -205,7 +209,8 @@ async function getChargedPoints() {
         const { data: chargedPoints, error } = await supabase
             .from('points')
             .select('*')
-            .eq('is_charged', true);
+            .eq('is_charged', true)
+            .order('point_id');
         if (error) {
             throw new Error(error);
         } else {

@@ -48,7 +48,7 @@ async function main() {
     // チーム名の表示
     handleTeamInformation();
 
-    // sessionStorageのsessionTeamDataを優先して取得
+    // 各チームの詳細情報の取得
     const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
     try {
         responseData = await fetchJsonData();
@@ -60,8 +60,13 @@ async function main() {
             display(responseData);
         } else {
             alert('データの取得に失敗しました。');
-        }
+        };
     };
+
+    // 駅名の取得
+    await Common.getAndSetStations();
+    // ミッションが設定されている駅マスの設定
+    displayMissionSetStations();
 };
 
 /**
@@ -379,4 +384,21 @@ function setInformationToModal(teamName, data) {
         const tr = $('<tr></tr>').append(tdStrTime, tdLocation);
         $('#table-body-history').prepend(tr);
     };
+};
+
+/**
+ * ミッションが設定されている駅マスの設定
+ *
+ * @param {Array} stations 駅情報
+ * @param {Array} missionSetStations ミッションが設定されている駅情報
+ */
+function displayMissionSetStations() {
+    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+    const missionSetStations = stations.filter((station) => station.is_mission_set == true);
+
+    missionSetStations.forEach((station) => {
+        const stationCode = station.station_id;
+        const stationBox = $('#box-' + stationCode);
+        stationBox.addClass('mission-set-station');
+    });
 };
