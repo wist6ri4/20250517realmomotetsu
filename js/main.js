@@ -267,8 +267,6 @@ function displayStringInformation(data, isAdded, latestStation, latestTime, rema
         latestLocationData = data[0];
     } else {
         // 最後から2行目の取得
-        // latestLocationData = data.slice(-2)[0];
-        // TODO 最新駅のデータでもよいか検討
         latestLocationData = data.slice(-1)[0];
     };
     changeCharacterSize(latestStation, latestLocationData.location);
@@ -338,8 +336,6 @@ function formatPoint(point) {
  */
 function changeTrainPosition(train, data, visibility) {
     // 最終到着駅を取得
-    // const location = data.slice(-2)[0].location;
-    // TODO 最新駅のデータでもよいか検討
     const location = data.slice(-1)[0].location;
     const stationCode = StationCode.getStationCode(location);
     const stationBox = $('#box-' + stationCode);
@@ -393,8 +389,6 @@ function setInformationToModal(teamName, data) {
     $('#table-body-history').empty();
     // 次の目的駅を取り除く
     const displayData = [...data];
-    // TODO 最新のデータでもよいか検討
-    // displayData.pop();
     // 履歴分の数の行をテーブルに追加
     for(const history of displayData) {
         const tdStrTime = $('<td></td>').text(history.strTime);
