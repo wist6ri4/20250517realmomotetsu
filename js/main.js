@@ -307,8 +307,26 @@ function displayPoints(responseData) {
         const chargedPoints = responseData.chargedPoints[team.TEAM_ID];
 
         team.$NOT_CHARGED_POINTS.text(notChargedPoints ? notChargedPoints.toLocaleString() : 0);
-        team.$CHARGED_POINTS.text(chargedPoints ? chargedPoints.toLocaleString() : 0);
+        team.$CHARGED_POINTS.text(chargedPoints ? formatPoint(chargedPoints) : '0 万');
     });
+};
+
+/**
+ * ポイントのフォーマット
+ *
+ * @param {number} point ポイント
+ * @returns {string} フォーマットされたポイント
+ */
+function formatPoint(point) {
+    point *= 100000;
+
+    const trillion = Math.floor((point % 100000000000000) / 100000000000);
+    const oneHundredMillion = Math.floor((point % 100000000000) / 100000000);
+    const tenThousand = Math.floor((point % 100000000) / 10000);
+
+    return (trillion > 0 ? trillion + ' 兆 ' : '') +
+        (oneHundredMillion > 0 ? oneHundredMillion + ' 億 ' : '') +
+        (tenThousand > 0 ? tenThousand + ' 万' : '0 万');
 };
 
 /**
