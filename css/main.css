@@ -23,6 +23,11 @@ header {
     text-align: center;
 }
 
+.header-image {
+    display: flex;
+    justify-content: center;
+}
+
 .header-contents {
     margin: 1rem;
 }
