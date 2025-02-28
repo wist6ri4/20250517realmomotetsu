@@ -61,7 +61,7 @@
             <div class="description-header-contents ms-3 me-3 mb-3 ps-3 pe-3 pt-2 pb-2">
                 <p>【使い方】<br>
                     1. 現在いる駅を選択<br>
-                    2. ランダムにするか選ぶ<br>
+                    2. モードを選ぶ<br>
                     3. スタートボタンを押してルーレットを回す<br>
                     4. ストップボタンを押して目的地を決定<br>
                 </p>
@@ -171,10 +171,13 @@
             </div>
             <div class="row">
                 <div class="col-3">
-                    <label for="is-random">ランダム?</label>
+                    <label for="roulette-mode">モード</label>
                 </div>
-                <div class="form-check form-switch col-8">
-                    <input type="checkbox" id="is-random" name="is-random" class="form-check-input" role="switch" >
+                <div class="col-9">
+                    <select name="roulette-mode" id="roulette-mode">
+                        <option value="goal">目的地</option>
+                        <option value="random">ぶっとび</option>
+                    </select>
                 </div>
             </div>
         </div>
