@@ -20,6 +20,24 @@ const $chargePointTeamSelect = $('#charge-point-team-select'); // ポイント�
 /*========== 画面表示時の実行メソッド ==========*/
 main();
 
+/* ========== イベントハンドラ ========== */
+$('#set-goal-station-button').on('click', setGoalStation);
+$('#add-point-button').on('click', addPoint);
+$('#sub-point-button').on('click', subPoint);
+$('#move-point-button').on('click', movePoint);
+$('#charge-point-button').on('click', chargePoint);
+
+/* ========== イベントハンドラ（フォーマット） ========== */
+$('#add-point').on('input', function() {
+    $('#changed-add-point').text(Common.formatPoint($(this).val()));
+});
+$('#sub-point').on('input', function() {
+    $('#changed-sub-point').text(Common.formatPoint($(this).val()));
+});
+$('#move-point').on('input', function() {
+    $('#changed-move-point').text(Common.formatPoint($(this).val()));
+});
+
 /* ==========function========== */
 /**
  *  画面表示時に実行する
@@ -45,9 +63,6 @@ async function main() {
         $goalStationSelect.append($('<option>').val(station.station_id).text(station.station_name));
     });
 };
-
-
-$('#set-goal-station-button').on('click', setGoalStation);
 
 /**
  * 目的駅を設定する
@@ -78,10 +93,7 @@ async function setGoalStation() {
     } finally {
         clearForms();
     };
-}
-
-
-$('#add-point-button').on('click', addPoint);
+};
 
 /**
  * ポイント加算
@@ -121,9 +133,6 @@ async function addPoint() {
     };
 };
 
-
-$('#sub-point-button').on('click', subPoint);
-
 /**
  * ポイント減算
  */
@@ -161,9 +170,6 @@ async function subPoint() {
         clearForms();
     };
 };
-
-
-$('#move-point-button').on('click', movePoint);
 
 /**
  * ポイント移動
@@ -205,8 +211,6 @@ async function movePoint() {
         clearForms();
     };
 };
-
-$('#charge-point-button').on('click', chargePoint);
 
 /**
  * ポイント換金

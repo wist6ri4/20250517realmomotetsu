@@ -90,10 +90,10 @@
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
-                    <div class="col-6">
+                    <div class="col-5">
                         <label for="add-point-team">チーム名</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-7">
                         <select id="add-point-team-select" name="add-point-team">
                             <option value="0">--</option>
                             <!-- オプションは動的に作成 -->
@@ -101,18 +101,23 @@
                     </div>
                 </div>
                 <div class="row form-item">
-                    <div class="col-6">
+                    <div class="col-5">
                         <label for="add-point">ポイント</label>
                     </div>
-                    <div class="col-6">
-                        <input type="number" id="add-point" name="add-point" min="0" max="10000" step="1" value="0">
+                    <div class="col-7">
+                        <div>
+                            <input type="number" id="add-point" name="add-point" min="0" max="10000" step="1" value="0">
+                        </div>
+                        <div>
+                            換金後：<span id="changed-add-point">0 万</span>円
+                        </div>
                     </div>
                 </div>
                 <div class="row form-item">
-                    <div class="col-6">
+                    <div class="col-5">
                         <label for="is-charged-for-add">持ち金</label>
                     </div>
-                    <div class="col-6 form-check form-switch">
+                    <div class="col-7 form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-add" name="is-charged-for-add">
                     </div>
                 </div>
@@ -130,10 +135,10 @@
         </div>
         <div class="form-body-contents">
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="sub-point-team">チーム名</label>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <select id="sub-point-team-select" name="sub-point-team">
                         <option value="0">--</option>
                         <!-- オプションは動的に作成 -->
@@ -141,18 +146,23 @@
                 </div>
             </div>
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="sub-point">ポイント</label>
                 </div>
-                <div class="col-6">
-                    <input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0">
+                <div class="col-7">
+                    <div>
+                        <input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0">
+                    </div>
+                    <div>
+                        換金後：<span id="changed-sub-point">0 万</span>円
+                    </div>
                 </div>
             </div>
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="is-charged-for-sub">持ち金</label>
                 </div>
-                <div class="col-6 form-check form-switch">
+                <div class="col-7 form-check form-switch">
                     <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-sub" name="is-charged-for-sub">
                 </div>
             </div>
@@ -169,10 +179,10 @@
         </div>
         <div class="form-body-contents">
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="move-point-from">チーム名（移動元）</label>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <select id="move-point-from-select" name="move-point-from">
                         <option value="0">--</option>
                         <!-- オプションは動的に作成 -->
@@ -180,10 +190,10 @@
                 </div>
             </div>
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="move-point-to">チーム名（移動先）</label>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <select id="move-point-to-select" name="move-point-to">
                         <option value="0">--</option>
                         <!-- オプションは動的に作成 -->
@@ -191,17 +201,22 @@
                 </div>
             </div>
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="move-point">ポイント</label>
                 </div>
-                <div class="col-6">
-                    <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0">
+                <div class="col-7">
+                    <div>
+                        <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0">
+                    </div>
+                    <div>
+                        換金後：<span id="changed-move-point">0 万</span>円
+                    </div>
                 </div>
                 <div class="row form-item">
-                    <div class="col-6">
+                    <div class="col-5">
                         <label for="is-charged-for-add">持ち金</label>
                     </div>
-                    <div class="col-6 form-check form-switch">
+                    <div class="col-7 form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-move" name="is-charged-for-move">
                     </div>
                 </div>
@@ -219,10 +234,10 @@
         </div>
         <div class="form-body-contents">
             <div class="row form-item">
-                <div class="col-6">
+                <div class="col-5">
                     <label for="charge-point-team">チーム名</label>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <select id="charge-point-team-select" name="charge-point-team">
                         <option value="0">--</option>
                         <!-- オプションは動的に作成 -->
