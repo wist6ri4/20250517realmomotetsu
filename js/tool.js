@@ -190,14 +190,484 @@ const timeData = [
     { station1: "大崎広小路", station2: "五反田", time: 2 },
 ];
 
+
+const stationLocations = [
+    {
+        "stationName": "あざみ野",
+        "latitude": 35.568717,
+        "longitude": 139.553556
+    },
+    {
+        "stationName": "すずかけ台",
+        "latitude": 35.516963,
+        "longitude": 139.481467
+    },
+    {
+        "stationName": "たまプラーザ",
+        "latitude": 35.577427,
+        "longitude": 139.558447
+    },
+    {
+        "stationName": "つきみ野",
+        "latitude": 35.510335,
+        "longitude": 139.458029
+    },
+    {
+        "stationName": "つくし野",
+        "latitude": 35.527625,
+        "longitude": 139.48512
+    },
+    {
+        "stationName": "みなとみらい",
+        "latitude": 35.457917,
+        "longitude": 139.632314
+    },
+    {
+        "stationName": "鵜の木",
+        "latitude": 35.575519,
+        "longitude": 139.680615
+    },
+    {
+        "stationName": "荏原中延",
+        "latitude": 35.609953,
+        "longitude": 139.711954
+    },
+    {
+        "stationName": "荏原町",
+        "latitude": 35.603782,
+        "longitude": 139.70781
+    },
+    {
+        "stationName": "奥沢",
+        "latitude": 35.59689,
+        "longitude": 139.66732
+    },
+    {
+        "stationName": "横浜",
+        "latitude": 35.466188,
+        "longitude": 139.622715
+    },
+    {
+        "stationName": "下丸子",
+        "latitude": 35.571305,
+        "longitude": 139.685618
+    },
+    {
+        "stationName": "下神明",
+        "latitude": 35.608851,
+        "longitude": 139.726242
+    },
+    {
+        "stationName": "学芸大学",
+        "latitude": 35.628845,
+        "longitude": 139.685284
+    },
+    {
+        "stationName": "梶が谷",
+        "latitude": 35.594102,
+        "longitude": 139.606008
+    },
+    {
+        "stationName": "蒲田",
+        "latitude": 35.562479,
+        "longitude": 139.716051
+    },
+    {
+        "stationName": "旗の台",
+        "latitude": 35.604848,
+        "longitude": 139.702497
+    },
+    {
+        "stationName": "菊名",
+        "latitude": 35.50963984,
+        "longitude": 139.630734
+    },
+    {
+        "stationName": "久が原",
+        "latitude": 35.57984,
+        "longitude": 139.685345
+    },
+    {
+        "stationName": "宮崎台",
+        "latitude": 35.587325,
+        "longitude": 139.591349
+    },
+    {
+        "stationName": "宮前平",
+        "latitude": 35.584945,
+        "longitude": 139.581919
+    },
+    {
+        "stationName": "九品仏",
+        "latitude": 35.605411,
+        "longitude": 139.661023
+    },
+    {
+        "stationName": "駒沢大学",
+        "latitude": 35.633471,
+        "longitude": 139.661702
+    },
+    {
+        "stationName": "元住吉",
+        "latitude": 35.56432,
+        "longitude": 139.654046
+    },
+    {
+        "stationName": "元町・中華街",
+        "latitude": 35.442411,
+        "longitude": 139.650472
+    },
+    {
+        "stationName": "戸越銀座",
+        "latitude": 35.616008,
+        "longitude": 139.715032
+    },
+    {
+        "stationName": "戸越公園",
+        "latitude": 35.608795,
+        "longitude": 139.718056
+    },
+    {
+        "stationName": "五反田",
+        "latitude": 35.626446,
+        "longitude": 139.723444
+    },
+    {
+        "stationName": "御嶽山",
+        "latitude": 35.585303,
+        "longitude": 139.682367
+    },
+    {
+        "stationName": "江田",
+        "latitude": 35.558646,
+        "longitude": 139.551509
+    },
+    {
+        "stationName": "溝の口",
+        "latitude": 35.600032,
+        "longitude": 139.610626
+    },
+    {
+        "stationName": "綱島",
+        "latitude": 35.536992,
+        "longitude": 139.634996
+    },
+    {
+        "stationName": "高津",
+        "latitude": 35.603548,
+        "longitude": 139.61747
+    },
+    {
+        "stationName": "鷺沼",
+        "latitude": 35.579579,
+        "longitude": 139.573018
+    },
+    {
+        "stationName": "桜新町",
+        "latitude": 35.631666,
+        "longitude": 139.644779
+    },
+    {
+        "stationName": "三軒茶屋",
+        "latitude": 35.643515,
+        "longitude": 139.671162
+    },
+    {
+        "stationName": "市が尾",
+        "latitude": 35.551477,
+        "longitude": 139.541388
+    },
+    {
+        "stationName": "自由が丘",
+        "latitude": 35.607577,
+        "longitude": 139.669094
+    },
+    {
+        "stationName": "渋谷",
+        "latitude": 35.6586161,
+        "longitude": 139.6993714
+    },
+    {
+        "stationName": "沼部",
+        "latitude": 35.582506,
+        "longitude": 139.673249
+    },
+    {
+        "stationName": "上野毛",
+        "latitude": 35.612007,
+        "longitude": 139.638861
+    },
+    {
+        "stationName": "新丸子",
+        "latitude": 35.580626,
+        "longitude": 139.661919
+    },
+    {
+        "stationName": "新高島",
+        "latitude": 35.461892,
+        "longitude": 139.626823
+    },
+    {
+        "stationName": "西小山",
+        "latitude": 35.615685,
+        "longitude": 139.698866
+    },
+    {
+        "stationName": "青葉台",
+        "latitude": 35.542955,
+        "longitude": 139.517182
+    },
+    {
+        "stationName": "石川台",
+        "latitude": 35.596943,
+        "longitude": 139.685257
+    },
+    {
+        "stationName": "雪が谷大塚",
+        "latitude": 35.592002,
+        "longitude": 139.680978
+    },
+    {
+        "stationName": "千鳥町",
+        "latitude": 35.57293,
+        "longitude": 139.691459
+    },
+    {
+        "stationName": "洗足",
+        "latitude": 35.61043,
+        "longitude": 139.694367
+    },
+    {
+        "stationName": "洗足池",
+        "latitude": 35.599796,
+        "longitude": 139.691098
+    },
+    {
+        "stationName": "多摩川",
+        "latitude": 35.589766,
+        "longitude": 139.668835
+    },
+    {
+        "stationName": "代官山",
+        "latitude": 35.648104,
+        "longitude": 139.703168
+    },
+    {
+        "stationName": "大井町",
+        "latitude": 35.606249,
+        "longitude": 139.734855
+    },
+    {
+        "stationName": "大岡山",
+        "latitude": 35.607531,
+        "longitude": 139.685637
+    },
+    {
+        "stationName": "大崎広小路",
+        "latitude": 35.622469,
+        "longitude": 139.722486
+    },
+    {
+        "stationName": "大倉山",
+        "latitude": 35.522019,
+        "longitude": 139.629916
+    },
+    {
+        "stationName": "池上",
+        "latitude": 35.572097,
+        "longitude": 139.702885
+    },
+    {
+        "stationName": "池尻大橋",
+        "latitude": 35.650603,
+        "longitude": 139.684319
+    },
+    {
+        "stationName": "中延",
+        "latitude": 35.605479,
+        "longitude": 139.713679
+    },
+    {
+        "stationName": "中央林間",
+        "latitude": 35.50788411,
+        "longitude": 139.4441171
+    },
+    {
+        "stationName": "中目黒",
+        "latitude": 35.644307,
+        "longitude": 139.699157
+    },
+    {
+        "stationName": "長原",
+        "latitude": 35.602237,
+        "longitude": 139.697903
+    },
+    {
+        "stationName": "長津田",
+        "latitude": 35.53168368,
+        "longitude": 139.4952627
+    },
+    {
+        "stationName": "田園調布",
+        "latitude": 35.603844,
+        "longitude": 139.6723
+    },
+    {
+        "stationName": "田奈",
+        "latitude": 35.536177,
+        "longitude": 139.504835
+    },
+    {
+        "stationName": "都立大学",
+        "latitude": 35.617835,
+        "longitude": 139.676393
+    },
+    {
+        "stationName": "東白楽",
+        "latitude": 35.483425,
+        "longitude": 139.629361
+    },
+    {
+        "stationName": "等々力",
+        "latitude": 35.60833,
+        "longitude": 139.648069
+    },
+    {
+        "stationName": "藤が丘",
+        "latitude": 35.543595,
+        "longitude": 139.527873
+    },
+    {
+        "stationName": "南町田グランベリーパーク",
+        "latitude": 35.511502,
+        "longitude": 139.470318
+    },
+    {
+        "stationName": "二子玉川",
+        "latitude": 35.611499,
+        "longitude": 139.626624
+    },
+    {
+        "stationName": "二子新地",
+        "latitude": 35.607125,
+        "longitude": 139.622399
+    },
+    {
+        "stationName": "日吉",
+        "latitude": 35.553064,
+        "longitude": 139.646783
+    },
+    {
+        "stationName": "日本大通り",
+        "latitude": 35.446821,
+        "longitude": 139.642608
+    },
+    {
+        "stationName": "馬車道",
+        "latitude": 35.450135,
+        "longitude": 139.636175
+    },
+    {
+        "stationName": "白楽",
+        "latitude": 35.489697,
+        "longitude": 139.627892
+    },
+    {
+        "stationName": "反町",
+        "latitude": 35.47474,
+        "longitude": 139.625337
+    },
+    {
+        "stationName": "尾山台",
+        "latitude": 35.606891,
+        "longitude": 139.654051
+    },
+    {
+        "stationName": "不動前",
+        "latitude": 35.625679,
+        "longitude": 139.713406
+    },
+    {
+        "stationName": "武蔵小山",
+        "latitude": 35.620507,
+        "longitude": 139.704413
+    },
+    {
+        "stationName": "武蔵小杉",
+        "latitude": 35.57657493,
+        "longitude": 139.6594451
+    },
+    {
+        "stationName": "武蔵新田",
+        "latitude": 35.567711,
+        "longitude": 139.692579
+    },
+    {
+        "stationName": "北千束",
+        "latitude": 35.60632,
+        "longitude": 139.693214
+    },
+    {
+        "stationName": "妙蓮寺",
+        "latitude": 35.498474,
+        "longitude": 139.633139
+    },
+    {
+        "stationName": "目黒",
+        "latitude": 35.633998,
+        "longitude": 139.715828
+    },
+    {
+        "stationName": "矢口渡",
+        "latitude": 35.562609,
+        "longitude": 139.699925
+    },
+    {
+        "stationName": "祐天寺",
+        "latitude": 35.637696,
+        "longitude": 139.691155
+    },
+    {
+        "stationName": "用賀",
+        "latitude": 35.626436,
+        "longitude": 139.633928
+    },
+    {
+        "stationName": "緑が丘",
+        "latitude": 35.60638,
+        "longitude": 139.679366
+    },
+    {
+        "stationName": "蓮沼",
+        "latitude": 35.564376,
+        "longitude": 139.708521
+    },
+    {
+        "stationName": "新綱島",
+        "latitude": 35.53594459,
+        "longitude": 139.6360912
+    },
+    {
+        "stationName": "新横浜",
+        "latitude": 35.50670837,
+        "longitude": 139.6168805
+    }
+]
+
 /**
  * 駅名から駅コードを検索する
  * @param {string} value 駅名
  * @returns {string} 駅コード
  */
 function getStationCode(value) {
-    return Object.keys(stationMapping).find((key) => stationMapping[key] === value);
-}
+    const stationCode = Object.keys(stationMapping).find((key) => stationMapping[key] === value);
+    if(stationCode) {
+        return stationCode;
+    } else {
+        console.log(value);
+        return stationCode;
+    };
+};
 
 /**
  * 駅コードから駅名を検索する
@@ -205,8 +675,14 @@ function getStationCode(value) {
  * @returns {string} 駅名
  */
 function getStationName(key) {
-    return stationMapping[key];
-}
+    const stationName = stationMapping[key];
+    if(stationName) {
+        return stationName;
+    } else {
+        console.log(key);
+        return stationName;
+    };
+};
 
 /**
  * stationGraphの生成
@@ -244,4 +720,16 @@ getName();
 function getName() {
     const name = "蓮沼";
     console.log(getStationCode(name));
+}
+
+genLocation();
+function genLocation() {
+    let locations = {};
+    for(const e of stationLocations) {
+        locations[getStationCode(e.stationName)] = {
+            latitude: e.latitude,
+            longitude: e.longitude
+        }
+    }
+    console.log(Object.values(locations).length, locations);
 }

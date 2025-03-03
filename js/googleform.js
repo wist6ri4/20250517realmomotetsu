@@ -2,6 +2,7 @@
 import { Constants } from './constants.js';
 import { Common } from './common.js';
 import { Supabase } from './supabase.js';
+import { Locations } from './location.js';
 
 /*========== 画面要素の取得 ==========*/
 const formTeamNameSelect = $('#form_team_select'); // フォーム（チーム名）
@@ -35,6 +36,8 @@ async function main() {
     stations.forEach(function(station) {
         formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
     });
+
+    setNearByStation();
 };
 
 
@@ -83,4 +86,15 @@ async function submit() {
 function clearForm() {
     formTeamNameSelect.val(0);
     formStationNameSelect.val(0);
+};
+
+/**
+ * 最寄り駅を取得して表示する
+ */
+async function setNearByStation() {
+    const nearbyStations = await Locations.getNearByStation();
+    console.log(nearbyStations);
+    const nearbyStation = nearbyStations[0].station;
+    console.log(nearbyStation);
+    formStationNameSelect.val(nearbyStation);
 };
