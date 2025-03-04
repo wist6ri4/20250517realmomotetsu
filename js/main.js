@@ -4,7 +4,7 @@ import { CFI } from './constantsForIndex.js';
 import { TEAMS } from './constantsForIndex.js';
 import { StationCode } from './stationCode.js';
 import { Common } from './common.js';
-import { calculateTravelTimes } from './roulette.js';
+import { Roulette } from './roulette.js';
 import { Supabase } from './supabase.js';
 
 /* ========== 変数の設定 ========== */
@@ -275,7 +275,7 @@ function displayStringInformation(data, isAdded, latestStation, latestTime, rema
 
     // 残りマス数の取得と表示
     const stationCode = StationCode.getStationCode(latestLocationData.location);
-    const numRemainingSquares = calculateTravelTimes(StationCode.stationGraph, stationCode)[nextStationCode].stations;
+    const numRemainingSquares = Roulette.calculateTravelTimes(StationCode.stationGraph, stationCode)[nextStationCode].stations;
     remainingSquares.text(numRemainingSquares);
 };
 

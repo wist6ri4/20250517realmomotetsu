@@ -1,7 +1,6 @@
 /* ========== モジュールのインポート ========== */
 import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
-import { Locations } from "./location.js";
 
 /*========== 画面要素の取得 ==========*/
 const $rouletteMode = $('#roulette-mode'); // ランダムフラグ
@@ -44,9 +43,6 @@ async function main() {
 
     // チーム名の取得
     Common.getAndSetTeamName();
-
-    // 最寄り駅の取得と表示
-    await setNearByStation();
 
     // 駅の初期表示
     getRandomStation($('#current-station').val());
@@ -223,15 +219,6 @@ function chooseNextStation(probabilities) {
     };
 };
 
-/**
- * 最寄り駅を取得して表示
- */
-async function setNearByStation() {
-    const nearbyStations = await Locations.getNearByStation();
-    console.log(nearbyStations);
-    const nearbyStation = nearbyStations[0].station;
-    console.log(nearbyStation);
-    $('#current-station').val(StationCode.getStationName(nearbyStation));
-}
-
-export { calculateTravelTimes };
+export const Roulette = {
+    calculateTravelTimes
+};

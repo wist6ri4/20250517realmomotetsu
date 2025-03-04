@@ -92,9 +92,13 @@ function clearForm() {
  * 最寄り駅を取得して表示する
  */
 async function setNearByStation() {
-    const nearbyStations = await Locations.getNearByStation();
-    console.log(nearbyStations);
-    const nearbyStation = nearbyStations[0].station;
-    console.log(nearbyStation);
-    formStationNameSelect.val(nearbyStation);
+    try {
+        const nearbyStations = await Locations.getNearByStation();
+        console.log(nearbyStations);
+        const nearbyStation = nearbyStations[0].station;
+        console.log(nearbyStation);
+        formStationNameSelect.val(nearbyStation);
+    } catch (error) {
+        console.log(error.message);
+    };
 };
