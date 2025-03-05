@@ -1,7 +1,4 @@
-export const StationLocations = {
-    findNearbyStations
-};
-
+/* 各駅の緯度経度情報 */
 const stationLocations = {
     AZAMINO: {"latitude": 35.568717,"longitude": 139.553556},
     SUZUKAKEDAI: {"latitude": 35.516963,"longitude": 139.481467},
@@ -130,4 +127,9 @@ function calcDistance(lat1, lon1, lat2, lon2) {
  */
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
+};
+
+/* ========== モジュールのエクスポート ========== */
+export const StationLocations = {
+    findNearbyStations
 };

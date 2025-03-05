@@ -1,13 +1,10 @@
+/* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
 import { Supabase } from "./supabase.js";
+import { Locations } from "./location.js";
+import { StationCode } from "./stationCode.js";
 
-// 共通処理
-export const Common = {
-    getAndSetTeamName,
-    getAndSetStations,
-    formatPoint
-};
-
+/* ========== function ========== */
 /**
  * チーム名を取得してsessionStorageにセットする
  *
@@ -60,3 +57,24 @@ function formatPoint(point) {
         (tenThousand > 0 ? tenThousand + ' 万' : '0 万');
 };
 
+/**
+ * 最寄り駅を取得して表示する
+ */
+async function setNearByStation($jqueryObject) {
+    try {
+        const nearbyStations = await Locations.getNearByStation();
+        const nearbyStation = nearbyStations[0].station;
+        console.log(`最寄り駅：${nearbyStation}`, nearbyStations);
+        $jqueryObject.val(nearbyStation);
+    } catch (error) {
+        console.log(error.message);
+    };
+};
+
+/* ========== モジュールのエクスポート ========== */
+export const Common = {
+    getAndSetTeamName,
+    getAndSetStations,
+    formatPoint,
+    setNearByStation
+};

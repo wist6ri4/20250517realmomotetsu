@@ -1,8 +1,10 @@
+/* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
 
 /* パスワード */
 const password = Constants.PASSWORD;
 
+/* ========== function ========== */
 /**
  * Cookieを取得する
  */

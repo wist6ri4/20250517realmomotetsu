@@ -8,9 +8,10 @@ const Constants = {
     TEAM_D_NAME:'チームD',
 
     /* sessionStorageのkey */
-    SESSION_TEAM_DATA: 'sessionTeamData',
-    SESSION_TEAM_NAME: 'sessionTeamName',
-    SESSION_STATIONS: 'sessionStations',
+    SESSION_TEAM_DATA: '20250517_realmomotetsu_session_team_data',
+    SESSION_TEAM_NAME: '20250517_realmomotetsu_session_team_name',
+    SESSION_STATIONS: '20250517_realmomotetsu_session_stations',
+    SESSION_NEARBY_STATIONS: '20250517_realmomotetsu_session_nearby_stations',
 
     /* Supabase */
     SUPABASE_URL: 'https://zrmxdhuwzcbvxvwbmtul.supabase.co', // Supabase URL
@@ -22,8 +23,9 @@ const Constants = {
     /* パスワード */
     PASSWORD: 'rm517',
     /* Cookie */
-    COOKIE_KEY: 'realmomotetsu_access_granted',
+    COOKIE_KEY: '20250517_realmomotetsu_access_granted',
 };
 
+/* ========== モジュールのエクスポート ========== */
 Object.freeze(Constants);
 export { Constants };

@@ -208,11 +208,10 @@ function getStationName(key) {
     return stationMapping[key];
 };
 
-
-const StationCode = {
+/* ========== モジュールのエクスポート ========== */
+export const StationCode = {
     stationMapping,
     stationGraph,
     getStationCode,
     getStationName,
 };
-export { StationCode };
