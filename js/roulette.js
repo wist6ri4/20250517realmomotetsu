@@ -57,7 +57,7 @@ async function main() {
     });
 
     // 最寄り駅の取得
-    await setNearByStation();
+    await Common.setNearByStation($('#current-station'));
 
     // 駅の初期表示
     getRandomStation($('#current-station').val());
@@ -151,18 +151,4 @@ function getNextStation() {
 
     const nextStation = StationCode.getStationName(nextStationCode);
     return nextStation;
-};
-
-/**
- * 最寄り駅を取得して表示
- */
-async function setNearByStation() {
-    try {
-        const nearbyStations = await Locations.getNearByStation();
-        const nearbyStation = nearbyStations[0].station;
-        console.log(`最寄り駅：${StationCode.getStationName(nearbyStation)}`, nearbyStations);
-        $('#current-station').val(nearbyStation);
-    } catch (error) {
-        console.log(error.message);
-    };
 };
