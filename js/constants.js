@@ -25,5 +25,6 @@ const Constants = {
     COOKIE_KEY: 'realmomotetsu_access_granted',
 };
 
+/* ========== モジュールのエクスポート ========== */
 Object.freeze(Constants);
 export { Constants };

@@ -1,9 +1,3 @@
-export const Dijkstra = {
-    calculateTravelTimes,
-    weightedRoulette,
-    chooseNextStation
-}
-
 /**
  * ダイクストラ法で出発駅から各駅への最短所要時間を計算
  * @param {object} graph - 隣接する駅同士の所要時間のマッピング
@@ -82,4 +76,10 @@ function chooseNextStation(probabilities) {
             return station;
         };
     };
+};
+
+export const Dijkstra = {
+    calculateTravelTimes,
+    weightedRoulette,
+    chooseNextStation
 };

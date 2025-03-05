@@ -1,13 +1,8 @@
+/* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
 import { Supabase } from "./supabase.js";
 
-// 共通処理
-export const Common = {
-    getAndSetTeamName,
-    getAndSetStations,
-    formatPoint
-};
-
+/* ========== function ========== */
 /**
  * チーム名を取得してsessionStorageにセットする
  *
@@ -60,3 +55,9 @@ function formatPoint(point) {
         (tenThousand > 0 ? tenThousand + ' 万' : '0 万');
 };
 
+/* ========== モジュールのエクスポート ========== */
+export const Common = {
+    getAndSetTeamName,
+    getAndSetStations,
+    formatPoint
+};

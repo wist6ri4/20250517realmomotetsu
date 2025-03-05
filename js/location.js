@@ -1,9 +1,7 @@
+/* ========== モジュールのインポート ========== */
 import { StationLocations } from "./stationLocations.js";
 
-export const Locations = {
-    getNearByStation
-};
-
+/* ========== function ========== */
 async function getNearByStation() {
     if(!("geolocation" in navigator)){
         return [];
@@ -31,4 +29,9 @@ async function getNearByStation() {
         console.log(error.message);
         return [];
     };
+};
+
+/* ========== モジュールのエクスポート ========== */
+export const Locations = {
+    getNearByStation
 };

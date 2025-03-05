@@ -1,3 +1,4 @@
+/* ========== モジュールのインポート ========== */
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { Constants } from './constants.js';
 
@@ -5,25 +6,7 @@ import { Constants } from './constants.js';
 const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
 
 
-const Supabase = {
-    getTeams,
-    getStations,
-    getTransitStations,
-    insertTransitStations,
-    getGoalStations,
-    insertGoalStations,
-    getNotChargedPoints,
-    getChargedPoints,
-    insertMovingPoints,
-    insertAdditionalPoints,
-    insertSubtractionPoints,
-    insertAddAndSubPoints,
-    updateNotChargedPoints,
-    insertAdditionalChargedPoints,
-    insertSubtractionChargedPoints,
-    insertAddAndSubChargedPoints
-};
-
+/* ========== function ========== */
 /**
  * teamsを取得する
  *
@@ -473,5 +456,22 @@ function groupByAndSum(array, keys) {
     return result;
 };
 
-
-export { Supabase };
+/* ========== モジュールのエクスポート ========== */
+export const Supabase = {
+    getTeams,
+    getStations,
+    getTransitStations,
+    insertTransitStations,
+    getGoalStations,
+    insertGoalStations,
+    getNotChargedPoints,
+    getChargedPoints,
+    insertMovingPoints,
+    insertAdditionalPoints,
+    insertSubtractionPoints,
+    insertAddAndSubPoints,
+    updateNotChargedPoints,
+    insertAdditionalChargedPoints,
+    insertSubtractionChargedPoints,
+    insertAddAndSubChargedPoints
+};
