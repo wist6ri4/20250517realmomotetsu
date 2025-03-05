@@ -85,7 +85,8 @@ async function submit() {
  */
 function clearForm() {
     formTeamNameSelect.val(0);
-    formStationNameSelect.val(0);
+    const nearbyStation = JSON.parse(sessionStorage.getItem(Constants.SESSION_NEARBY_STATIONS))[0].station;
+    formStationNameSelect.val(nearbyStation);
 };
 
 /**
@@ -94,9 +95,8 @@ function clearForm() {
 async function setNearByStation() {
     try {
         const nearbyStations = await Locations.getNearByStation();
-        console.log(nearbyStations);
+        console.log("最寄り駅：", nearbyStations);
         const nearbyStation = nearbyStations[0].station;
-        console.log(nearbyStation);
         formStationNameSelect.val(nearbyStation);
     } catch (error) {
         console.log(error.message);
