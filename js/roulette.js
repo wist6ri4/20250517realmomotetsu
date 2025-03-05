@@ -1,10 +1,12 @@
 /* ========== モジュールのインポート ========== */
 import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
+import { Constants } from "./constants.js";
 import { Locations } from "./location.js";
 import { Dijkstra } from "./dijkstra.js";
 
 /*========== 画面要素の取得 ==========*/
+const $currentStation = $('#current-station'); // 現在の駅
 const $rouletteMode = $('#roulette-mode'); // ランダムフラグ
 const roulette = $('#roulette'); // ルーレット表示部
 const startButton = $('#start-button'); // スタートボタン
@@ -12,7 +14,7 @@ const stopButton = $('#stop-button'); // ストップボタン
 
 /*========== 変数の設定 ==========*/
 // ルーレット開始駅
-let startStationName;
+let startStationCode;
 // スピンフラグ
 // ルーレットが回っているかどうかの判定フラグ
 let isSpin = false;
@@ -26,10 +28,10 @@ main();
 
 /* 現在の駅変更時 */
 $('#current-station').on('change', function() {
-    startStationName = this.value;
+    startStationCode = this.value;
     if(isSpin)
         stopRoulette();
-    console.log('今の駅：' + startStationName);
+    console.log('今の駅：' + startStationCode);
 });
 
 startButton.on('click', startRoulette);
@@ -43,11 +45,19 @@ stopButton.on('click', stopRoulette);
 async function main() {
     isSpin = false;
 
+    // チーム名の取得
+    await Common.getAndSetTeamName();
+
+    // 駅名の取得
+    await Common.getAndSetStations();
+    // 駅名のオプションを作成
+    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+    stations.forEach(function(station) {
+        $currentStation.append($('<option>').val(station.station_id).text(station.station_name));
+    });
+
     // 最寄り駅の取得
     await setNearByStation();
-
-    // チーム名の取得
-    Common.getAndSetTeamName();
 
     // 駅の初期表示
     getRandomStation($('#current-station').val());
@@ -58,15 +68,15 @@ async function main() {
  * @returns isSpinがtrueの場合
  */
 function startRoulette() {
-    startStationName = $('#current-station').val()
+    startStationCode = $('#current-station').val()
     if(isSpin) {
         return;
     } else {
         isSpin = true;
-        spinInterval = setInterval(() => {getRandomStation(startStationName)} , 100);
+        spinInterval = setInterval(() => {getRandomStation(startStationCode)} , 100);
         if($rouletteMode.val() === 'random') {
-            console.log('roulette mode: random');
-            nextStation = getRandomStation(startStationName);
+            console.log('Roulette Started. [Mode: random]');
+            nextStation = getRandomStation(startStationCode);
         } else if($rouletteMode.val() === 'goal') {
             nextStation = getNextStation();
         };
@@ -77,13 +87,14 @@ function startRoulette() {
 /**
  * ランダムに駅を表示
  */
-function getRandomStation(startStation) {
-    const stationNames = Object.values(StationCode.stationMapping).filter(station => station !== startStation);
-    const randomIndex = Math.floor(Math.random() * (stationNames.length))
-    const randomStation = stationNames[randomIndex];
-    changeCharacterSize(roulette, randomStation);
-    roulette.text(randomStation);
-    return randomStation;
+function getRandomStation(startStationCode) {
+    const stationCodes = Object.keys(StationCode.stationMapping).filter(station => station !== startStationCode);
+    const randomIndex = Math.floor(Math.random() * (stationCodes.length))
+    const randomStation = stationCodes[randomIndex];
+    const randomStationName = StationCode.getStationName(randomStation);
+    changeCharacterSize(roulette, randomStationName);
+    roulette.text(randomStationName);
+    return randomStationName;
 }
 
 /**
@@ -120,9 +131,7 @@ function changeCharacterSize(elem, str) {
  * 次の駅を決定する
  */
 function getNextStation() {
-    console.log('roulette mode: goal');
-    // 取得した駅名をコードに変換
-    const startStationCode = StationCode.getStationCode(startStationName);
+    console.log('Roulette Started. [Mode: goal]');
 
     // 各駅への最短所要時間を取得
     const times = Dijkstra.calculateTravelTimes(StationCode.stationGraph, startStationCode);
@@ -135,7 +144,7 @@ function getNextStation() {
 
     // 所要時間から重みを計算
     const probabilities = Dijkstra.weightedRoulette(startStationCode, times);
-    console.log(probabilities);
+    console.log("各駅の重み：", probabilities);
 
     // 次の目的駅を選択
     const nextStationCode = Dijkstra.chooseNextStation(probabilities);
@@ -150,10 +159,9 @@ function getNextStation() {
 async function setNearByStation() {
     try {
         const nearbyStations = await Locations.getNearByStation();
-        console.log(nearbyStations);
         const nearbyStation = nearbyStations[0].station;
-        console.log(nearbyStation);
-        $('#current-station').val(StationCode.getStationName(nearbyStation));
+        console.log(`最寄り駅：${StationCode.getStationName(nearbyStation)}`, nearbyStations);
+        $('#current-station').val(nearbyStation);
     } catch (error) {
         console.log(error.message);
     };

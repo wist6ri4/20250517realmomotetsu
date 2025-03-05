@@ -95,8 +95,8 @@ function clearForm() {
 async function setNearByStation() {
     try {
         const nearbyStations = await Locations.getNearByStation();
-        console.log("最寄り駅：", nearbyStations);
         const nearbyStation = nearbyStations[0].station;
+        console.log(`最寄り駅：${nearbyStation}`, nearbyStations);
         formStationNameSelect.val(nearbyStation);
     } catch (error) {
         console.log(error.message);
