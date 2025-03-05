@@ -181,7 +181,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
         jsonData.nextStation.push(modifiedRecord);
     });
 
-    console.log(jsonData);
+    console.log("Received Json Data.", jsonData);
     return jsonData;
 };
 
