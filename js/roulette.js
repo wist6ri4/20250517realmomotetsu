@@ -1,8 +1,12 @@
 /* ========== モジュールのインポート ========== */
 import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
+import { Constants } from "./constants.js";
+import { Locations } from "./location.js";
+import { Dijkstra } from "./dijkstra.js";
 
 /*========== 画面要素の取得 ==========*/
+const $currentStation = $('#current-station'); // 現在の駅
 const $rouletteMode = $('#roulette-mode'); // ランダムフラグ
 const roulette = $('#roulette'); // ルーレット表示部
 const startButton = $('#start-button'); // スタートボタン
@@ -10,7 +14,7 @@ const stopButton = $('#stop-button'); // ストップボタン
 
 /*========== 変数の設定 ==========*/
 // ルーレット開始駅
-let startStationName;
+let startStationCode;
 // スピンフラグ
 // ルーレットが回っているかどうかの判定フラグ
 let isSpin = false;
@@ -24,10 +28,10 @@ main();
 
 /* 現在の駅変更時 */
 $('#current-station').on('change', function() {
-    startStationName = this.value;
+    startStationCode = this.value;
     if(isSpin)
         stopRoulette();
-    console.log('今の駅：' + startStationName);
+    console.log('今の駅：' + startStationCode);
 });
 
 startButton.on('click', startRoulette);
@@ -38,14 +42,25 @@ stopButton.on('click', stopRoulette);
  * メインメソッド
  * 画面表示時に実行する
  */
-function main() {
+async function main() {
     isSpin = false;
 
     // チーム名の取得
-    Common.getAndSetTeamName();
+    await Common.getAndSetTeamName();
+
+    // 駅名の取得
+    await Common.getAndSetStations();
+    // 駅名のオプションを作成
+    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+    stations.forEach(function(station) {
+        $currentStation.append($('<option>').val(station.station_id).text(station.station_name));
+    });
+
+    // 最寄り駅の取得
+    await Common.setNearByStation($('#current-station'));
 
     // 駅の初期表示
-    getRandomStation();
+    getRandomStation($('#current-station').val());
 }
 
 /**
@@ -53,30 +68,33 @@ function main() {
  * @returns isSpinがtrueの場合
  */
 function startRoulette() {
-    startStationName = $('#current-station').val()
+    startStationCode = $('#current-station').val()
     if(isSpin) {
         return;
     } else {
         isSpin = true;
-        spinInterval = setInterval(() => {getRandomStation(startStationName)} , 100);
-        if($rouletteMode.value === 'random') {
-            nextStation = getRandomStation(startStationName);
-        } else if($rouletteMode.value === 'goal') {
+        spinInterval = setInterval(() => {getRandomStation(startStationCode)} , 100);
+        if($rouletteMode.val() === 'random') {
+            console.log('Roulette Started. [Mode: random]');
+            nextStation = getRandomStation(startStationCode);
+        } else if($rouletteMode.val() === 'goal') {
             nextStation = getNextStation();
         };
+        console.log('次の駅：' + nextStation);
     };
 };
 
 /**
  * ランダムに駅を表示
  */
-function getRandomStation(startStation) {
-    const stationNames = Object.values(StationCode.stationMapping).filter(station => station !== startStation);
-    const randomIndex = Math.floor(Math.random() * (stationNames.length))
-    const randomStation = stationNames[randomIndex];
-    changeCharacterSize(roulette, randomStation);
-    roulette.text(randomStation);
-    return randomStation;
+function getRandomStation(startStationCode) {
+    const stationCodes = Object.keys(StationCode.stationMapping).filter(station => station !== startStationCode);
+    const randomIndex = Math.floor(Math.random() * (stationCodes.length))
+    const randomStation = stationCodes[randomIndex];
+    const randomStationName = StationCode.getStationName(randomStation);
+    changeCharacterSize(roulette, randomStationName);
+    roulette.text(randomStationName);
+    return randomStationName;
 }
 
 /**
@@ -113,11 +131,10 @@ function changeCharacterSize(elem, str) {
  * 次の駅を決定する
  */
 function getNextStation() {
-    // 取得した駅名をコードに変換
-    const startStationCode = StationCode.getStationCode(startStationName);
+    console.log('Roulette Started. [Mode: goal]');
 
     // 各駅への最短所要時間を取得
-    const times = calculateTravelTimes(StationCode.stationGraph, startStationCode);
+    const times = Dijkstra.calculateTravelTimes(StationCode.stationGraph, startStationCode);
     // 10分以下の駅を削除
     for(const key of Object.keys(times)) {
         if(times[key].time <= 10) {
@@ -126,93 +143,12 @@ function getNextStation() {
     };
 
     // 所要時間から重みを計算
-    const probabilities = weightedRoulette(startStationCode, times);
+    const probabilities = Dijkstra.weightedRoulette(startStationCode, times);
+    console.log("各駅の重み：", probabilities);
 
     // 次の目的駅を選択
-    const nextStationCode = chooseNextStation(probabilities);
+    const nextStationCode = Dijkstra.chooseNextStation(probabilities);
 
     const nextStation = StationCode.getStationName(nextStationCode);
     return nextStation;
 };
-
-/**
- * ダイクストラ法で出発駅から各駅への最短所要時間を計算
- * @param {object} graph - 隣接する駅同士の所要時間のマッピング
- * @param {string} start - 出発駅コード
- * @returns {object} 出発駅から各駅への主要時間の配列
- */
-function calculateTravelTimes(graph, start) {
-    // 各駅への所要時間を初期化（無限大に設定）
-    const times = {};
-    Object.keys(graph).forEach(station => times[station] = Infinity);
-    times[start] = { time: 0, stations: 0};
-
-    // 探索キュー
-    const queue = [{station: start, time: 0, stations: 0}];
-    while(queue.length > 0) {
-        // 所要時間順にソート
-        queue.sort((a, b) => a.time - b.time);
-        // 所要時間が最短の駅をshift
-        const {station, time, stations} = queue.shift();
-
-        // 隣接駅それぞれへの時間を取得
-        graph[station].forEach(neighbor => {
-            const newTime = time + neighbor.time;
-            const newStations = stations + 1;
-
-            // 新しい所要時間が既存の所要時間より短ければ更新
-            if(newTime < times[neighbor.station]) {
-                times[neighbor.station] = {time: newTime, stations: newStations};
-                queue.push({station: neighbor.station, time: newTime, stations: newStations});
-            };
-        });
-    };
-
-    return times;
-};
-
-/**
- * 重み付きルーレットの確率計算
- * @param {string} start - 出発駅
- * @param {object} times - 各駅への所要時間
- * @returns {object} - 各駅の出現確率
- */
-function weightedRoulette(start, times) {
-    const weights = {};
-    let totalWeight = 0;
-
-    // 所要時間を合計
-    for(const [station, {time, stations}] of Object.entries(times)) {
-        if(station !== start && time < Infinity) {
-            weights[station] = 1 / time;
-            totalWeight += weights[station];
-        };
-    };
-
-    // 各駅への所要時間の逆数で重みを計算
-    const probabilities = {};
-    for(const station in weights) {
-        probabilities[station] = weights[station] / totalWeight;
-    };
-    return probabilities;
-};
-
-/**
- * 次の駅を選択
- * @param {object} probabilities - 各駅の出現確率
- * @returns {string} - 駅名
- */
-function chooseNextStation(probabilities) {
-    const random = Math.random();
-    let cumulative = 0;
-
-    // 累積確率から駅をランダムに選択
-    for(const [station, probability] of Object.entries(probabilities)) {
-        cumulative +=  probability;
-        if(random < cumulative) {
-            return station;
-        };
-    };
-};
-
-export { calculateTravelTimes };

@@ -2,11 +2,12 @@
 import { Constants } from './constants.js';
 import { Common } from './common.js';
 import { Supabase } from './supabase.js';
+import { Locations } from './location.js';
 
 /*========== 画面要素の取得 ==========*/
-const formTeamNameSelect = $('#form_team_select'); // フォーム（チーム名）
-const formStationNameSelect = $('#form_station_select'); // フォーム（駅名）
-const buttonSubmit = $('#button_submit'); // 送信ボタン
+const $formTeamNameSelect = $('#form_team_select'); // フォーム（チーム名）
+const $formStationNameSelect = $('#form_station_select'); // フォーム（駅名）
+const $buttonSubmit = $('#button_submit'); // 送信ボタン
 
 
 /*========== 画面表示時の実行メソッド ==========*/
@@ -23,7 +24,7 @@ async function main() {
     // チーム名のオプションを作成
     const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
     teams.forEach(function(team) {
-        formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
+        $formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
     });
 
     // formTeamNameSelect.append($('<option>').val(0).text('チームA'));
@@ -33,12 +34,14 @@ async function main() {
     // 駅名のオプションを作成
     const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
     stations.forEach(function(station) {
-        formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
+        $formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
     });
+
+    await Common.setNearByStation($formStationNameSelect);
 };
 
 
-buttonSubmit.on('click', submit);
+$buttonSubmit.on('click', submit);
 
 /**
  * フォームを送信する
@@ -81,6 +84,7 @@ async function submit() {
  * フォームをクリアする
  */
 function clearForm() {
-    formTeamNameSelect.val(0);
-    formStationNameSelect.val(0);
+    $formTeamNameSelect.val(0);
+    const nearbyStation = JSON.parse(sessionStorage.getItem(Constants.SESSION_NEARBY_STATIONS))[0].station;
+    $formStationNameSelect.val(nearbyStation);
 };

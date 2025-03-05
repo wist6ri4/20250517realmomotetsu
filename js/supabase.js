@@ -1,3 +1,4 @@
+/* ========== モジュールのインポート ========== */
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { Constants } from './constants.js';
 
@@ -5,25 +6,7 @@ import { Constants } from './constants.js';
 const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
 
 
-const Supabase = {
-    getTeams,
-    getStations,
-    getTransitStations,
-    insertTransitStations,
-    getGoalStations,
-    insertGoalStations,
-    getNotChargedPoints,
-    getChargedPoints,
-    insertMovingPoints,
-    insertAdditionalPoints,
-    insertSubtractionPoints,
-    insertAddAndSubPoints,
-    updateNotChargedPoints,
-    insertAdditionalChargedPoints,
-    insertSubtractionChargedPoints,
-    insertAddAndSubChargedPoints
-};
-
+/* ========== function ========== */
 /**
  * teamsを取得する
  *
@@ -44,7 +27,7 @@ async function getTeams() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getTeams() done');
+        console.log('getTeams() done.');
     };
 };
 
@@ -68,7 +51,7 @@ async function getStations() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getStations() done');
+        console.log('getStations() done.');
     };
 };
 
@@ -92,7 +75,7 @@ async function getTransitStations() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getTransitStations() done');
+        console.log('getTransitStations() done.');
     };
 };
 
@@ -119,7 +102,7 @@ async function insertTransitStations(teamId, stationId) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertTransitStations() done');
+        console.log('insertTransitStations() done.');
     };
 };
 
@@ -143,7 +126,7 @@ async function getGoalStations() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getGoalStations() done');
+        console.log('getGoalStations() done.');
     };
 };
 
@@ -169,7 +152,7 @@ async function insertGoalStations(stationId) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertGoalStations() done');
+        console.log('insertGoalStations() done.');
     };
 }
 
@@ -194,7 +177,7 @@ async function getNotChargedPoints() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getNotChargedPoints() done');
+        console.log('getNotChargedPoints() done.');
     };
 };
 
@@ -220,7 +203,7 @@ async function getChargedPoints() {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('getChargedPoints() done');
+        console.log('getChargedPoints() done.');
     };
 };
 
@@ -246,7 +229,7 @@ async function insertMovingPoints(teamId) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertMovingPoints() done');
+        console.log('insertMovingPoints() done.');
     };
 };
 
@@ -273,7 +256,7 @@ async function insertAdditionalPoints(teamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertAdditionalPoints() done');
+        console.log('insertAdditionalPoints() done.');
     };
 };
 
@@ -301,7 +284,7 @@ async function insertSubtractionPoints(teamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertSubtractionPoints() done');
+        console.log('insertSubtractionPoints() done.');
     };
 };
 
@@ -335,7 +318,7 @@ async function insertAddAndSubPoints(addTeamId, subTeamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertAddAndSubPoints() done');
+        console.log('insertAddAndSubPoints() done.');
     };
 };
 
@@ -361,7 +344,7 @@ async function updateNotChargedPoints(teamId) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('updateNotChargedPoints() done');
+        console.log('updateNotChargedPoints() done.');
     };
 };
 
@@ -388,7 +371,7 @@ async function insertAdditionalChargedPoints(teamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertAdditionalMoney() done');
+        console.log('insertAdditionalMoney() done.');
     };
 };
 
@@ -415,7 +398,7 @@ async function insertSubtractionChargedPoints(teamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertSubtractionMoney() done');
+        console.log('insertSubtractionMoney() done.');
     };
 };
 
@@ -449,7 +432,7 @@ async function insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
     } catch (error) {
         throw new Error(error);
     } finally {
-        console.log('insertAddAndSubChargedPoints() done');
+        console.log('insertAddAndSubChargedPoints() done.');
     };
 }
 
@@ -473,5 +456,22 @@ function groupByAndSum(array, keys) {
     return result;
 };
 
-
-export { Supabase };
+/* ========== モジュールのエクスポート ========== */
+export const Supabase = {
+    getTeams,
+    getStations,
+    getTransitStations,
+    insertTransitStations,
+    getGoalStations,
+    insertGoalStations,
+    getNotChargedPoints,
+    getChargedPoints,
+    insertMovingPoints,
+    insertAdditionalPoints,
+    insertSubtractionPoints,
+    insertAddAndSubPoints,
+    updateNotChargedPoints,
+    insertAdditionalChargedPoints,
+    insertSubtractionChargedPoints,
+    insertAddAndSubChargedPoints
+};

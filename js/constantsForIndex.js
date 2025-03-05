@@ -1,6 +1,7 @@
-/*========== Index用の定数 ==========*/
+/* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
 
+/*========== Index用の定数 ==========*/
 const CFI = {
     METHOD_INTERVAL: 7500, // メソッド実行間隔
     $DIGITAL_DISPLAY_JP: $('#digital-display-jp'), // 電光掲示板
@@ -72,6 +73,7 @@ const TEAMS = {
     },
 };
 
+/* ========== モジュールのエクスポート ========== */
 Object.freeze(CFI);
 export { CFI };
 
