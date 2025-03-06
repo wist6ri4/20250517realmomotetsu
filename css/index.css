@@ -74,6 +74,21 @@
     background-color: var(--team-d-color);
 }
 
+.total-assets {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+}
+
+/* team-informationのポイント表示 */
+.team-information-points {
+    font-size: 1.3rem;
+    text-align: end;
+    padding: 0.2rem;
+}
+
 /* team-informationの文字表示 */
 .information-context {
     font-size: 1.5rem;
@@ -88,26 +103,6 @@
 /* team-informationの残りマス数表示 */
 .remaining-squares {
     font-size: 1.2rem;
-}
-
-/* team-informationのポイント表示 */
-.team-information-points {
-    background-color: rgba(0, 0, 0, 0.5);
-    font-size: 1.2rem;
-    margin: 0.5rem;
-    padding: 0.5rem;
-}
-
-.points-table {
-    width: 100%;
-}
-
-.points-table td {
-    white-space: nowrap;
-}
-
-.points-table .points-table-second {
-    text-align: right;
 }
 
 /* team-informationの時刻表示 */
