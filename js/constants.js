@@ -12,6 +12,7 @@ const Constants = {
     SESSION_TEAM_NAME: '20250517_realmomotetsu_session_team_name',
     SESSION_STATIONS: '20250517_realmomotetsu_session_stations',
     SESSION_NEARBY_STATIONS: '20250517_realmomotetsu_session_nearby_stations',
+    SESSION_UUID: '20250517_realmomotetsu_session_uuid',
 
     /* Supabase */
     SUPABASE_URL: 'https://zrmxdhuwzcbvxvwbmtul.supabase.co', // Supabase URL

@@ -4,7 +4,21 @@ import { Supabase } from "./supabase.js";
 import { Locations } from "./location.js";
 import { StationCode } from "./stationCode.js";
 
+/*========== 画面表示時の実行メソッド ==========*/
+checkUUID();
+
 /* ========== function ========== */
+function checkUUID() {
+    const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
+    if(uuid) {
+        return uuid;
+    } else {
+        const newUUID = crypto.randomUUID();
+        sessionStorage.setItem(Constants.SESSION_UUID, newUUID);
+        return newUUID;
+    };
+};
+
 /**
  * チーム名を取得してsessionStorageにセットする
  *
