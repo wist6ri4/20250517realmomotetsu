@@ -60,7 +60,7 @@ async function main() {
     });
 
     // 最寄り駅の取得
-    const nearByStation = await Common.setNearByStation($('#current-station'));
+    await Common.setNearByStation($('#current-station'));
 
     // 駅の初期表示
     getRandomStation($('#current-station').val());
