@@ -3,9 +3,6 @@
     "disable_existing_loggers": false,
     "formatters": {
         "default": {
-            "format": "[%(levelname)s]|%(asctime)s|%(uuid)s|FRONT|%(name)s|%(message)s"
-        },
-        "with_log_object": {
             "format": "[%(levelname)s]|%(asctime)s|%(uuid)s|FRONT|%(name)s|%(message)s|%(log_object)s"
         }
     },
@@ -15,16 +12,10 @@
             "level": "DEBUG",
             "formatter": "default",
             "stream": "ext://sys.stdout"
-        },
-        "console_with_log_object": {
-            "class": "logging.StreamHandler",
-            "level": "DEBUG",
-            "formatter": "with_log_object",
-            "stream": "ext://sys.stdout"
         }
     },
     "root": {
         "level": "DEBUG",
-        "handlers": ["console", "console_with_log_object"]
+        "handlers": ["console"]
     }
 }

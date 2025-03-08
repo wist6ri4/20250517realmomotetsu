@@ -39,12 +39,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'message': 'Missing required fields'})
             }
 
-        extra = {'uuid': uuid}
-        if log_object:
-            extra['log_object'] = log_object
-            logger.handlers = [config_param['handlers']['console_with_log_object']]
-        else:
-            logger.handlers = [config_param['handlers']['console']]
+        extra = {'uuid': uuid, 'log_object': log_object}
 
         if log_level == DEBUG:
             logger.debug(log_message, extra=extra)
