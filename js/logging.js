@@ -18,66 +18,60 @@ const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
 class Logger {
     constructor() {
         this.uuid = uuid;
-        this.request = {
-            uuid: this.uuid,
-            logLevel: null,
-            logMessage: null,
+    };
+
+    async log(logLevel, logMessage=null) {
+        const request = {
+            'uuid': this.uuid,
+            'logLevel': logLevel,
+            'logMessage': logMessage,
         }
+        await this.sendLog(request);
+    }
+
+    async sendLog(request) {
+        const body = {
+            'logContent': {
+                'uuid': request.uuid,
+                'logLevel': request.logLevel,
+                'logMessage': request.logMessage,
+            }
+        }
+        try {
+            fetch(LoggingConstants.API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: JSON.stringify(body),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+        } catch (error) {
+            console.error(error);
+        };
     };
 
     async Debug(logMessage=null) {
-        this.request.logLevel = LogLevel.DEBUG;
-        this.request.logMessage = logMessage;
-        await sendLog(this.request);
+        await Log(LogLevel.DEBUG, logMessage);
     };
 
     async Info(logMessage=null) {
-        this.request.logLevel = LogLevel.INFO;
-        this.request.logMessage = logMessage;
-        await sendLog(this.request);
+        await Log(LogLevel.INFO, logMessage);
     };
 
     async Warning(logMessage=null) {
-        this.request.logLevel = LogLevel.WARNING;
-        this.request.logMessage = logMessage;
-        await sendLog(this.request);
+        await Log(LogLevel.WARNING, logMessage);
     };
 
     async Error(logMessage=null) {
-        this.request.logLevel = LogLevel.ERROR;
-        this.request.logMessage = logMessage;
-        await sendLog(this.request);
+        await Log(LogLevel.ERROR, logMessage);
     };
 
     async Critical(logMessage=null) {
-        this.request.logLevel = LogLevel.CRITICAL;
-        this.request.logMessage = logMessage;
-        await sendLog(this.request);
-    };
-};
-
-async function sendLog(request) {
-    const body = {
-        'logContent': {
-            'uuid': request.uuid,
-            'logLevel': request.logLevel,
-            'logMessage': request.logMessage,
-        }
-    }
-    try {
-        fetch(LoggingConstants.API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-            body: JSON.stringify(body),
-        })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-    } catch (error) {
-        console.error(error);
+        await Log(LogLevel.CRITICAL, logMessage);
     };
 };
 

@@ -55,7 +55,7 @@ def lambda_handler(event, context):
                 'headers': {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Headers': 'Content-Type',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'\
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
                 },
                 'body': json.dumps({'message': 'Invalid log level'})
             }
