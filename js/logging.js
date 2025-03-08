@@ -62,27 +62,27 @@ class Logger {
     };
 
     async Debug(logMessage, logObject=null) {
-        console.log(`[DEBUG]|${logMessage}|${logObject}`);
+        console.log(`[DEBUG]|${logMessage}|`, logObject);
         await this.log(LogLevel.DEBUG, logMessage, logObject);
     };
 
     async Info(logMessage, logObject=null) {
-        console.log(`[INFO]|${logMessage}|${logObject}`);
+        console.log(`[INFO]|${logMessage}|`, logObject);
         await this.log(LogLevel.INFO, logMessage , logObject);
     };
 
     async Warning(logMessage, logObject=null) {
-        console.warn(`[WARNING]|${logMessage}|${logObject}`);
+        console.warn(`[WARNING]|${logMessage}|}`, logObject);
         await this.log(LogLevel.WARNING, logMessage, logObject);
     };
 
     async Error(logMessage, logObject=null) {
-        console.error(`[ERROR]|${logMessage}|${logObject}`);
+        console.error(`[ERROR]|${logMessage}|`, logObject);
         await this.log(LogLevel.ERROR, logMessage, logObject);
     };
 
     async Critical(logMessage, logObject=null) {
-        console.error(`[CRITICAL]|${logMessage}|${logObject}`);
+        console.error(`[CRITICAL]|${logMessage}|`, logObject);
         await this.log(LogLevel.CRITICAL, logMessage, logObject);
     };
 };
