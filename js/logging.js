@@ -13,10 +13,9 @@ const LogLevel = {
     CRITICAL: 'CRITICAL',
 }
 
-const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
-
 class Logger {
     constructor() {
+        const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
         this.uuid = uuid;
     };
 

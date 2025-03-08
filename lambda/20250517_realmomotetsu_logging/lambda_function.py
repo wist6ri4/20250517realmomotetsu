@@ -34,7 +34,6 @@ def lambda_handler(event, context):
             "body": ""
         }
 
-    print(event)
     try:
         log_content = json.loads(event['body']).get('logContent')
         uuid = log_content.get('uuid')
