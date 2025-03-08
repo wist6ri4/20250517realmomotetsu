@@ -47,6 +47,8 @@ $('#move-point').on('input', function() {
  *  画面表示時に実行する
  */
 async function main() {
+    logger.Info('Success to login as admin.');
+
     // チーム名の取得
     await Common.getAndSetTeamName();
     // チーム名のオプションを作成
