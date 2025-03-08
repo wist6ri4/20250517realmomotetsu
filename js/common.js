@@ -78,10 +78,9 @@ async function setNearByStation($jqueryObject) {
     try {
         const nearbyStations = await Locations.getNearByStation();
         const nearbyStation = nearbyStations[0].station;
-        console.log(`最寄り駅：${nearbyStation}`, nearbyStations);
         $jqueryObject.val(nearbyStation);
     } catch (error) {
-        console.log(error.message);
+        Logger.Error('Failed to get nearby station.', error);
     };
 };
 

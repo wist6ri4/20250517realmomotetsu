@@ -3,6 +3,10 @@ import { Constants } from './constants.js';
 import { Common } from './common.js';
 import { Supabase } from './supabase.js';
 import { Locations } from './location.js';
+import { Logger } from './logging.js';
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 /*========== 画面要素の取得 ==========*/
 const $formTeamNameSelect = $('#form_team_select'); // フォーム（チーム名）
@@ -71,8 +75,11 @@ async function submit() {
         await Supabase.insertTransitStations(teamId, stationId);
         // pointsにデータを追加
         await Supabase.insertMovingPoints(teamId);
+
+        logger.Info(`Success to send current station. TeamName:${teamName} StationName:${station_name}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Fail to send.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForm();

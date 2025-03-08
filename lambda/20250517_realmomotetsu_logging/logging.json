@@ -3,7 +3,7 @@
     "disable_existing_loggers": false,
     "formatters": {
         "default": {
-            "format": "[%(levelname)s]|%(asctime)s|%(uuid)s|FRONT|%(name)s|%(message)s|%(log_object)s"
+            "format": "[%(levelname)s]%(asctime)s|%(uuid)s|FRONT|%(name)s|%(message)s|%(log_object)s"
         }
     },
     "handlers": {
