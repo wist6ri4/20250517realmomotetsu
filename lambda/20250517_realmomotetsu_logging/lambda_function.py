@@ -22,11 +22,12 @@ def lambda_handler(event, context):
     print(event)
     try:
         log_content = json.loads(event['body']).get('logContent')
+        uuid = log_content.get('uuid')
         log_level = log_content.get('logLevel')
         log_message = log_content.get('logMessage')
-        uuid = log_content.get('uuid')
+        log_object = log_content.get('logObject')
 
-        if not all([log_content, log_level, log_message]):
+        if not all([uuid, log_level, log_content]):
             logger.error('Missing required fields: %s', log_content)
             return {
                 'statusCode': 400,
@@ -38,16 +39,23 @@ def lambda_handler(event, context):
                 'body': json.dumps({'message': 'Missing required fields'})
             }
 
+        extra = {'uuid': uuid}
+        if log_object:
+            extra['log_object'] = log_object
+            logger.handlers = [config_param['handlers']['console_with_log_object']]
+        else:
+            logger.handlers = [config_param['handlers']['console']]
+
         if log_level == DEBUG:
-            logger.debug(log_message, extra={'uuid': uuid})
+            logger.debug(log_message, extra=extra)
         elif log_level == INFO:
-            logger.info(log_message, extra={'uuid': uuid})
+            logger.info(log_message, extra=extra)
         elif log_level == ERROR:
-            logger.error(log_message, extra={'uuid': uuid})
+            logger.error(log_message, extra=extra)
         elif log_level == WARNING:
-            logger.warning(log_message, extra={'uuid': uuid})
+            logger.warning(log_message, extra=extra)
         elif log_level == CRITICAL:
-            logger.critical(log_message, extra={'uuid': uuid})
+            logger.critical(log_message, extra=extra)
         else:
             logger.error('Invalid log level: %s', log_level)
             return {

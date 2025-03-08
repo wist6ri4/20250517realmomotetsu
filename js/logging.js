@@ -20,23 +20,31 @@ class Logger {
         this.uuid = uuid;
     };
 
-    async log(logLevel, logMessage=null) {
+    async log(logLevel, logMessage, logObject=null) {
         const request = {
             'uuid': this.uuid,
             'logLevel': logLevel,
             'logMessage': logMessage,
+            'logObject': logObject ? JSON.stringify(logObject) : null,
         }
         await this.sendLog(request);
     }
 
     async sendLog(request) {
+        const logContent = {
+            uuid: request.uuid,
+            logLevel: request.logLevel,
+            logMessage: request.logMessage,
+        };
+
+        if(request.logObject) {
+            logContent.logObject = request.logObject;
+        };
+
         const body = {
-            'logContent': {
-                'uuid': request.uuid,
-                'logLevel': request.logLevel,
-                'logMessage': request.logMessage,
-            }
-        }
+            logContent: logContent,
+        };
+
         try {
             fetch(LoggingConstants.API_URL, {
                 method: 'POST',
@@ -54,24 +62,29 @@ class Logger {
         };
     };
 
-    async Debug(logMessage=null) {
-        await Log(LogLevel.DEBUG, logMessage);
+    async Debug(logMessage, logObject=null) {
+        console.log(`[DEBUG]|${logMessage}|${logObject}`);
+        await this.log(LogLevel.DEBUG, logMessage, logObject);
     };
 
-    async Info(logMessage=null) {
-        await Log(LogLevel.INFO, logMessage);
+    async Info(logMessage, logObject=null) {
+        console.log(`[INFO]|${logMessage}|${logObject}`);
+        await this.log(LogLevel.INFO, logMessage , logObject);
     };
 
-    async Warning(logMessage=null) {
-        await Log(LogLevel.WARNING, logMessage);
+    async Warning(logMessage, logObject=null) {
+        console.warn(`[WARNING]|${logMessage}|${logObject}`);
+        await this.log(LogLevel.WARNING, logMessage, logObject);
     };
 
-    async Error(logMessage=null) {
-        await Log(LogLevel.ERROR, logMessage);
+    async Error(logMessage, logObject=null) {
+        console.error(`[ERROR]|${logMessage}|${logObject}`);
+        await this.log(LogLevel.ERROR, logMessage, logObject);
     };
 
-    async Critical(logMessage=null) {
-        await Log(LogLevel.CRITICAL, logMessage);
+    async Critical(logMessage, logObject=null) {
+        console.error(`[CRITICAL]|${logMessage}|${logObject}`);
+        await this.log(LogLevel.CRITICAL, logMessage, logObject);
     };
 };
 
