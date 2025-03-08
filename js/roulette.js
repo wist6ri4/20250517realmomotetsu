@@ -4,6 +4,10 @@ import { Common } from "./common.js";
 import { Constants } from "./constants.js";
 import { Locations } from "./location.js";
 import { Dijkstra } from "./dijkstra.js";
+import { Logger } from "./logging.js";
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 /*========== 画面要素の取得 ==========*/
 const $currentStation = $('#current-station'); // 現在の駅
@@ -31,7 +35,6 @@ $('#current-station').on('change', function() {
     startStationCode = this.value;
     if(isSpin)
         stopRoulette();
-    console.log('今の駅：' + startStationCode);
 });
 
 startButton.on('click', startRoulette);
@@ -75,12 +78,11 @@ function startRoulette() {
         isSpin = true;
         spinInterval = setInterval(() => {getRandomStation(startStationCode)} , 100);
         if($rouletteMode.val() === 'random') {
-            console.log('Roulette Started. [Mode: random]');
             nextStation = getRandomStation(startStationCode);
+            logger.Debug(`Roulette Started. Mode:random StartStation:${StationCode.getStationName(startStationCode)} NextStation:${nextStation}`);
         } else if($rouletteMode.val() === 'goal') {
             nextStation = getNextStation();
         };
-        console.log('次の駅：' + nextStation);
     };
 };
 
@@ -131,8 +133,6 @@ function changeCharacterSize(elem, str) {
  * 次の駅を決定する
  */
 function getNextStation() {
-    console.log('Roulette Started. [Mode: goal]');
-
     // 各駅への最短所要時間を取得
     const times = Dijkstra.calculateTravelTimes(StationCode.stationGraph, startStationCode);
     // 10分以下の駅を削除
@@ -144,11 +144,11 @@ function getNextStation() {
 
     // 所要時間から重みを計算
     const probabilities = Dijkstra.weightedRoulette(startStationCode, times);
-    console.log("各駅の重み：", probabilities);
 
     // 次の目的駅を選択
     const nextStationCode = Dijkstra.chooseNextStation(probabilities);
 
     const nextStation = StationCode.getStationName(nextStationCode);
+    logger.Debug(`Roulette Started. Mode:goal StartStation:${StationCode.getStationName(startStationCode)} NextStation:${nextStation}`, probabilities);
     return nextStation;
 };

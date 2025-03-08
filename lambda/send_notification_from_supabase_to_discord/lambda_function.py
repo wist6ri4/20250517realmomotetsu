@@ -1,13 +1,18 @@
 import json
 import os
 import textwrap
-import logging
+from logging import getLogger, config
 from datetime import datetime
 
 import requests
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+# ログ設定
+with open('logging.json', 'r', encoding="utf-8") as f:
+    config_param = json.load(f)
+
+config.dictConfig(config_param)
+logger = getLogger(__name__)
+
 
 def lambda_handler(event, context):
     """
@@ -43,9 +48,11 @@ def lambda_handler(event, context):
             "content": textwrap.dedent(
                 f"""
                 現在地情報が登録されました：
-                > チームID: {record['team_id']}
-                > 駅ID: {record['station_id']}
-                > 登録日時: {datetime.fromisoformat(created_at).strftime('%Y/%m/%d %H:%M:%S')}
+                ```
+                チームID: {record['team_id']}\n\
+                駅ID: {record['station_id']}\n\
+                登録日時: {datetime.fromisoformat(created_at).strftime('%Y/%m/%d %H:%M:%S')}
+                ```
                 """)
         }
 

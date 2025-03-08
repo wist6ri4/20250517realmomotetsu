@@ -1,6 +1,11 @@
 /* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
 import { StationLocations } from "./stationLocations.js";
+import { StationCode } from "./stationCode.js";
+import { Logger } from "./logging.js";
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 /* ========== function ========== */
 async function getNearByStation() {
@@ -20,14 +25,17 @@ async function getNearByStation() {
         let longitude = position.coords.longitude;
         let accuracy = position.coords.accuracy;
 
-        console.log("緯度：" + latitude+ "\n経度：" + longitude + "\n位置の精度：" + accuracy);
-
         const nearbyStations = StationLocations.findNearbyStations(latitude, longitude);
         sessionStorage.setItem(Constants.SESSION_NEARBY_STATIONS, JSON.stringify(nearbyStations));
+
+        logger.Debug(
+            `NearbyStation:${StationCode.getStationName(nearbyStations[0].station)} Latitude:${latitude} Longitude:${longitude} Accuracy:${accuracy}`,
+            nearbyStations
+        );
         return nearbyStations;
 
     } catch(error) {
-        console.log(error.message);
+        logger.Error('Failed to get nearby station.', error);
         return [];
     };
 };

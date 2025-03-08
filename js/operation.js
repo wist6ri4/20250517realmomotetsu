@@ -2,6 +2,10 @@
 import { Constants } from "./constants.js";
 import { Common } from "./common.js";
 import { Supabase } from "./supabase.js";
+import { Logger } from "./logging.js";
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 /*========== 画面要素の取得 ==========*/
 const $goalStationSelect = $('#goal-station-select'); // 目的駅選択
@@ -87,8 +91,10 @@ async function setGoalStation() {
     // 送信処理
     try {
         const result = await Supabase.insertGoalStations(stationId);
+        logger.Info(`Success to send goal station. StationName:${stationName}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Failed to send goal station.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -125,8 +131,10 @@ async function addPoint() {
         } else {
             result = await Supabase.insertAdditionalPoints(teamId, point);
         }
+        logger.Info(`Success to send additional points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Failed to send additional points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -163,8 +171,10 @@ async function subPoint() {
         } else {
             result = await Supabase.insertSubtractionPoints(teamId, point);
         }
+        logger.Info(`Success to send subtraction points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Failed to send subtraction points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -204,8 +214,10 @@ async function movePoint() {
         } else {
             const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
         }
+        logger.Info(`Success to send moving points. FromTeamId:${fromTeamId} ToTeamId:${toTeamId} Point:${point} IsCharged:${isCharged}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Failed to send moving points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -234,8 +246,10 @@ async function chargePoint() {
     // 送信処理
     try {
         const result = await Supabase.updateNotChargedPoints(teamId);
+        logger.Info(`Success to charge points. TeamId:${teamId}`);
         alert('送信しました。');
     } catch (error) {
+        logger.Error('Failed to charge points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
