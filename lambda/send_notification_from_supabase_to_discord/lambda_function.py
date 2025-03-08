@@ -48,9 +48,11 @@ def lambda_handler(event, context):
             "content": textwrap.dedent(
                 f"""
                 現在地情報が登録されました：
-                > チームID: {record['team_id']}\n\
+                ```
+                チームID: {record['team_id']}\n\
                 駅ID: {record['station_id']}\n\
                 登録日時: {datetime.fromisoformat(created_at).strftime('%Y/%m/%d %H:%M:%S')}
+                ```
                 """)
         }
 
