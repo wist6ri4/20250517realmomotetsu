@@ -8,6 +8,11 @@ import { Logger } from "./logging.js";
 const logger = new Logger();
 
 /* ========== function ========== */
+/**
+ * 現在地から近くの駅を取得する
+ *
+ * @returns {Array} 近くの駅
+ */
 async function getNearByStation() {
     if(!("geolocation" in navigator)){
         return [];
