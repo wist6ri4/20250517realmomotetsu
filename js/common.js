@@ -3,6 +3,10 @@ import { Constants } from "./constants.js";
 import { Supabase } from "./supabase.js";
 import { Locations } from "./location.js";
 import { StationCode } from "./stationCode.js";
+import { Logger } from './logging.js';
+
+/* ========== Logger初期化 ========== */
+const logger = new Logger();
 
 /*========== 画面表示時の実行メソッド ==========*/
 checkUUID();
@@ -80,7 +84,7 @@ async function setNearByStation($jqueryObject) {
         const nearbyStation = nearbyStations[0].station;
         $jqueryObject.val(nearbyStation);
     } catch (error) {
-        Logger.Error('Failed to get nearby station.', error);
+        logger.Error('Failed to get nearby station.', error);
     };
 };
 
