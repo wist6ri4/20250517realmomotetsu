@@ -6,6 +6,10 @@ import { StationCode } from './stationCode.js';
 import { Common } from './common.js';
 import { Dijkstra } from './dijkstra.js';
 import { Supabase } from './supabase.js';
+import { Logger } from './logging.js';
+
+/* ========== Logger初期化 ========== */
+const logger = new Logger();
 
 /* ========== 変数の設定 ========== */
 // response
@@ -181,7 +185,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
         jsonData.nextStation.push(modifiedRecord);
     });
 
-    console.log("Received Json Data.", jsonData);
+    logger.Debug('Success to create json data.', jsonData);
     return jsonData;
 };
 

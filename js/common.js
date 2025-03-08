@@ -4,7 +4,21 @@ import { Supabase } from "./supabase.js";
 import { Locations } from "./location.js";
 import { StationCode } from "./stationCode.js";
 
+/*========== 画面表示時の実行メソッド ==========*/
+checkUUID();
+
 /* ========== function ========== */
+function checkUUID() {
+    const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
+    if(uuid) {
+        return uuid;
+    } else {
+        const newUUID = crypto.randomUUID();
+        sessionStorage.setItem(Constants.SESSION_UUID, newUUID);
+        return newUUID;
+    };
+};
+
 /**
  * チーム名を取得してsessionStorageにセットする
  *
@@ -64,10 +78,9 @@ async function setNearByStation($jqueryObject) {
     try {
         const nearbyStations = await Locations.getNearByStation();
         const nearbyStation = nearbyStations[0].station;
-        console.log(`最寄り駅：${nearbyStation}`, nearbyStations);
         $jqueryObject.val(nearbyStation);
     } catch (error) {
-        console.log(error.message);
+        Logger.Error('Failed to get nearby station.', error);
     };
 };
 
