@@ -1,5 +1,9 @@
 /* ========== モジュールのインポート ========== */
 import { Constants } from "./constants.js";
+import { Logger } from "./logging.js";
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 /* パスワード */
 const password = Constants.PASSWORD;
@@ -41,6 +45,7 @@ function checkCookie() {
             const userInput = prompt("パスワードを入力してください:");
             if(userInput === password) {
                 setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
+                logger.Info('Success to login as admin.');
                 window.location.href = './operation.html';
             } else {
                 alert("パスワードが違います。");

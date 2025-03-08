@@ -1,6 +1,10 @@
 /* ========== モジュールのインポート ========== */
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { Constants } from './constants.js';
+import { Logger } from './logging.js';
+
+/*========== Logger初期化 ==========*/
+const logger = new Logger();
 
 // SUPABASEのクライアントの作成
 const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
@@ -22,12 +26,12 @@ async function getTeams() {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute getTeams().', teams);
             return teams;
         }
     } catch (error) {
+        logger.Error('Failed to execute getTeams().', error);
         throw new Error(error);
-    } finally {
-        console.log('getTeams() done.');
     };
 };
 
@@ -46,12 +50,12 @@ async function getStations() {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute getStations().', stations);
             return stations;
         }
     } catch (error) {
+        logger.Error('Failed to execute getStations().', error);
         throw new Error(error);
-    } finally {
-        console.log('getStations() done.');
     };
 };
 
@@ -70,12 +74,12 @@ async function getTransitStations() {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute getTransitStations().', transitStations);
             return transitStations;
         }
     } catch (error) {
+        logger.Error('Failed to execute getTransitStations().', error);
         throw new Error(error);
-    } finally {
-        console.log('getTransitStations() done.');
     };
 };
 
@@ -97,12 +101,12 @@ async function insertTransitStations(teamId, stationId) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertTransitStations().', data);
             return data;
         }
     } catch (error) {
+        logger.Error('Failed to execute insertTransitStations().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertTransitStations() done.');
     };
 };
 
@@ -121,12 +125,12 @@ async function getGoalStations() {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute getGoalStations().', goalStations);
             return goalStations;
         }
     } catch (error) {
+        logger.Error('Failed to execute getGoalStations().', error);
         throw new Error(error);
-    } finally {
-        console.log('getGoalStations() done.');
     };
 };
 
@@ -147,12 +151,12 @@ async function insertGoalStations(stationId) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertGoalStations().', data);
             return data;
         }
     } catch (error) {
+        logger.Error('Failed to execute insertGoalStations().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertGoalStations() done.');
     };
 }
 
@@ -172,12 +176,12 @@ async function getNotChargedPoints() {
             throw new Error(error);
         } else {
             const groupedPoints = groupByAndSum(notChargedPoints, ['team_id', 'point']);
+            logger.Debug('Success to execute getNotChargedPoints().', groupedPoints);
             return groupedPoints;
         }
     } catch (error) {
+        logger.Error('Failed to execute getNotChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('getNotChargedPoints() done.');
     };
 };
 
@@ -198,12 +202,12 @@ async function getChargedPoints() {
             throw new Error(error);
         } else {
             const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
+            logger.Debug('Success to execute getChargedPoints().', groupedPoints);
             return groupedPoints;
         }
     } catch (error) {
+        logger.Error('Failed to execute getChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('getChargedPoints() done.');
     };
 };
 
@@ -224,12 +228,12 @@ async function insertMovingPoints(teamId) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertMovingPoints().', data);
             return data;
         }
     } catch (error) {
+        logger.Error('Failed to execute insertMovingPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertMovingPoints() done.');
     };
 };
 
@@ -251,12 +255,12 @@ async function insertAdditionalPoints(teamId, point) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertAdditionalPoints().', data);
             return data;
         }
     } catch (error) {
+        logger.Error('Failed to execute insertAdditionalPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertAdditionalPoints() done.');
     };
 };
 
@@ -279,12 +283,12 @@ async function insertSubtractionPoints(teamId, point) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertSubtractionPoints().', data);
             return data;
         }
     } catch (error) {
+        logger.Error('Failed to execute insertSubtractionPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertSubtractionPoints() done.');
     };
 };
 
@@ -313,12 +317,12 @@ async function insertAddAndSubPoints(addTeamId, subTeamId, point) {
         if (addError || subError) {
             throw new Error(addError || subError);
         } else {
+            logger.Debug('Success to execute insertAddAndSubPoints().', { addData, subData });
             return { addData, subData };
         }
     } catch (error) {
+        logger.Error('Failed to execute insertAddAndSubPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertAddAndSubPoints() done.');
     };
 };
 
@@ -339,12 +343,12 @@ async function updateNotChargedPoints(teamId) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute updateNotChargedPoints().', notChargedPoints);
             return notChargedPoints;
         }
     } catch (error) {
+        logger.Error('Failed to execute updateNotChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('updateNotChargedPoints() done.');
     };
 };
 
@@ -366,12 +370,12 @@ async function insertAdditionalChargedPoints(teamId, point) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertAdditionalChargedPoints().', chargedPoints);
             return chargedPoints;
         };
     } catch (error) {
+        logger.Error('Failed to execute insertAdditionalChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertAdditionalMoney() done.');
     };
 };
 
@@ -393,12 +397,12 @@ async function insertSubtractionChargedPoints(teamId, point) {
         if (error) {
             throw new Error(error);
         } else {
+            logger.Debug('Success to execute insertSubtractionChargedPoints().', chargedPoints);
             return chargedPoints;
         };
     } catch (error) {
+        logger.Error('Failed to execute insertSubtractionChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertSubtractionMoney() done.');
     };
 };
 
@@ -427,12 +431,12 @@ async function insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
         if (addError || subError) {
             throw new Error(addError || subError);
         } else {
+            logger.Debug('Success to execute insertAddAndSubChargedPoints().', { addData, subData });
             return { addData, subData };
         }
     } catch (error) {
+        logger.Error('Failed to execute insertAddAndSubChargedPoints().', error);
         throw new Error(error);
-    } finally {
-        console.log('insertAddAndSubChargedPoints() done.');
     };
 }
 
