@@ -84,7 +84,7 @@ class Logger {
         if(!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)) {
             return;
         }
-        console.warn(`[WARNING]${logMessage}|}`, logObject);
+        console.warn(`[WARNING]${logMessage}|`, logObject);
         await this.log(LogLevel.WARNING, logMessage, logObject);
     };
 
