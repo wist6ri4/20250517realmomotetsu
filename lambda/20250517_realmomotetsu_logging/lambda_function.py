@@ -19,6 +19,21 @@ def lambda_handler(event, context):
     lambda_handler receives a POST request from Frontend.
     And then sends logs to AWS CloudWatch.
     """
+    # HTTP メソッドを取得
+    http_method = event["requestContext"]["http"]["method"]
+
+    # OPTIONS リクエストに対する CORS 設定
+    if http_method == "OPTIONS":
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS, POST",
+                "Access-Control-Allow-Headers": "Content-Type"
+            },
+            "body": ""
+        }
+
     print(event)
     try:
         log_content = json.loads(event['body']).get('logContent')

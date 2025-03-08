@@ -48,9 +48,9 @@ class Logger {
         try {
             fetch(LoggingConstants.API_URL, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'cors',
                 headers: {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body),
             })
