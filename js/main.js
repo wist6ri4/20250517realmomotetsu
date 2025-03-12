@@ -43,34 +43,43 @@ $updateButton.on('click', main);
  * 画面表示時と10秒おきに実行する
  */
 async function main() {
-    // 更新時刻の取得
-    CFI.$UPDATED_TIME.text(getCurrentTime());
-
-    // チーム名の取得
-    await Common.getAndSetTeamName();
-
-    // チーム名の表示
-    handleTeamInformation();
-
-    // 各チームの詳細情報の取得
-    const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
     try {
-        responseData = await fetchJsonData();
-        display(responseData);
-        sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
-    } catch {
-        if(sessionTeamData) {
-            responseData = JSON.parse(sessionTeamData);
-            display(responseData);
-        } else {
-            alert('データの取得に失敗しました。');
-        };
-    };
+        // 更新時刻の取得
+        CFI.$UPDATED_TIME.text(getCurrentTime());
 
-    // 駅名の取得
-    await Common.getAndSetStations();
-    // ミッションが設定されている駅マスの設定
-    displayMissionSetStations();
+        // チーム名の取得
+        await Common.getAndSetTeamName();
+
+        // チーム名の表示
+        handleTeamInformation();
+
+        // 各チームの詳細情報の取得
+        const sessionTeamData = sessionStorage.getItem(Constants.SESSION_TEAM_DATA);
+        try {
+            responseData = await fetchJsonData();
+            display(responseData);
+            sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
+            logger.Debug('Fetch and display the main data.', responseData);
+        } catch(error) {
+            if(sessionTeamData) {
+                responseData = JSON.parse(sessionTeamData);
+                display(responseData);
+                logger.Warning('Display the main data from the session storage.', responseData);
+            } else {
+                alert('データの取得に失敗しました。');
+                logger.Error('Failed to get the main data.', error);
+                throw new Error(error);
+            };
+        };
+        // 駅名の取得
+        await Common.getAndSetStations();
+        // ミッションが設定されている駅マスの設定
+        displayMissionSetStations();
+
+        logger.Debug('Displayed.');
+    } catch(error) {
+        logger.Error('Failed to display.', error);
+    }
 };
 
 /**
@@ -185,7 +194,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
         jsonData.nextStation.push(modifiedRecord);
     });
 
-    logger.Debug('Success to create json data.', jsonData);
+    logger.Debug('Created json data.', jsonData);
     return jsonData;
 };
 

@@ -12,11 +12,17 @@ const logger = new Logger();
 checkUUID();
 
 /* ========== function ========== */
+/**
+ * UUIDをチェックしてsessionStorageにセットする
+ *
+ * @returns {string} UUID
+ */
 function checkUUID() {
     const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
     if(uuid) {
         return uuid;
     } else {
+        // UUIDがない場合、新しく生成してセットする
         const newUUID = crypto.randomUUID();
         sessionStorage.setItem(Constants.SESSION_UUID, newUUID);
         return newUUID;
@@ -34,6 +40,7 @@ async function getAndSetTeamName() {
     if(sessionTeamName?.length > 0) {
         return sessionTeamName;
     } else {
+        // チーム名がない場合、取得してセットする
         const teams = await Supabase.getTeams();
         sessionStorage.setItem(Constants.SESSION_TEAM_NAME, JSON.stringify(teams));
         return teams;
@@ -51,6 +58,7 @@ async function getAndSetStations() {
     if(sessionStations?.length > 0) {
         return sessionStations;
     } else {
+        // 駅名がない場合、取得してセットする
         const stations = await Supabase.getStations();
         sessionStorage.setItem(Constants.SESSION_STATIONS, JSON.stringify(stations));
         return stations;
@@ -77,6 +85,8 @@ function formatPoint(point) {
 
 /**
  * 最寄り駅を取得して表示する
+ *
+ * @param {Object} $jqueryObject jQueryオブジェクト
  */
 async function setNearByStation($jqueryObject) {
     try {

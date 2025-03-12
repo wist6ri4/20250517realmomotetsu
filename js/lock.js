@@ -8,9 +8,16 @@ const logger = new Logger();
 /* パスワード */
 const password = Constants.PASSWORD;
 
+/* ========== 画面表示時の実行メソッド ========== */
+// ページ読み込み時にCookieをチェックする
+checkCookie();
+
 /* ========== function ========== */
 /**
  * Cookieを取得する
+ *
+ * @param {string} name Cookie名
+ * @returns {string} Cookie値
  */
 function getCookie(name) {
     const value = ";" + document.cookie;
@@ -20,6 +27,10 @@ function getCookie(name) {
 
 /**
  * Cookieを設定する
+ *
+ * @param {string} name Cookie名
+ * @param {string} value Cookie値
+ * @param {number} hours 有効時間
  */
 function setCookie(name, value, hours) {
     let expires = "";
@@ -31,21 +42,18 @@ function setCookie(name, value, hours) {
     document.cookie = name + "=" + value + "; path=/" + expires;
 };
 
-// ページ読み込み時にCookieをチェックする
-checkCookie();
-
 /**
  * Cookieをチェックしてパスワードを入力する
  */
-function checkCookie() {
+async function checkCookie() {
     if(getCookie(Constants.COOKIE_KEY) === 'true') {
         window.location.href = './operation.html';
     } else {
-        setTimeout(() => {
+        setTimeout(async () => {
             const userInput = prompt("パスワードを入力してください:");
             if(userInput === password) {
                 setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
-                logger.Info('Success to login as admin.');
+                await logger.Info('Success to login as admin.');
                 window.location.href = './operation.html';
             } else {
                 alert("パスワードが違います。");
