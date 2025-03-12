@@ -45,14 +45,15 @@ function setCookie(name, value, hours) {
 /**
  * Cookieをチェックしてパスワードを入力する
  */
-function checkCookie() {
+async function checkCookie() {
     if(getCookie(Constants.COOKIE_KEY) === 'true') {
         window.location.href = './operation.html';
     } else {
-        setTimeout(() => {
+        setTimeout(async () => {
             const userInput = prompt("パスワードを入力してください:");
             if(userInput === password) {
                 setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
+                await logger.Info('Success to login as admin.');
                 window.location.href = './operation.html';
             } else {
                 alert("パスワードが違います。");
