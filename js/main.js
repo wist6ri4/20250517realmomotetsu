@@ -1,12 +1,13 @@
 /* ========== モジュールのインポート ========== */
+import { checkUuid } from './checkUuid.js'
 import { Constants } from './constants.js';
 import { CFI } from './constantsForIndex.js';
 import { TEAMS } from './constantsForIndex.js';
 import { StationCode } from './stationCode.js';
 import { Common } from './common.js';
-import { Dijkstra } from './dijkstra.js';
 import { Supabase } from './supabase.js';
 import { Logger } from './logging.js';
+import { Dijkstra } from './dijkstra.js';
 
 /* ========== Logger初期化 ========== */
 const logger = new Logger();
@@ -65,6 +66,7 @@ async function main() {
                 responseData = JSON.parse(sessionTeamData);
                 display(responseData);
                 logger.Warning('Display the main data from the session storage.', responseData);
+                logger.Error('Failed to get the main data.', error);
             } else {
                 alert('データの取得に失敗しました。');
                 logger.Error('Failed to get the main data.', error);

@@ -1,4 +1,5 @@
 /* ========== モジュールのインポート ========== */
+import { checkUuid } from './checkUuid.js';
 import { Constants } from './constants.js';
 import { Common } from './common.js';
 import { Supabase } from './supabase.js';
