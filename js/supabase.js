@@ -22,6 +22,20 @@ const DELETE = 'delete';
  */
 class Supabase {
     /**
+     * 関数の呼び出し元を取得する
+     *
+     * @returns {string} callerFunction
+     */
+    static getCallerFunction() {
+        const stackLines = new Error().stack.split('\n');
+        if(stackLines.length > 2) {
+            const callerFunction = stackLines[3 ].trim();
+            const match = callerFunction.match(/at (\S+)/);
+            return match ? match[1] : 'Unknown';
+        };
+    };
+
+    /**
      * クエリを実行する
      *
      * @param {Object} param0 クエリ情報
@@ -38,7 +52,8 @@ class Supabase {
      */
     static async executeQuery({table, action, filters=[], orderBy=null, updateData=null}) {
         // 呼び出し元関数名の取得
-        const callerFunction = getCallerFunction();
+        const callerFunction = this.getCallerFunction();
+        console.log(callerFunction);
         try {
             // 取得対象のテーブルを指定
             let query = supabase.from(table);
@@ -370,20 +385,6 @@ function groupByAndSum(array, keys) {
     }, {});
 
     return result;
-};
-
-/**
- * 関数の呼び出し元を取得する
- *
- * @returns {string} callerFunction
- */
-function getCallerFunction() {
-    const stackLines = new Error().stack.split('\n');
-    if(stackLines.length > 2) {
-        const callerFunction = stackLines[3 ].trim();
-        const match = callerFunction.match(/at (\S+)/);
-        return match ? match[1] : 'Unknown';
-    };
 };
 
 /* ========== モジュールのエクスポート ========== */

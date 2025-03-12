@@ -2,33 +2,12 @@
 import { Constants } from "./constants.js";
 import { Supabase } from "./supabase.js";
 import { Locations } from "./location.js";
-import { StationCode } from "./stationCode.js";
 import { Logger } from './logging.js';
 
 /* ========== Logger初期化 ========== */
 const logger = new Logger();
 
-/*========== 画面表示時の実行メソッド ==========*/
-checkUUID();
-
 /* ========== function ========== */
-/**
- * UUIDをチェックしてsessionStorageにセットする
- *
- * @returns {string} UUID
- */
-function checkUUID() {
-    const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
-    if(uuid) {
-        return uuid;
-    } else {
-        // UUIDがない場合、新しく生成してセットする
-        const newUUID = crypto.randomUUID();
-        sessionStorage.setItem(Constants.SESSION_UUID, newUUID);
-        return newUUID;
-    };
-};
-
 /**
  * チーム名を取得してsessionStorageにセットする
  *
