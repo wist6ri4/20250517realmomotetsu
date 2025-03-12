@@ -47,27 +47,31 @@ $('#move-point').on('input', function() {
  *  画面表示時に実行する
  */
 async function main() {
-    logger.Info('Success to login as admin.');
+    try {
+        // チーム名の取得
+        await Common.getAndSetTeamName();
+        // チーム名のオプションを作成
+        const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
+        teams.forEach(function(team) {
+            $addPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
+            $subPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
+            $movePointFromSelect.append($('<option>').val(team.team_id).text(team.team_name));
+            $movePointToSelect.append($('<option>').val(team.team_id).text(team.team_name));
+            $chargePointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
+        });
 
-    // チーム名の取得
-    await Common.getAndSetTeamName();
-    // チーム名のオプションを作成
-    const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
-    teams.forEach(function(team) {
-        $addPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
-        $subPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
-        $movePointFromSelect.append($('<option>').val(team.team_id).text(team.team_name));
-        $movePointToSelect.append($('<option>').val(team.team_id).text(team.team_name));
-        $chargePointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
-    });
+        // 駅名の取得
+        await Common.getAndSetStations();
+        // 駅名のオプションを作成
+        const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+        stations.forEach(function(station) {
+            $goalStationSelect.append($('<option>').val(station.station_id).text(station.station_name));
+        });
 
-    // 駅名の取得
-    await Common.getAndSetStations();
-    // 駅名のオプションを作成
-    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
-    stations.forEach(function(station) {
-        $goalStationSelect.append($('<option>').val(station.station_id).text(station.station_name));
-    });
+        logger.Debug('Displayed.');
+    } catch {
+        logger.Error('Failed to Display.');
+    }
 };
 
 /**

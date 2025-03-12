@@ -23,25 +23,29 @@ main();
  * 画面表示時に実行する
  */
 async function main() {
-    // チーム名の取得
-    await Common.getAndSetTeamName();
-    // チーム名のオプションを作成
-    const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
-    teams.forEach(function(team) {
-        $formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
-    });
+    try {
+        // チーム名の取得
+        await Common.getAndSetTeamName();
+        // チーム名のオプションを作成
+        const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
+        teams.forEach(function(team) {
+            $formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
+        });
 
-    // formTeamNameSelect.append($('<option>').val(0).text('チームA'));
+        // 駅名の取得
+        await Common.getAndSetStations();
+        // 駅名のオプションを作成
+        const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+        stations.forEach(function(station) {
+            $formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
+        });
 
-    // 駅名の取得
-    await Common.getAndSetStations();
-    // 駅名のオプションを作成
-    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
-    stations.forEach(function(station) {
-        $formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
-    });
+        await Common.setNearByStation($formStationNameSelect);
 
-    await Common.setNearByStation($formStationNameSelect);
+        logger.Info('Displayed.');
+    } catch(error) {
+        logger.Error('Failed to display.', error);
+    };
 };
 
 

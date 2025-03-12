@@ -46,25 +46,31 @@ stopButton.on('click', stopRoulette);
  * 画面表示時に実行する
  */
 async function main() {
-    isSpin = false;
+    try {
+        isSpin = false;
 
-    // チーム名の取得
-    await Common.getAndSetTeamName();
+        // チーム名の取得
+        await Common.getAndSetTeamName();
 
-    // 駅名の取得
-    await Common.getAndSetStations();
-    // 駅名のオプションを作成
-    const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
-    stations.forEach(function(station) {
-        $currentStation.append($('<option>').val(station.station_id).text(station.station_name));
-    });
+        // 駅名の取得
+        await Common.getAndSetStations();
+        // 駅名のオプションを作成
+        const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
+        stations.forEach(function(station) {
+            $currentStation.append($('<option>').val(station.station_id).text(station.station_name));
+        });
 
-    // 最寄り駅の取得
-    await Common.setNearByStation($('#current-station'));
+        // 最寄り駅の取得
+        await Common.setNearByStation($('#current-station'));
 
-    // 駅の初期表示
-    getRandomStation($('#current-station').val());
-}
+        // 駅の初期表示
+        getRandomStation($('#current-station').val());
+
+        logger.Debug('Displayed.');
+    } catch(error) {
+        logger.Error('Failed to Display.', error);
+    };
+};
 
 /**
  * ルーレットの開始

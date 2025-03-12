@@ -34,7 +34,7 @@ async function getNearByStation() {
         sessionStorage.setItem(Constants.SESSION_NEARBY_STATIONS, JSON.stringify(nearbyStations));
 
         logger.Debug(
-            `NearbyStation:${StationCode.getStationName(nearbyStations[0].station)} Latitude:${latitude} Longitude:${longitude} Accuracy:${accuracy}`,
+            `Get current location. NearbyStation:${StationCode.getStationName(nearbyStations[0].station)} Latitude:${latitude} Longitude:${longitude} Accuracy:${accuracy}`,
             nearbyStations
         );
         return nearbyStations;

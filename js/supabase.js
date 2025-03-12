@@ -10,435 +10,347 @@ const logger = new Logger();
 const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
 
 
+const SELECT = 'select';
+const INSERT = 'insert';
+const UPDATE = 'update';
+const DELETE = 'delete';
+
 /* ========== function ========== */
-/**
- * teamsを取得する
- *
- * @returns {Array} teams
- * @throws {Error} error
- */
-async function getTeams() {
-    try {
-        const { data: teams, error } = await supabase
-            .from('teams')
-            .select('*')
-            .order('team_id');
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute getTeams().', teams);
-            return teams;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getTeams().', error);
-        throw new Error(error);
-    };
-};
 
 /**
- * stationsを取得する
- *
- * @returns {Array} stations
- * @throws {Error} error
+ * Supabaseクラス
  */
-async function getStations() {
-    try {
-        const { data: stations, error } = await supabase
-            .from('stations')
-            .select('*')
-            .order('station_id');
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute getStations().', stations);
-            return stations;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getStations().', error);
-        throw new Error(error);
-    };
-};
+class Supabase {
+    /**
+     * クエリを実行する
+     *
+     * @param {Object} param0 クエリ情報
+     * @param {string} param0.table テーブル名
+     * @param {string} param0.action アクション
+     * @param {Array} param0.filters フィルター
+     * @param {Object} param0.filters.column カラム名
+     * @param {Object} param0.filters.operator 演算子
+     * @param {Object} param0.filters.value 値
+     * @param {Object} param0.orderBy ソート
+     * @param {Object} param0.updateData 更新データ
+     * @returns {Object} data
+     * @throws {Error} error
+     */
+    static async executeQuery({table, action, filters=[], orderBy=null, updateData=null}) {
+        // 呼び出し元関数名の取得
+        const callerFunction = getCallerFunction();
+        try {
+            // 取得対象のテーブルを指定
+            let query = supabase.from(table);
+            // アクションによって処理を分岐
+            switch(action) {
+                case SELECT:
+                    query = query.select();
+                    break;
+                case INSERT:
+                    if (!updateData) {
+                        throw new Error('Invalid data.');
+                    }
+                    query = query.insert(updateData);
+                    break;
+                case UPDATE:
+                    if (!updateData) {
+                        throw new Error('Invalid data.');
+                    }
+                    query = query.update(updateData);
+                    break;
+                case DELETE:
+                    query = query.delete();
+                    break;
+                default:
+                    throw new Error('Invalid action.');
+            };
+            // フィルターを設定
+            filters.forEach(filter => {
+                const { column, operator, value } = filter;
+                query = query[operator](column, value);
+            });
+            // ソートを設定
+            if(orderBy) {
+                query = query.order(orderBy.column, { ascending: orderBy.ascending ?? true});
+            };
+            // クエリを実行
+            const { data, error } = await query;
 
-/**
- * transit_stationsを取得する
- *
- * @returns {Array} transitStations
- * @throws {Error} error
- */
-async function getTransitStations() {
-    try {
-        const { data: transitStations, error } = await supabase
-            .from('transit_stations')
-            .select('*')
-            .order('transit_station_id');
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute getTransitStations().', transitStations);
-            return transitStations;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getTransitStations().', error);
-        throw new Error(error);
-    };
-};
+            if (error) {
+                throw new Error(error);
+            }
 
-/**
- * transit_stationsにデータを追加する
- *
- * @param {number} teamId チームID
- * @param {number} stationId 駅ID
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertTransitStations(teamId, stationId) {
-    try {
-        const { data, error } = await supabase
-            .from('transit_stations')
-            .insert([
-                { team_id: teamId, station_id: stationId }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertTransitStations().', data);
+            logger.Debug(`Accessed to Supabase. [${callerFunction}] Query:${action} Table:${table}`, data);
             return data;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertTransitStations().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * goal_stationsを取得する
- *
- * @returns {Array} goalStations
- * @throws {Error} error
- */
-async function getGoalStations() {
-    try {
-        const { data: goalStations, error } = await supabase
-            .from('goal_stations')
-            .select('*')
-            .order('goal_station_id');
-        if (error) {
+        } catch (error) {
+            logger.Error(`Failed to Access to Supabase. [${callerFunction}] Query:${action} Table:${table}`, error);
             throw new Error(error);
-        } else {
-            logger.Debug('Success to execute getGoalStations().', goalStations);
-            return goalStations;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getGoalStations().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * goal_stationsにデータを追加する
- *
- * @param {number} stationId 駅ID
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertGoalStations(stationId) {
-    try {
-        const { data, error } = await supabase
-            .from('goal_stations')
-            .insert([
-                { station_id: stationId }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertGoalStations().', data);
-            return data;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertGoalStations().', error);
-        throw new Error(error);
-    };
-}
-
-/**
- * 未チャージポイントを取得し、各チームごとに総計する
- *
- * @returns {Object} groupedPoints
- * @throws {Error} error
- */
-async function getNotChargedPoints() {
-    try {
-        const { data: notChargedPoints, error } = await supabase
-            .from('points')
-            .select('*')
-            .eq('is_charged', false);
-        if (error) {
-            throw new Error(error);
-        } else {
-            const groupedPoints = groupByAndSum(notChargedPoints, ['team_id', 'point']);
-            logger.Debug('Success to execute getNotChargedPoints().', groupedPoints);
-            return groupedPoints;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getNotChargedPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * チャージ済みポイントを取得する
- *
- * @returns {Object} groupedPoints
- * @throws {Error} error
- */
-async function getChargedPoints() {
-    try {
-        const { data: chargedPoints, error } = await supabase
-            .from('points')
-            .select('*')
-            .eq('is_charged', true)
-            .order('point_id');
-        if (error) {
-            throw new Error(error);
-        } else {
-            const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
-            logger.Debug('Success to execute getChargedPoints().', groupedPoints);
-            return groupedPoints;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute getChargedPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * 移動ポイントを追加する
- *
- * @param {number} teamId チームID
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertMovingPoints(teamId) {
-    try {
-        const { data, error } = await supabase
-            .from('points')
-            .insert([
-                { team_id: teamId, point: Constants.POINT_FOR_MOVING }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertMovingPoints().', data);
-            return data;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertMovingPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * チームを指定してポイントを加算する
- *
- * @param {number} teamId チームID
- * @param {number} point 加算ポイント
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertAdditionalPoints(teamId, point) {
-    try {
-        const { data, error } = await supabase
-            .from('points')
-            .insert([
-                { team_id: teamId, point: point }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertAdditionalPoints().', data);
-            return data;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertAdditionalPoints().', error);
-        throw new Error(error);
-    };
-};
-
-
-/**
- * チームを指定してポイントを減算する
- *
- * @param {number} teamId チームID
- * @param {number} point 減算ポイント
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertSubtractionPoints(teamId, point) {
-    try {
-        const { data, error } = await supabase
-            .from('points')
-            .insert([
-                { team_id: teamId, point: -point }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertSubtractionPoints().', data);
-            return data;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertSubtractionPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * チーム間でポイントを移動する
- *
- * @param {string} addTeamId 加算チームID
- * @param {string} subTeamId 減算チームID
- * @param {number} point ポイント
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertAddAndSubPoints(addTeamId, subTeamId, point) {
-    try {
-        const { data: addData, error: addError } = await supabase
-            .from('points')
-            .insert([
-                { team_id: addTeamId, point: point }
-            ]);
-        const { data: subData, error: subError } = await supabase
-            .from('points')
-            .insert([
-                { team_id: subTeamId, point: -(point) }
-            ]);
-
-        if (addError || subError) {
-            throw new Error(addError || subError);
-        } else {
-            logger.Debug('Success to execute insertAddAndSubPoints().', { addData, subData });
-            return { addData, subData };
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertAddAndSubPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * チームIDを指定して未チャージポイントをチャージ済みに更新する
- *
- * @param {number} teamId チームID
- * @returns {Object} notChargedPoints
- * @throws {Error} error
- */
-async function updateNotChargedPoints(teamId) {
-    try {
-        const { data: notChargedPoints, error } = await supabase
-            .from('points')
-            .update({ is_charged: true, updated_at: new Date().toISOString() })
-            .eq('team_id', teamId)
-            .eq('is_charged', false);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute updateNotChargedPoints().', notChargedPoints);
-            return notChargedPoints;
-        }
-    } catch (error) {
-        logger.Error('Failed to execute updateNotChargedPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- *  チームを指定してチャージ済みポイントを加算する
- *
- * @param {number} teamId チームID
- * @param {number} point 加算ポイント
- * @returns {Object} chargedPoints
- * @throws {Error} error
- */
-async function insertAdditionalChargedPoints(teamId, point) {
-    try {
-        const { data: chargedPoints, error } = await supabase
-            .from('points')
-            .insert([
-                { team_id: teamId, point: point, is_charged: true }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertAdditionalChargedPoints().', chargedPoints);
-            return chargedPoints;
         };
-    } catch (error) {
-        logger.Error('Failed to execute insertAdditionalChargedPoints().', error);
-        throw new Error(error);
+    };
+
+    /**
+     * teamsを取得する
+     *
+     * @returns {Array} teams
+     */
+    static async getTeams() {
+        const teams = await Supabase.executeQuery({
+            table: 'teams',
+            action: SELECT,
+            orderBy: { column: 'team_id', ascending: true }
+        });
+        return teams;
+    };
+
+    /**
+     * stationsを取得する
+     *
+     * @returns {Array} stations
+     */
+    static async getStations() {
+        const stations = await Supabase.executeQuery({
+            table: 'stations',
+            action: SELECT,
+            orderBy: { column: 'station_id', ascending: true }
+        });
+        return stations;
+    };
+
+    /**
+     * transit_stationsを取得する
+     *
+     * @returns {Array} transitStations
+     */
+    static async getTransitStations() {
+        const transitStations = await Supabase.executeQuery({
+            table: 'transit_stations',
+            action: SELECT,
+            orderBy: { column: 'transit_station_id', ascending: true }
+        });
+        return transitStations;
+    };
+
+    /**
+     * transit_stationsにデータを追加する
+     *
+     * @param {number} teamId チームID
+     * @param {number} stationId 駅ID
+     * @returns {Object} data
+     */
+    static async insertTransitStations(teamId, stationId) {
+        const data = await Supabase.executeQuery({
+            table: 'transit_stations',
+            action: INSERT,
+            updateData: [{ team_id: teamId, station_id: stationId }]
+        });
+        return data;
+    };
+
+    /**
+     * goal_stationsを取得する
+     *
+     * @returns {Array} goalStations
+     * @throws {Error} error
+     */
+    static async getGoalStations() {
+        const goalStations = await Supabase.executeQuery({
+            table: 'goal_stations',
+            action: SELECT,
+            orderBy: { column: 'goal_station_id', ascending: true }
+        });
+        return goalStations;
+    };
+
+    /**
+     * goal_stationsにデータを追加する
+     *
+     * @param {number} stationId 駅ID
+     * @returns {Object} data
+     * @throws {Error} error
+     */
+    static async insertGoalStations(stationId) {
+        const data = await Supabase.executeQuery({
+            table: 'goal_stations',
+            action: INSERT,
+            updateData: [{ station_id: stationId }]
+        });
+        return data;
+    };
+
+    /**
+     * 未チャージポイントを取得し、各チームごとに総計する
+     *
+     * @returns {Object} groupedPoints
+     */
+    static async getNotChargedPoints() {
+        const notChargedPoints = await Supabase.executeQuery({
+            table: 'points',
+            action: SELECT,
+            filters: [{ column: 'is_charged', operator: 'eq', value: false }]
+        });
+        const groupedPoints = groupByAndSum(notChargedPoints, ['team_id', 'point']);
+        return groupedPoints;
+    };
+
+    /**
+     * チャージ済みポイントを取得する
+     *
+     * @returns {Object} groupedPoints
+     */
+    static async getChargedPoints() {
+        const chargedPoints = await Supabase.executeQuery({
+            table: 'points',
+            action: SELECT,
+            filters: [{ column: 'is_charged', operator: 'eq', value: true }]
+        });
+        const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
+        return groupedPoints;
+    };
+
+    /**
+     * 移動ポイントを追加する
+     *
+     * @param {number} teamId チームID
+     * @returns {Object} data
+     */
+    async insertMovingPoints(teamId) {
+        const data = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: teamId, point: Constants.POINT_FOR_MOVING }]
+        });
+        return data;
+    };
+
+    /**
+     * チームを指定してポイントを加算する
+     *
+     * @param {number} teamId チームID
+     * @param {number} point 加算ポイント
+     * @returns {Object} data
+     * @throws {Error} error
+     */
+    async insertAdditionalPoints(teamId, point) {
+        const data = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: teamId, point: point }]
+        });
+        return data;
+    };
+
+
+    /**
+     * チームを指定してポイントを減算する
+     *
+     * @param {number} teamId チームID
+     * @param {number} point 減算ポイント
+     * @returns {Object} data
+     */
+    static async insertSubtractionPoints(teamId, point) {
+        const data = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: teamId, point: -point }]
+        });
+        return data;
+    };
+
+    /**
+     * チーム間でポイントを移動する
+     *
+     * @param {string} addTeamId 加算チームID
+     * @param {string} subTeamId 減算チームID
+     * @param {number} point ポイント
+     * @returns {Object} data
+     * @throws {Error} error
+     */
+    static async insertAddAndSubPoints(addTeamId, subTeamId, point) {
+        const addData = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: addTeamId, point: point }]
+        });
+        const subData = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: subTeamId, point: -point }]
+        });
+        return { addData, subData };
+    };
+
+    /**
+     * チームIDを指定して未チャージポイントをチャージ済みに更新する
+     *
+     * @param {number} teamId チームID
+     * @returns {Object} notChargedPoints
+     * @throws {Error} error
+     */
+    static async updateNotChargedPoints(teamId) {
+        const notChargedPoints = await Supabase.executeQuery({
+            table: 'points',
+            action: UPDATE,
+            filters: [{ column: 'team_id', operator: 'eq', value: teamId }, { column: 'is_charged', operator: 'eq', value: false }],
+            updateData: { is_charged: true, updated_at: new Date().toISOString() }
+        });
+        return notChargedPoints;
+    };
+
+    /**
+     *  チームを指定してチャージ済みポイントを加算する
+     *
+     * @param {number} teamId チームID
+     * @param {number} point 加算ポイント
+     * @returns {Object} chargedPoints
+     */
+    static async insertAdditionalChargedPoints(teamId, point) {
+        const chargedPoints = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: teamId, point: point, is_charged: true }]
+        });
+        return chargedPoints;
+    };
+
+    /**
+     * チームを指定してチャージ済みポイントを減算する
+     *
+     * @param {number} teamId チームID
+     * @param {number} point 減算ポイント
+     * @returns {Object} chargedPoints
+     */
+    static async insertSubtractionChargedPoints(teamId, point) {
+        const chargedPoints = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: teamId, point: -point, is_charged: true }]
+        });
+        return chargedPoints;
+    };
+
+    /**
+     * チーム間でチャージ済みポイントを移動する
+     *
+     * @param {string} addTeamId 加算チームID
+     * @param {string} subTeamId 減算チームID
+     * @param {number} point ポイント
+     * @returns {Object} data
+     */
+    static async insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
+        const addData = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: addTeamId, point: point, is_charged: true }]
+        });
+        const subData = await Supabase.executeQuery({
+            table: 'points',
+            action: INSERT,
+            updateData: [{ team_id: subTeamId, point: -point, is_charged: true }]
+        });
+        return { addData, subData };
     };
 };
-
-/**
- * チームを指定してチャージ済みポイントを減算する
- *
- * @param {number} teamId チームID
- * @param {number} point 減算ポイント
- * @returns {Object} chargedPoints
- * @throws {Error} error
- */
-async function insertSubtractionChargedPoints(teamId, point) {
-    try {
-        const { data: chargedPoints, error } = await supabase
-            .from('points')
-            .insert([
-                { team_id: teamId, point: -(point), is_charged: true }
-            ]);
-        if (error) {
-            throw new Error(error);
-        } else {
-            logger.Debug('Success to execute insertSubtractionChargedPoints().', chargedPoints);
-            return chargedPoints;
-        };
-    } catch (error) {
-        logger.Error('Failed to execute insertSubtractionChargedPoints().', error);
-        throw new Error(error);
-    };
-};
-
-/**
- * チーム間でチャージ済みポイントを移動する
- *
- * @param {string} addTeamId 加算チームID
- * @param {string} subTeamId 減算チームID
- * @param {number} point ポイント
- * @returns {Object} data
- * @throws {Error} error
- */
-async function insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
-    try {
-        const { data: addData, error: addError } = await supabase
-            .from('points')
-            .insert([
-                { team_id: addTeamId, point: point, is_charged: true }
-            ]);
-        const { data: subData, error: subError } = await supabase
-            .from('points')
-            .insert([
-                { team_id: subTeamId, point: -(point), is_charged: true }
-            ]);
-
-        if (addError || subError) {
-            throw new Error(addError || subError);
-        } else {
-            logger.Debug('Success to execute insertAddAndSubChargedPoints().', { addData, subData });
-            return { addData, subData };
-        }
-    } catch (error) {
-        logger.Error('Failed to execute insertAddAndSubChargedPoints().', error);
-        throw new Error(error);
-    };
-}
 
 /**
  * 配列を指定のキーでグループ化し、指定のキーで合計する
@@ -460,22 +372,19 @@ function groupByAndSum(array, keys) {
     return result;
 };
 
-/* ========== モジュールのエクスポート ========== */
-export const Supabase = {
-    getTeams,
-    getStations,
-    getTransitStations,
-    insertTransitStations,
-    getGoalStations,
-    insertGoalStations,
-    getNotChargedPoints,
-    getChargedPoints,
-    insertMovingPoints,
-    insertAdditionalPoints,
-    insertSubtractionPoints,
-    insertAddAndSubPoints,
-    updateNotChargedPoints,
-    insertAdditionalChargedPoints,
-    insertSubtractionChargedPoints,
-    insertAddAndSubChargedPoints
+/**
+ * 関数の呼び出し元を取得する
+ *
+ * @returns {string} callerFunction
+ */
+function getCallerFunction() {
+    const stackLines = new Error().stack.split('\n');
+    if(stackLines.length > 2) {
+        const callerFunction = stackLines[3 ].trim();
+        const match = callerFunction.match(/at (\S+)/);
+        return match ? match[1] : 'Unknown';
+    };
 };
+
+/* ========== モジュールのエクスポート ========== */
+export { Supabase };
