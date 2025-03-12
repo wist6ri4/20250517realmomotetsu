@@ -42,7 +42,7 @@ async function main() {
 
         await Common.setNearByStation($formStationNameSelect);
 
-        logger.Info('Displayed.');
+        logger.Debug('Displayed.');
     } catch(error) {
         logger.Error('Failed to display.', error);
     };
