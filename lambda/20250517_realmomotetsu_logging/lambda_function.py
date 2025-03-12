@@ -40,6 +40,7 @@ def lambda_handler(event, context):
         log_level = log_content.get('logLevel')
         log_message = log_content.get('logMessage')
         log_object = log_content.get('logObject')
+        view_name = log_content.get('viewName')
 
         if not all([uuid, log_level, log_content]):
             logger.error('Missing required fields: %s', log_content)
@@ -53,7 +54,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'message': 'Missing required fields'})
             }
 
-        extra = {'uuid': uuid, 'log_object': log_object}
+        extra = {'uuid': uuid, 'log_object': log_object, 'view_name': view_name}
 
         if log_level == DEBUG:
             logger.debug(log_message, extra=extra)
