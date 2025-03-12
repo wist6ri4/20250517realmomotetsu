@@ -1,10 +1,10 @@
 /* ========== モジュールのインポート ========== */
+import { checkUuid } from "./checkUuid.js";
+import { Constants } from "./constants.js";
 import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
-import { Constants } from "./constants.js";
-import { Locations } from "./location.js";
-import { Dijkstra } from "./dijkstra.js";
 import { Logger } from "./logging.js";
+import { Dijkstra } from "./dijkstra.js";
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();

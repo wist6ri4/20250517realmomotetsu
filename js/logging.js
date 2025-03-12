@@ -87,7 +87,7 @@ class Logger {
         };
 
         try {
-            fetch(LoggingConstants.API_URL, {
+            await fetch(LoggingConstants.API_URL, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
