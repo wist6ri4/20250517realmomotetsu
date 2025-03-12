@@ -9,7 +9,7 @@ const LoggingConstants = {
 
 // Loggingの設定
 const LoggingConfig = {
-    LOG_LEVEL: 'DEBUG', // ログレベル [DEBUG, INFO, WARNING, ERROR, CRITICAL]
+    LOG_LEVEL: 'INFO', // ログレベル [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 }
 
 // ログレベル文字列
