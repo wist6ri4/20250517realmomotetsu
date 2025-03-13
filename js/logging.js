@@ -4,7 +4,7 @@ import { Constants } from "./constants.js";
 /* ========== 固有定数の設定 ========== */
 // Loggingの定数
 const LoggingConstants = {
-    // API_URL: 'https://wvemjhvoca.execute-api.ap-northeast-1.amazonaws.com/default/20250517_realmomotetsu_logging'
+    API_URL: 'https://wvemjhvoca.execute-api.ap-northeast-1.amazonaws.com/default/20250517_realmomotetsu_logging'
 }
 
 // Loggingの設定
