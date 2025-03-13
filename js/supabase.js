@@ -30,7 +30,7 @@ class Supabase {
         const stackLines = new Error().stack.split('\n');
         if(stackLines.length > 2) {
             const callerFunction = stackLines[3 ].trim();
-            const match = callerFunction.match(/at (\S+)/);
+            const match = callerFunction.match(/at (\S+)/) || callerLine.match(/at (\S+):/);
             return match ? match[1] : 'Unknown';
         };
     };

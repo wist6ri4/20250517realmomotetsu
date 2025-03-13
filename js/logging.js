@@ -4,7 +4,7 @@ import { Constants } from "./constants.js";
 /* ========== 固有定数の設定 ========== */
 // Loggingの定数
 const LoggingConstants = {
-    API_URL: 'https://wvemjhvoca.execute-api.ap-northeast-1.amazonaws.com/default/20250517_realmomotetsu_logging'
+    // API_URL: 'https://wvemjhvoca.execute-api.ap-northeast-1.amazonaws.com/default/20250517_realmomotetsu_logging'
 }
 
 // Loggingの設定
@@ -42,7 +42,11 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async log(logLevel, logMessage, logObject=null) {
-        const viewName = window.location.pathname.split('/').pop().split('.').shift();
+        let viewName = window.location.pathname.split('/').pop().split('.').shift();
+        if(viewName === '') {
+            viewName = 'index';
+        };
+
         const request = {
             'uuid': this.uuid,
             'logLevel': logLevel,
