@@ -30,7 +30,7 @@ class Supabase {
         const stackLines = new Error().stack.split('\n');
         if(stackLines.length > 2) {
             const callerFunction = stackLines[3 ].trim();
-            const match = callerFunction.match(/at (\S+)/);
+            const match = callerFunction.match(/at (\S+)/) || callerFunction.match(/at (\S+):/);
             return match ? match[1] : 'Unknown';
         };
     };
@@ -53,7 +53,6 @@ class Supabase {
     static async executeQuery({table, action, filters=[], orderBy=null, updateData=null}) {
         // 呼び出し元関数名の取得
         const callerFunction = this.getCallerFunction();
-        console.log(callerFunction);
         try {
             // 取得対象のテーブルを指定
             let query = supabase.from(table);

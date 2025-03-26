@@ -42,7 +42,11 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async log(logLevel, logMessage, logObject=null) {
-        const viewName = window.location.pathname.split('/').pop().split('.').shift();
+        let viewName = window.location.pathname.split('/').pop().split('.').shift();
+        if(viewName === '') {
+            viewName = 'index';
+        };
+
         const request = {
             'uuid': this.uuid,
             'logLevel': logLevel,
@@ -54,8 +58,10 @@ class Logger {
 
         // ログのコンソール出力
         const logContent = `[${logLevel}] ${new Date().toLocaleString()} [${viewName}] ${logMessage} |`
-        if(new Set([LogLevel.DEBUG, LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
-            console.log(logContent, logObject);
+        if(new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
+            console.debug(logContent, logObject);
+        } else if (new Set([LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
+            console.info(logContent, logObject);
         } else if (new Set([LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)) {
             console.warn(logContent, logObject);
         } else if (new Set([LogLevel.ERROR, LogLevel.CRITICAL]).has(LoggingConfig.LOG_LEVEL)) {
