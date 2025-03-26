@@ -53,7 +53,6 @@ class Supabase {
     static async executeQuery({table, action, filters=[], orderBy=null, updateData=null}) {
         // 呼び出し元関数名の取得
         const callerFunction = this.getCallerFunction();
-        console.log(callerFunction);
         try {
             // 取得対象のテーブルを指定
             let query = supabase.from(table);
