@@ -17,8 +17,6 @@ class MissionSenzokuike {
      */
     static calculate(answer) {
         const diff = Math.abs(answer - this.SENZOKUIKE_AREA);
-        const magnification = Math.round((Math.exp(-1 * (diff / this.SCALE) ** 2) * 1000)) / 1000;
-        console.log(magnification);
         let score = Math.round(this.MAX_SCORE * Math.exp(-1 * (diff / this.SCALE) ** 2));
 
         // ベースポイントを加算

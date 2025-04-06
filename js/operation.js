@@ -34,6 +34,7 @@ $('#sub-point-button').on('click', subPoint);
 $('#move-point-button').on('click', movePoint);
 $('#charge-point-button').on('click', chargePoint);
 $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuikeScore);
+$('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
 $('#add-point').on('input', function() {
@@ -146,7 +147,6 @@ async function addPoint() {
     } catch (error) {
         logger.Error('Failed to send additional points.', error);
         alert('送信に失敗しました。', error);
-        console.log(error);
     } finally {
         clearForms();
     };
@@ -285,8 +285,15 @@ function calculateMissionSenzokuikeScore() {
         alert('得点計算に失敗しました。', error);
     } finally {
         clearForms();
-    }
-}
+    };
+};
+
+/**
+ * 洗足池ミッションの得点計算のフォームをリセットする
+ */
+function resetMissionSenzokuikeForm() {
+    $senzokuikeMissionAnswer.val(41000);
+};
 
 /**
  * フォームの値をリセットする
@@ -304,5 +311,4 @@ function clearForms() {
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
-    $senzokuikeMissionAnswer.val(41000);
 };

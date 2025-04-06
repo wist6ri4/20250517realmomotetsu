@@ -9,13 +9,16 @@
     padding: 0.5rem;
     position: fixed;
     bottom: 1rem;
-
 }
 
 .form-title {
     font-size: 2rem;
     font-weight: bold;
     text-align: left;
+}
+
+.form-description {
+    font-size: 1.5rem;
 }
 
 .form-header-contents {
@@ -41,6 +44,5 @@
 .submit-button {
     font-size: 1.5rem;
     font-weight: bold;
-    height: 3rem;
-    width: 7rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
 }
