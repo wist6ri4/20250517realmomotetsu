@@ -40,7 +40,7 @@ async function getNearByStation() {
         return nearbyStations;
 
     } catch(error) {
-        logger.Error('Failed to get nearby station.', error);
+        logger.Warning('Failed to get nearby station.', error);
         return [];
     };
 };
