@@ -74,6 +74,9 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-goal-station">目的駅設定</h1>
+                <p class="form-description">
+                    次の目的駅を送信する。
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -97,6 +100,10 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-add-point">ポイント加算</h1>
+                <p class="form-description">
+                    チームを選択し、ポイントを加算する。<br>
+                    換金にチェックを入れると、総資産として加算される。
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -125,7 +132,7 @@
                 </div>
                 <div class="row form-item">
                     <div class="col-5">
-                        <label for="is-charged-for-add">持ち金</label>
+                        <label for="is-charged-for-add">換金</label>
                     </div>
                     <div class="col-7 form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-add" name="is-charged-for-add">
@@ -141,6 +148,10 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-sub-point">ポイント減算</h1>
+                <p class="form-description">
+                    チームを選択し、ポイントを減算する。<br>
+                    換金にチェックを入れると、総資産として減算される。
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -169,7 +180,7 @@
                 </div>
                 <div class="row form-item">
                     <div class="col-5">
-                        <label for="is-charged-for-sub">持ち金</label>
+                        <label for="is-charged-for-sub">換金</label>
                     </div>
                     <div class="col-7 form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-sub" name="is-charged-for-sub">
@@ -185,6 +196,10 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-move-point">ポイント移動</h1>
+                <p class="form-description">
+                    ２チームを選択し、移動元から移動先へポイントを移動する。<br>
+                    換金にチェックを入れると、総資産として移動される。
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -223,7 +238,7 @@
                     </div>
                     <div class="row form-item">
                         <div class="col-5">
-                            <label for="is-charged-for-add">持ち金</label>
+                            <label for="is-charged-for-add">換金</label>
                         </div>
                         <div class="col-7 form-check form-switch">
                             <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-move" name="is-charged-for-move">
@@ -240,6 +255,9 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-charge-point">ポイント換金</h1>
+                <p class="form-description">
+                    チームを選択し、ポイントを総資産化する。<br>
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -263,6 +281,9 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="form-title" id="form-title-senzokuike-mission">洗足池ミッション得点計算ツール</h1>
+                <p class="form-description">
+                    洗足池ミッションの得点を計算する。
+                </p>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -275,6 +296,7 @@
                 </div>
             </div>
             <div class="form-footer-contents">
+                <button id="senzokuike-mission-reset-button" class="btn btn-dark submit-button">リセット</button>
                 <button id="senzokuike-mission-calculate-button" class="btn btn-success submit-button">計算</button>
             </div>
         </div>
