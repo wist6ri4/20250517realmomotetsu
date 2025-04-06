@@ -21,6 +21,9 @@ const Constants = {
     /* ポイント */
     POINT_FOR_MOVING: 5, // 移動時のポイント
 
+    /* ルーレットから排除する範囲の所要時間 */
+    ELIMINATION_TIME_RANGE_MINUTES: 15,
+
     /* パスワード */
     PASSWORD: 'rm517',
     /* Cookie */
