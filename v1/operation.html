@@ -61,10 +61,19 @@
 </header>
 <body>
     <div class="container">
+        <ul class="list-group" id="operation-index">
+            <li class="list-group-item list-group-item-action"><a href="#form-title-goal-station">目的駅設定</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-add-point">ポイント加算</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-sub-point">ポイント減算</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-move-point">ポイント移動</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-charge-point">ポイント換金</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-senzokuike-mission">洗足池ミッション得点計算ツール</a></li>
+        </ul>
+        <a href="#header-img" class="btn btn-dark" id="button-back-to-top">&nbsp;↑&nbsp;</a>
         <!-- 目的駅設定 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title">目的駅設定</h1>
+                <h1 class="form-title" id="form-title-goal-station">目的駅設定</h1>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -87,7 +96,7 @@
         <!-- ポイント加算 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title">ポイント加算</h1>
+                <h1 class="form-title" id="form-title-add-point">ポイント加算</h1>
             </div>
             <div class="form-body-contents">
                 <div class="row form-item">
@@ -131,123 +140,143 @@
         <!-- ポイント減算 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title">ポイント減算</h1>
+                <h1 class="form-title" id="form-title-sub-point">ポイント減算</h1>
             </div>
-        </div>
-        <div class="form-body-contents">
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="sub-point-team">チーム名</label>
-                </div>
-                <div class="col-7">
-                    <select id="sub-point-team-select" name="sub-point-team">
-                        <option value="0">--</option>
-                        <!-- オプションは動的に作成 -->
-                    </select>
-                </div>
-            </div>
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="sub-point">ポイント</label>
-                </div>
-                <div class="col-7">
-                    <div>
-                        <input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0">
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="sub-point-team">チーム名</label>
                     </div>
-                    <div>
-                        換金後：<span id="changed-sub-point">0 万</span>円
+                    <div class="col-7">
+                        <select id="sub-point-team-select" name="sub-point-team">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
                     </div>
                 </div>
-            </div>
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="is-charged-for-sub">持ち金</label>
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="sub-point">ポイント</label>
+                    </div>
+                    <div class="col-7">
+                        <div>
+                            <input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0">
+                        </div>
+                        <div>
+                            換金後：<span id="changed-sub-point">0 万</span>円
+                        </div>
+                    </div>
                 </div>
-                <div class="col-7 form-check form-switch">
-                    <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-sub" name="is-charged-for-sub">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="is-charged-for-sub">持ち金</label>
+                    </div>
+                    <div class="col-7 form-check form-switch">
+                        <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-sub" name="is-charged-for-sub">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-footer-contents">
-            <button id="sub-point-button" class="btn btn-primary submit-button">送信</button>
+            <div class="form-footer-contents">
+                <button id="sub-point-button" class="btn btn-primary submit-button">送信</button>
+            </div>
         </div>
         <hr>
         <!-- ポイント移動 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title">ポイント移動</h1>
+                <h1 class="form-title" id="form-title-move-point">ポイント移動</h1>
             </div>
-        </div>
-        <div class="form-body-contents">
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="move-point-from">チーム名（移動元）</label>
-                </div>
-                <div class="col-7">
-                    <select id="move-point-from-select" name="move-point-from">
-                        <option value="0">--</option>
-                        <!-- オプションは動的に作成 -->
-                    </select>
-                </div>
-            </div>
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="move-point-to">チーム名（移動先）</label>
-                </div>
-                <div class="col-7">
-                    <select id="move-point-to-select" name="move-point-to">
-                        <option value="0">--</option>
-                        <!-- オプションは動的に作成 -->
-                    </select>
-                </div>
-            </div>
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="move-point">ポイント</label>
-                </div>
-                <div class="col-7">
-                    <div>
-                        <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0">
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="move-point-from">チーム名（移動元）</label>
                     </div>
-                    <div>
-                        換金後：<span id="changed-move-point">0 万</span>円
+                    <div class="col-7">
+                        <select id="move-point-from-select" name="move-point-from">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
                     </div>
                 </div>
                 <div class="row form-item">
                     <div class="col-5">
-                        <label for="is-charged-for-add">持ち金</label>
+                        <label for="move-point-to">チーム名（移動先）</label>
                     </div>
-                    <div class="col-7 form-check form-switch">
-                        <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-move" name="is-charged-for-move">
+                    <div class="col-7">
+                        <select id="move-point-to-select" name="move-point-to">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="move-point">ポイント</label>
+                    </div>
+                    <div class="col-7">
+                        <div>
+                            <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0">
+                        </div>
+                        <div>
+                            換金後：<span id="changed-move-point">0 万</span>円
+                        </div>
+                    </div>
+                    <div class="row form-item">
+                        <div class="col-5">
+                            <label for="is-charged-for-add">持ち金</label>
+                        </div>
+                        <div class="col-7 form-check form-switch">
+                            <input type="checkbox" class="form-check-input" role="switch" id="is-charged-for-move" name="is-charged-for-move">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-footer-contents">
-            <button id="move-point-button" class="btn btn-primary submit-button">送信</button>
+            <div class="form-footer-contents">
+                <button id="move-point-button" class="btn btn-primary submit-button">送信</button>
+            </div>
         </div>
         <hr>
         <!-- ポイント換金 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title">ポイント換金</h1>
+                <h1 class="form-title" id="form-title-charge-point">ポイント換金</h1>
+            </div>
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="charge-point-team">チーム名</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="charge-point-team-select" name="charge-point-team">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer-contents">
+                <button id="charge-point-button" class="btn btn-primary submit-button">送信</button>
             </div>
         </div>
-        <div class="form-body-contents">
-            <div class="row form-item">
-                <div class="col-5">
-                    <label for="charge-point-team">チーム名</label>
-                </div>
-                <div class="col-7">
-                    <select id="charge-point-team-select" name="charge-point-team">
-                        <option value="0">--</option>
-                        <!-- オプションは動的に作成 -->
-                    </select>
+        <hr>
+        <!-- 洗足池ミッション得点計算ツール -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title" id="form-title-senzokuike-mission">洗足池ミッション得点計算ツール</h1>
+            </div>
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="senzokuike-mission-answer">チーム解答</label>
+                    </div>
+                    <div class="col-7">
+                        <input type="number" id="senzokuike-mission-answer" name="senzokuike-mission-answer" min="0" step="1" value="41000">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-footer-contents">
-            <button id="charge-point-button" class="btn btn-primary submit-button">送信</button>
+            <div class="form-footer-contents">
+                <button id="senzokuike-mission-calculate-button" class="btn btn-success submit-button">計算</button>
+            </div>
         </div>
     </div>
     <!--jQuery-->

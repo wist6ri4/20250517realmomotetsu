@@ -4,6 +4,7 @@ import { Constants } from "./constants.js";
 import { Common } from "./common.js";
 import { Supabase } from "./supabase.js";
 import { Logger } from "./logging.js";
+import { MissionSenzokuike } from "./missionTool.js";
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
@@ -21,6 +22,7 @@ const $movePointToSelect = $('#move-point-to-select'); // ポイント移動先�
 const $movePoint = $('#move-point'); // 移動ポイント
 const $isChargedForMove = $('#is-charged-for-move'); // 移動時の換金フラグ
 const $chargePointTeamSelect = $('#charge-point-team-select'); // ポイント換金チーム選択
+const $senzokuikeMissionAnswer = $('#senzokuike-mission-answer'); // 洗足池ミッションの解答
 
 /*========== 画面表示時の実行メソッド ==========*/
 main();
@@ -31,6 +33,7 @@ $('#add-point-button').on('click', addPoint);
 $('#sub-point-button').on('click', subPoint);
 $('#move-point-button').on('click', movePoint);
 $('#charge-point-button').on('click', chargePoint);
+$('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuikeScore);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
 $('#add-point').on('input', function() {
@@ -143,6 +146,7 @@ async function addPoint() {
     } catch (error) {
         logger.Error('Failed to send additional points.', error);
         alert('送信に失敗しました。', error);
+        console.log(error);
     } finally {
         clearForms();
     };
@@ -263,6 +267,26 @@ async function chargePoint() {
     };
 };
 
+/**
+ * 洗足池ミッションの得点計算
+ */
+function calculateMissionSenzokuikeScore() {
+    const answer = Number($('#senzokuike-mission-answer').val());
+    if(answer === '') {
+        alert('解答を入力してください。');
+        return;
+    };
+
+    try {
+        const score = MissionSenzokuike.calculate(answer);
+        alert(`解答：${answer} ㎡\n得点：${score} pt`);
+    } catch (error) {
+        logger.Error('Failed to calculate Senzokuike mission score.', error);
+        alert('得点計算に失敗しました。', error);
+    } finally {
+        clearForms();
+    }
+}
 
 /**
  * フォームの値をリセットする
@@ -280,4 +304,5 @@ function clearForms() {
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
+    $senzokuikeMissionAnswer.val(41000);
 };

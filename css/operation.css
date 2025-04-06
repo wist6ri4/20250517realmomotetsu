@@ -1,3 +1,17 @@
+#operation-index {
+    font-size: 1.7rem;
+    padding: 1rem;
+}
+
+#button-back-to-top {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    position: fixed;
+    bottom: 1rem;
+
+}
+
 .form-title {
     font-size: 2rem;
     font-weight: bold;
