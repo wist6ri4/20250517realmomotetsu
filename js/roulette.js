@@ -141,9 +141,9 @@ function changeCharacterSize(elem, str) {
 function getNextStation() {
     // 各駅への最短所要時間を取得
     const times = Dijkstra.calculateTravelTimes(StationCode.stationGraph, startStationCode);
-    // 10分以下の駅を削除
+    // 所要時間が設定値以下の駅を削除
     for(const key of Object.keys(times)) {
-        if(times[key].time <= 10) {
+        if(times[key].time <= Constants.ELIMINATION_TIME_RANGE_MINUTES) {
             delete times[key];
         };
     };

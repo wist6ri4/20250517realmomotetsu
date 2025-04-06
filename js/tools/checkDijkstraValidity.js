@@ -1,3 +1,4 @@
+import { Constants } from "../constants.js";
 import { Dijkstra } from "../dijkstra.js";
 import { StationCode } from "../stationCode.js";
 
@@ -13,7 +14,7 @@ function getNextStationCode(startStationCode) {
 
     // 10分以下の駅を削除
     for(const key of Object.keys(times)) {
-        if(times[key].time <= 10) {
+        if(times[key].time <= Constants.ELIMINATION_TIME_RANGE_MINUTES) {
             delete times[key];
         };
     };
