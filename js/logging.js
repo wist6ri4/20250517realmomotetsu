@@ -59,7 +59,7 @@ class Logger {
         // ログのコンソール出力
         const logContent = `[${logLevel}] ${new Date().toLocaleString()} [${viewName}] ${logMessage} |`
         if(new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
-            console.debug(logContent, logObject);
+            console.log(logContent, logObject);
         } else if (new Set([LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
             console.info(logContent, logObject);
         } else if (new Set([LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)) {
