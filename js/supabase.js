@@ -234,7 +234,7 @@ class Supabase {
      * @param {number} teamId チームID
      * @returns {Object} data
      */
-    async insertMovingPoints(teamId) {
+    static async insertMovingPoints(teamId) {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
@@ -251,7 +251,7 @@ class Supabase {
      * @returns {Object} data
      * @throws {Error} error
      */
-    async insertAdditionalPoints(teamId, point) {
+    static async insertAdditionalPoints(teamId, point) {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
