@@ -89,6 +89,10 @@ function startRoulette() {
         } else if($rouletteMode.val() === 'goal') {
             nextStation = getNextStation();
         };
+
+        // ボタン表示の切り替え
+        startButton.addClass('roulette-hidden');
+        stopButton.removeClass('roulette-hidden');
     };
 };
 
@@ -117,6 +121,10 @@ function stopRoulette() {
         clearInterval(spinInterval);
         changeCharacterSize(roulette, nextStation);
         roulette.text(nextStation);
+
+        // ボタン表示の切り替え
+        startButton.removeClass('roulette-hidden');
+        stopButton.addClass('roulette-hidden');
     };
 };
 
