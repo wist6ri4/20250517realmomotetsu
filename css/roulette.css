@@ -59,7 +59,19 @@
 }
 
 /* ルーレットボタンのコンテナ */
-.roulette-button {
+.roulette-button-container {
     display: flex;
     justify-content: center;
+}
+
+.roulette-button {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 5rem;
+    width: 12rem;
+}
+
+/* ルーレットボタン表示切替用クラス */
+.roulette-hidden {
+    display: none;
 }
