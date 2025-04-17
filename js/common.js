@@ -39,10 +39,6 @@ async function getAndSetStations() {
     } else {
         // 駅名がない場合、取得してセットする
         const stations = await Supabase.getStations();
-        // 駅名をひらがなに変換してソートする
-        stations.forEach(function(station) {
-            station.kana = wanakana.toHiragana(station.station_id);
-        });
         stations.sort((a, b) => {
             if (a.kana < b.kana) return -1;
             if (a.kana > b.kana) return 1;
@@ -83,7 +79,7 @@ async function setNearByStation($jqueryObject) {
         const nearbyStation = nearbyStations[0].station;
         $jqueryObject.val(nearbyStation);
     } catch (error) {
-        logger.Error('Failed to get nearby station.', error);
+        logger.Warning('Failed to get nearby station.', error);
     };
 };
 
