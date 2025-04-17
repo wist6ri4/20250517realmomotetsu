@@ -83,7 +83,7 @@ async function setNearByStation($jqueryObject) {
         const nearbyStation = nearbyStations[0].station;
         $jqueryObject.val(nearbyStation);
     } catch (error) {
-        logger.Error('Failed to get nearby station.', error);
+        logger.Warning('Failed to get nearby station.', error);
     };
 };
 

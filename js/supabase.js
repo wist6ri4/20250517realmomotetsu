@@ -100,11 +100,10 @@ class Supabase {
             if (error) {
                 throw new Error(error);
             }
-
-            logger.Debug(`Accessed to Supabase. [${callerFunction}] Query:${action} Table:${table}`, data);
+            logger.Debug(`Accessed to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(updateData ? updateData : "No_Data")}`, data);
             return data;
         } catch (error) {
-            logger.Error(`Failed to Access to Supabase. [${callerFunction}] Query:${action} Table:${table}`, error);
+            logger.Error(`Failed to Access to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(updateData ? updateData : "No_Data")}`, error);
             throw new Error(error);
         };
     };
