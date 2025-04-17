@@ -39,10 +39,6 @@ async function getAndSetStations() {
     } else {
         // 駅名がない場合、取得してセットする
         const stations = await Supabase.getStations();
-        // 駅名をひらがなに変換してソートする
-        stations.forEach(function(station) {
-            station.kana = wanakana.toHiragana(station.station_id);
-        });
         stations.sort((a, b) => {
             if (a.kana < b.kana) return -1;
             if (a.kana > b.kana) return 1;
