@@ -151,6 +151,20 @@ class Supabase {
     };
 
     /**
+     * 最新の4チーム分のtransit_stationsを取得する
+     * 
+     * @returns {Array} transitStations
+     */
+    static async getLatestTransitStations() {
+        const transitStations = await Supabase.executeQuery({
+            table: 'latest_transit_stations',
+            action: SELECT,
+            orderBy: { column: 'team_id', ascending: true }
+        });
+        return transitStations;
+    };
+
+    /**
      * transit_stationsにデータを追加する
      *
      * @param {number} teamId チームID
@@ -170,7 +184,6 @@ class Supabase {
      * goal_stationsを取得する
      *
      * @returns {Array} goalStations
-     * @throws {Error} error
      */
     static async getGoalStations() {
         const goalStations = await Supabase.executeQuery({
@@ -186,7 +199,6 @@ class Supabase {
      *
      * @param {number} stationId 駅ID
      * @returns {Object} data
-     * @throws {Error} error
      */
     static async insertGoalStations(stationId) {
         const data = await Supabase.executeQuery({
@@ -248,7 +260,6 @@ class Supabase {
      * @param {number} teamId チームID
      * @param {number} point 加算ポイント
      * @returns {Object} data
-     * @throws {Error} error
      */
     static async insertAdditionalPoints(teamId, point) {
         const data = await Supabase.executeQuery({
@@ -282,7 +293,6 @@ class Supabase {
      * @param {string} subTeamId 減算チームID
      * @param {number} point ポイント
      * @returns {Object} data
-     * @throws {Error} error
      */
     static async insertAddAndSubPoints(addTeamId, subTeamId, point) {
         const addData = await Supabase.executeQuery({
@@ -303,7 +313,6 @@ class Supabase {
      *
      * @param {number} teamId チームID
      * @returns {Object} notChargedPoints
-     * @throws {Error} error
      */
     static async updateNotChargedPoints(teamId) {
         const notChargedPoints = await Supabase.executeQuery({
