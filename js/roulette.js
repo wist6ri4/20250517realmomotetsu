@@ -5,6 +5,7 @@ import { StationCode } from "./stationCode.js";
 import { Common } from "./common.js";
 import { Logger } from "./logging.js";
 import { Dijkstra } from "./dijkstra.js";
+import { Supabase } from "./supabase.js";
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
@@ -76,7 +77,7 @@ async function main() {
  * ルーレットの開始
  * @returns isSpinがtrueの場合
  */
-function startRoulette() {
+async function startRoulette() {
     startStationCode = $('#current-station').val()
     if(isSpin) {
         return;
@@ -87,7 +88,7 @@ function startRoulette() {
             nextStation = getRandomStation(startStationCode);
             logger.Debug(`Roulette Started. Mode:random StartStation:${StationCode.getStationName(startStationCode)} NextStation:${nextStation}`);
         } else if($rouletteMode.val() === 'goal') {
-            nextStation = getNextStation();
+            nextStation = await getNextStation();
         };
 
         // ボタン表示の切り替え
@@ -146,13 +147,23 @@ function changeCharacterSize(elem, str) {
 /**
  * 次の駅を決定する
  */
-function getNextStation() {
+async function getNextStation() {
     // 各駅への最短所要時間を取得
     const times = Dijkstra.calculateTravelTimes(StationCode.stationGraph, startStationCode);
     // 所要時間が設定値以下の駅を削除
     for(const key of Object.keys(times)) {
         if(times[key].time <= Constants.ELIMINATION_TIME_RANGE_MINUTES) {
             delete times[key];
+        };
+    };
+
+    // 各チームの現在地を取得
+    const latestTransitStations = await Supabase.getLatestTransitStations();
+    // 各チームの現在地の駅を削除
+    for(const stations of latestTransitStations) {
+        const stationCode = stations.station_id;
+        if(times[stationCode]) {
+            delete times[stationCode];
         };
     };
 
