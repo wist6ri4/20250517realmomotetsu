@@ -80,7 +80,7 @@ async function submit() {
         // transit_stationsにデータを追加
         await Supabase.insertTransitStations(teamId, stationId);
         // pointsにデータを追加
-        await Supabase.insertMovingPoints(teamId);
+        await Supabase.insertAdditionalPoints(teamId, Constants.POINT_FOR_MOVING);
 
         logger.Info(
             `Success to send current station. TeamName:${teamName} StationName:${station_name}`

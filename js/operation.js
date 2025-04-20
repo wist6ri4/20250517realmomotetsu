@@ -139,10 +139,10 @@ async function arrivalGoal() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nチーム名：' +
-            teamName +
-            '\nポイント数：' +
-            arrivalGoalPoint +
-            ' pt'
+        teamName +
+        '\nポイント数：' +
+        arrivalGoalPoint +
+        ' pt'
     );
     if (!is_approved) {
         return;
@@ -180,12 +180,13 @@ async function addPoint() {
 
     // 送信確認
     const is_approved = confirm(
+        '【加算】\n' +
         '以下の内容で送信しますか？\n\nチーム名：' +
-            teamName +
-            '\nポイント数：' +
-            point +
-            ' pt' +
-            (isCharged ? '（換金あり）' : '（換金なし）')
+        teamName +
+        '\nポイント数：' +
+        point +
+        ' pt' +
+        (isCharged ? '（換金あり）' : '（換金なし）')
     );
     if (!is_approved) {
         return;
@@ -193,12 +194,7 @@ async function addPoint() {
 
     // 送信処理
     try {
-        let result;
-        if (isCharged) {
-            result = await Supabase.insertAdditionalChargedPoints(teamId, point);
-        } else {
-            result = await Supabase.insertAdditionalPoints(teamId, point);
-        }
+        const result = await Supabase.insertAdditionalPoints(teamId, point, isCharged);
         logger.Info(
             `Success to send additional points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`
         );
@@ -229,11 +225,12 @@ async function subPoint() {
 
     // 送信確認
     const is_approved = confirm(
+        '【減算】\n' +
         '以下の内容で送信しますか？\n\nチーム名：' +
-            teamName +
-            '\nポイント数：－' +
-            point +
-            ' pt' +
+        teamName +
+        '\nポイント数：－' +
+        point +
+        ' pt' +
             (isCharged ? '（換金あり）' : '（換金なし）')
     );
     if (!is_approved) {
@@ -242,12 +239,7 @@ async function subPoint() {
 
     // 送信処理
     try {
-        let result;
-        if (isCharged) {
-            result = await Supabase.insertSubtractionChargedPoints(teamId, point);
-        } else {
-            result = await Supabase.insertSubtractionPoints(teamId, point);
-        }
+        const result = await Supabase.insertSubtractionPoints(teamId, point, isCharged);
         logger.Info(
             `Success to send subtraction points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`
         );
@@ -279,15 +271,15 @@ async function movePoint() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nポイント数：' +
-            point +
-            ' pt' +
-            (isCharged ? '（換金あり）' : '（換金なし）') +
-            '\n' +
-            '移動元：' +
-            $('#move-point-from-select option:selected').text() +
-            '\n' +
-            '移動先：' +
-            $('#move-point-to-select option:selected').text()
+        point +
+        ' pt' +
+        (isCharged ? '（換金あり）' : '（換金なし）') +
+        '\n' +
+        '移動元：' +
+        $('#move-point-from-select option:selected').text() +
+        '\n' +
+        '移動先：' +
+        $('#move-point-to-select option:selected').text()
     );
     if (!is_approved) {
         return;
@@ -295,12 +287,7 @@ async function movePoint() {
 
     // 送信処理
     try {
-        let result;
-        if (isCharged) {
-            result = await Supabase.insertAddAndSubChargedPoints(toTeamId, fromTeamId, point);
-        } else {
-            result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
-        }
+        const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point, isCharged);
         logger.Info(
             `Success to send moving points. FromTeamId:${fromTeamId} ToTeamId:${toTeamId} Point:${point} IsCharged:${isCharged}`
         );
@@ -329,7 +316,7 @@ async function chargePoint() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nチーム名：' +
-            $('#charge-point-team-select option:selected').text()
+        $('#charge-point-team-select option:selected').text()
     );
     if (!is_approved) {
         return;

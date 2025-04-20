@@ -249,32 +249,18 @@ class Supabase {
     }
 
     /**
-     * 移動ポイントを追加する
-     *
-     * @param {string} teamId チームID
-     * @returns {Object} data
-     */
-    static async insertMovingPoints(teamId) {
-        const data = await Supabase.executeQuery({
-            table: 'points',
-            action: INSERT,
-            updateData: [{ team_id: teamId, point: Constants.POINT_FOR_MOVING }],
-        });
-        return data;
-    }
-
-    /**
      * チームを指定してポイントを加算する
      *
      * @param {string} teamId チームID
      * @param {number} point 加算ポイント
+     * @param {boolean} isCharged チャージ済みフラグ
      * @returns {Object} data
      */
-    static async insertAdditionalPoints(teamId, point) {
+    static async insertAdditionalPoints(teamId, point, isCharged = false) {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: point }],
+            updateData: [{ team_id: teamId, point: point, is_charged: isCharged }],
         });
         return data;
     }
@@ -284,13 +270,14 @@ class Supabase {
      *
      * @param {string} teamId チームID
      * @param {number} point 減算ポイント
+     * @param {boolean} isCharged チャージ済みフラグ
      * @returns {Object} data
      */
-    static async insertSubtractionPoints(teamId, point) {
+    static async insertSubtractionPoints(teamId, point, isCharged = false) {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: -point }],
+            updateData: [{ team_id: teamId, point: -point, is_charged: isCharged }],
         });
         return data;
     }
@@ -301,18 +288,19 @@ class Supabase {
      * @param {string} addTeamId 加算チームID
      * @param {string} subTeamId 減算チームID
      * @param {number} point ポイント
+     * @param {boolean} isCharged チャージ済みフラグ
      * @returns {Object} data
      */
-    static async insertAddAndSubPoints(addTeamId, subTeamId, point) {
+    static async insertAddAndSubPoints(addTeamId, subTeamId, point, isCharged = false) {
         const addData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: addTeamId, point: point }],
+            updateData: [{ team_id: addTeamId, point: point, is_charged: isCharged }],
         });
         const subData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: subTeamId, point: -point }],
+            updateData: [{ team_id: subTeamId, point: -point, is_charged: isCharged }],
         });
         return { addData, subData };
     }
@@ -334,60 +322,6 @@ class Supabase {
             updateData: { is_charged: true, updated_at: new Date().toISOString() },
         });
         return notChargedPoints;
-    }
-
-    /**
-     *  チームを指定してチャージ済みポイントを加算する
-     *
-     * @param {string} teamId チームID
-     * @param {number} point 加算ポイント
-     * @returns {Object} chargedPoints
-     */
-    static async insertAdditionalChargedPoints(teamId, point) {
-        const chargedPoints = await Supabase.executeQuery({
-            table: 'points',
-            action: INSERT,
-            updateData: [{ team_id: teamId, point: point, is_charged: true }],
-        });
-        return chargedPoints;
-    }
-
-    /**
-     * チームを指定してチャージ済みポイントを減算する
-     *
-     * @param {string} teamId チームID
-     * @param {number} point 減算ポイント
-     * @returns {Object} chargedPoints
-     */
-    static async insertSubtractionChargedPoints(teamId, point) {
-        const chargedPoints = await Supabase.executeQuery({
-            table: 'points',
-            action: INSERT,
-            updateData: [{ team_id: teamId, point: -point, is_charged: true }],
-        });
-        return chargedPoints;
-    }
-
-    /**
-     * チーム間でチャージ済みポイントを移動する
-     *
-     * @param {string} addTeamId 加算チームID
-     * @param {string} subTeamId 減算チームID
-     * @param {number} point ポイント
-     * @returns {Object} data
-     */
-    static async insertAddAndSubChargedPoints(addTeamId, subTeamId, point) {
-        const addData = await Supabase.executeQuery({
-            table: 'points',
-            action: INSERT,
-            updateData: [{ team_id: addTeamId, point: point, is_charged: true }],
-        });
-        const subData = await Supabase.executeQuery({
-            table: 'points',
-            action: INSERT,
-            updateData: [{ team_id: subTeamId, point: -point, is_charged: true }],
-        });
-        return { addData, subData };
     }
 }
 
