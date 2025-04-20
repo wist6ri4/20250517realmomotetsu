@@ -57,17 +57,18 @@ async function getAndSetStations() {
  * @returns {string} フォーマットされたポイント
  */
 function formatPoint(point) {
-    point *= 100000;
+    const absPoint = Math.abs(point * 100000);
 
-    const trillion = Math.floor((point % 100000000000000) / 100000000000);
-    const oneHundredMillion = Math.floor((point % 100000000000) / 100000000);
-    const tenThousand = Math.floor((point % 100000000) / 10000);
+    const trillion = Math.floor((absPoint % 100000000000000) / 100000000000);
+    const oneHundredMillion = Math.floor((absPoint % 100000000000) / 100000000);
+    const tenThousand = Math.floor((absPoint % 100000000) / 10000);
 
-    return (
+    const formattedPoint =
         (trillion > 0 ? trillion + ' 兆 ' : '') +
         (oneHundredMillion > 0 ? oneHundredMillion + ' 億 ' : '') +
-        (tenThousand > 0 ? tenThousand + ' 万' : '0 万')
-    );
+        (tenThousand > 0 ? tenThousand + ' 万' : '0 万');
+
+    return ( point >= 0 ? formattedPoint : '－' + formattedPoint);
 }
 
 /**

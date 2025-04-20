@@ -344,4 +344,7 @@ function clearForms() {
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
+    $('#changed-add-point').text(Common.formatPoint(0));
+    $('#changed-sub-point').text(Common.formatPoint(0));
+    $('#changed-move-point').text(Common.formatPoint(0));
 }
