@@ -1,10 +1,10 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from "./checkUuid.js";
-import { Constants } from "./constants.js";
-import { Common } from "./common.js";
-import { Supabase } from "./supabase.js";
-import { Logger } from "./logging.js";
-import { MissionSenzokuike } from "./missionTool.js";
+import { checkUuid } from './checkUuid.js';
+import { Constants } from './constants.js';
+import { Common } from './common.js';
+import { Supabase } from './module/supabase.js';
+import { Logger } from './logging.js';
+import { MissionSenzokuike } from './missionTool.js';
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
@@ -37,13 +37,13 @@ $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuike
 $('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
-$('#add-point').on('input', function() {
+$('#add-point').on('input', function () {
     $('#changed-add-point').text(Common.formatPoint($(this).val()));
 });
-$('#sub-point').on('input', function() {
+$('#sub-point').on('input', function () {
     $('#changed-sub-point').text(Common.formatPoint($(this).val()));
 });
-$('#move-point').on('input', function() {
+$('#move-point').on('input', function () {
     $('#changed-move-point').text(Common.formatPoint($(this).val()));
 });
 
@@ -57,7 +57,7 @@ async function main() {
         await Common.getAndSetTeamName();
         // チーム名のオプションを作成
         const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
-        teams.forEach(function(team) {
+        teams.forEach(function (team) {
             $addPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $subPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $movePointFromSelect.append($('<option>').val(team.team_id).text(team.team_name));
@@ -69,15 +69,17 @@ async function main() {
         await Common.getAndSetStations();
         // 駅名のオプションを作成
         const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
-        stations.forEach(function(station) {
-            $goalStationSelect.append($('<option>').val(station.station_id).text(station.station_name));
+        stations.forEach(function (station) {
+            $goalStationSelect.append(
+                $('<option>').val(station.station_id).text(station.station_name)
+            );
         });
 
         logger.Debug('Displayed.');
     } catch {
         logger.Error('Failed to Display.');
     }
-};
+}
 
 /**
  * 目的駅を設定する
@@ -88,16 +90,16 @@ async function setGoalStation() {
     const stationName = $('#goal-station-select option:selected').text();
 
     // 駅名が選択されていない場合はアラートを表示
-    if(stationId == 0) {
+    if (stationId == 0) {
         alert('駅名を選択してください。');
         return;
-    };
+    }
 
     // 送信確認
     const is_approved = confirm('以下の内容で送信しますか？\n\n目的駅：' + stationName);
-    if(!is_approved) {
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
@@ -109,8 +111,8 @@ async function setGoalStation() {
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * ポイント加算
@@ -123,34 +125,43 @@ async function addPoint() {
     const isCharged = $isChargedForAdd.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
-    if(teamId == 0 || point == 0) {
+    if (teamId == 0 || point == 0) {
         alert('チーム名とポイントを入力してください。');
         return;
-    };
+    }
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：' + point + ' pt' + (isCharged ? '（換金あり）' : '（換金なし）'));
-    if(!is_approved) {
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nチーム名：' +
+            teamName +
+            '\nポイント数：' +
+            point +
+            ' pt' +
+            (isCharged ? '（換金あり）' : '（換金なし）')
+    );
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
         let result;
-        if(isCharged) {
+        if (isCharged) {
             result = await Supabase.insertAdditionalChargedPoints(teamId, point);
         } else {
             result = await Supabase.insertAdditionalPoints(teamId, point);
         }
-        logger.Info(`Success to send additional points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`);
+        logger.Info(
+            `Success to send additional points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`
+        );
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send additional points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * ポイント減算
@@ -163,34 +174,43 @@ async function subPoint() {
     const isCharged = $isChargedForSub.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
-    if(teamId == 0 || point == 0) {
+    if (teamId == 0 || point == 0) {
         alert('チーム名とポイントを入力してください。');
         return;
-    };
+    }
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\nポイント数：－' + point + ' pt' + (isCharged ? '（換金あり）' : '（換金なし）'));
-    if(!is_approved) {
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nチーム名：' +
+            teamName +
+            '\nポイント数：－' +
+            point +
+            ' pt' +
+            (isCharged ? '（換金あり）' : '（換金なし）')
+    );
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
         let result;
-        if(isCharged) {
+        if (isCharged) {
             result = await Supabase.insertSubtractionChargedPoints(teamId, point);
         } else {
             result = await Supabase.insertSubtractionPoints(teamId, point);
         }
-        logger.Info(`Success to send subtraction points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`);
+        logger.Info(
+            `Success to send subtraction points. TeamName:${teamName} Point:${point} IsCharged:${isCharged}`
+        );
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send subtraction points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * ポイント移動
@@ -203,37 +223,47 @@ async function movePoint() {
     const isCharged = $isChargedForMove.prop('checked');
 
     // チーム名かポイントが入力されていない場合はアラートを表示
-    if(fromTeamId == 0 || toTeamId == 0 || point == 0) {
+    if (fromTeamId == 0 || toTeamId == 0 || point == 0) {
         alert('チーム名とポイントを入力してください。');
         return;
-    };
+    }
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nポイント数：' + point + ' pt'
-        + (isCharged ? '（換金あり）' : '（換金なし）') + '\n'
-        + '移動元：' + $('#move-point-from-select option:selected').text() + '\n'
-        + '移動先：' + $('#move-point-to-select option:selected').text());
-    if(!is_approved) {
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nポイント数：' +
+            point +
+            ' pt' +
+            (isCharged ? '（換金あり）' : '（換金なし）') +
+            '\n' +
+            '移動元：' +
+            $('#move-point-from-select option:selected').text() +
+            '\n' +
+            '移動先：' +
+            $('#move-point-to-select option:selected').text()
+    );
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
         let result;
-        if(isCharged) {
+        if (isCharged) {
             result = await Supabase.insertAddAndSubChargedPoints(toTeamId, fromTeamId, point);
         } else {
             const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
         }
-        logger.Info(`Success to send moving points. FromTeamId:${fromTeamId} ToTeamId:${toTeamId} Point:${point} IsCharged:${isCharged}`);
+        logger.Info(
+            `Success to send moving points. FromTeamId:${fromTeamId} ToTeamId:${toTeamId} Point:${point} IsCharged:${isCharged}`
+        );
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send moving points.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * ポイント換金
@@ -243,16 +273,19 @@ async function chargePoint() {
     const teamId = $chargePointTeamSelect.val();
 
     // チーム名が入力されていない場合はアラートを表示
-    if(teamId == 0) {
+    if (teamId == 0) {
         alert('チーム名を選択してください。');
         return;
-    };
+    }
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + $('#charge-point-team-select option:selected').text());
-    if(!is_approved) {
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nチーム名：' +
+            $('#charge-point-team-select option:selected').text()
+    );
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
@@ -264,18 +297,18 @@ async function chargePoint() {
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * 洗足池ミッションの得点計算
  */
 function calculateMissionSenzokuikeScore() {
     const answer = Number($('#senzokuike-mission-answer').val());
-    if(answer === '') {
+    if (answer === '') {
         alert('解答を入力してください。');
         return;
-    };
+    }
 
     try {
         const score = MissionSenzokuike.calculate(answer);
@@ -285,15 +318,15 @@ function calculateMissionSenzokuikeScore() {
         alert('得点計算に失敗しました。', error);
     } finally {
         clearForms();
-    };
-};
+    }
+}
 
 /**
  * 洗足池ミッションの得点計算のフォームをリセットする
  */
 function resetMissionSenzokuikeForm() {
     $senzokuikeMissionAnswer.val(41000);
-};
+}
 
 /**
  * フォームの値をリセットする
@@ -305,10 +338,10 @@ function clearForms() {
     $isChargedForAdd.prop('checked', false);
     $subPointTeamSelect.val(0);
     $subPoint.val(0);
-    $isChargedForSub.prop('checked',false);
+    $isChargedForSub.prop('checked', false);
     $movePointFromSelect.val(0);
     $movePointToSelect.val(0);
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
-};
+}

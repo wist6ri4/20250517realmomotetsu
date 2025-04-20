@@ -1,8 +1,8 @@
 /* ========== モジュールのインポート ========== */
-import { Constants } from "./constants.js";
-import { StationLocations } from "./stationLocations.js";
-import { StationCode } from "./stationCode.js";
-import { Logger } from "./logging.js";
+import { Constants } from './constants.js';
+import { StationLocations } from './stationLocations.js';
+import { StationCode } from '../stationCode.js';
+import { Logger } from './logging.js';
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
@@ -14,16 +14,16 @@ const logger = new Logger();
  * @returns {Array} 近くの駅
  */
 async function getNearByStation() {
-    if(!("geolocation" in navigator)){
+    if (!('geolocation' in navigator)) {
         return [];
-    };
+    }
 
     try {
         const position = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
                 enableHighAccuracy: true,
                 timeout: 10000,
-                maximumAge: 0
+                maximumAge: 0,
             });
         });
         let latitude = position.coords.latitude;
@@ -34,17 +34,18 @@ async function getNearByStation() {
         sessionStorage.setItem(Constants.SESSION_NEARBY_STATIONS, JSON.stringify(nearbyStations));
 
         logger.Debug(
-            `Get current location. NearbyStation:${StationCode.getStationName(nearbyStations[0].station)} Latitude:${latitude} Longitude:${longitude} Accuracy:${accuracy}`,
+            `Get current location. NearbyStation:${StationCode.getStationName(
+                nearbyStations[0].station
+            )} Latitude:${latitude} Longitude:${longitude} Accuracy:${accuracy}`,
             nearbyStations
         );
         return nearbyStations;
-
-    } catch(error) {
+    } catch (error) {
         throw error;
-    };
-};
+    }
+}
 
 /* ========== モジュールのエクスポート ========== */
 export const Locations = {
-    getNearByStation
+    getNearByStation,
 };

@@ -20,14 +20,14 @@ class MissionSenzokuike {
         let score = Math.round(this.MAX_SCORE * Math.exp(-1 * (diff / this.SCALE) ** 2));
 
         // ベースポイントを加算
-        score += this.BASE_POINT
+        score += this.BASE_POINT;
         // ジャストボーナスを加算
-        if(answer === this.SENZOKUIKE_AREA) {
+        if (answer === this.SENZOKUIKE_AREA) {
             score += this.JUST_BONUS;
         }
 
         return this.round(score);
-    };
+    }
 
     /**
      * 二捨三入を行うメソッド
@@ -40,17 +40,17 @@ class MissionSenzokuike {
         const ones = score % 10;
 
         let roundedOnes;
-        if(ones <= 2) {
+        if (ones <= 2) {
             roundedOnes = 0;
-        } else if(ones <= 7) {
+        } else if (ones <= 7) {
             roundedOnes = 5;
         } else {
             return (tens + 1) * 10;
         }
 
         return tens * 10 + roundedOnes;
-    };
-};
+    }
+}
 
 /* ========== モジュールのエクスポート ========== */
 export { MissionSenzokuike };

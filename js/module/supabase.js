@@ -9,7 +9,6 @@ const logger = new Logger();
 // SUPABASEのクライアントの作成
 const supabase = createClient(Constants.SUPABASE_URL, Constants.SUPABASE_KEY);
 
-
 const SELECT = 'select';
 const INSERT = 'insert';
 const UPDATE = 'update';
@@ -30,15 +29,15 @@ class Supabase {
         try {
             throw new Error();
         } catch (error) {
-            const stackLines = error.stack.split("\n");
+            const stackLines = error.stack.split('\n');
             // スタックトレースの3行目を取得し、フォーマットに応じて解析
             if (stackLines.length > 2) {
                 const callerFunction = stackLines[2].trim();
                 const match = callerFunction.match(/at (\S+)/) || callerFunction.match(/at (\S+):/);
-                return match ? match[1] : "Unknown";
+                return match ? match[1] : 'Unknown';
             }
         }
-        return "Unknown";
+        return 'Unknown';
     }
 
     /**
@@ -56,14 +55,14 @@ class Supabase {
      * @returns {Object} data
      * @throws {Error} error
      */
-    static async executeQuery({table, action, filters=[], orderBy=null, updateData=null}) {
+    static async executeQuery({ table, action, filters = [], orderBy = null, updateData = null }) {
         // 呼び出し元関数名の取得
         const callerFunction = this.getCallerFunction();
         try {
             // 取得対象のテーブルを指定
             let query = supabase.from(table);
             // アクションによって処理を分岐
-            switch(action) {
+            switch (action) {
                 case SELECT:
                     query = query.select();
                     break;
@@ -84,29 +83,39 @@ class Supabase {
                     break;
                 default:
                     throw new Error('Invalid action.');
-            };
+            }
             // フィルターを設定
-            filters.forEach(filter => {
+            filters.forEach((filter) => {
                 const { column, operator, value } = filter;
                 query = query[operator](column, value);
             });
             // ソートを設定
-            if(orderBy) {
-                query = query.order(orderBy.column, { ascending: orderBy.ascending ?? true});
-            };
+            if (orderBy) {
+                query = query.order(orderBy.column, { ascending: orderBy.ascending ?? true });
+            }
             // クエリを実行
             const { data, error } = await query;
 
             if (error) {
                 throw new Error(error);
             }
-            logger.Debug(`Accessed to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(updateData ? updateData : "No_Data")}`, data);
+            logger.Debug(
+                `Accessed to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(
+                    updateData ? updateData : 'No_Data'
+                )}`,
+                data
+            );
             return data;
         } catch (error) {
-            logger.Error(`Failed to Access to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(updateData ? updateData : "No_Data")}`, error);
+            logger.Error(
+                `Failed to Access to Supabase. [${callerFunction}] Query:${action} Table:${table} Data:${JSON.stringify(
+                    updateData ? updateData : 'No_Data'
+                )}`,
+                error
+            );
             throw new Error(error);
-        };
-    };
+        }
+    }
 
     /**
      * teamsを取得する
@@ -117,10 +126,10 @@ class Supabase {
         const teams = await Supabase.executeQuery({
             table: 'teams',
             action: SELECT,
-            orderBy: { column: 'team_id', ascending: true }
+            orderBy: { column: 'team_id', ascending: true },
         });
         return teams;
-    };
+    }
 
     /**
      * stationsを取得する
@@ -131,10 +140,10 @@ class Supabase {
         const stations = await Supabase.executeQuery({
             table: 'stations',
             action: SELECT,
-            orderBy: { column: 'station_id', ascending: true }
+            orderBy: { column: 'station_id', ascending: true },
         });
         return stations;
-    };
+    }
 
     /**
      * transit_stationsを取得する
@@ -145,24 +154,24 @@ class Supabase {
         const transitStations = await Supabase.executeQuery({
             table: 'transit_stations',
             action: SELECT,
-            orderBy: { column: 'transit_station_id', ascending: true }
+            orderBy: { column: 'transit_station_id', ascending: true },
         });
         return transitStations;
-    };
+    }
 
     /**
      * 最新の4チーム分のtransit_stationsを取得する
-     * 
+     *
      * @returns {Array} transitStations
      */
     static async getLatestTransitStations() {
         const transitStations = await Supabase.executeQuery({
             table: 'latest_transit_stations',
             action: SELECT,
-            orderBy: { column: 'team_id', ascending: true }
+            orderBy: { column: 'team_id', ascending: true },
         });
         return transitStations;
-    };
+    }
 
     /**
      * transit_stationsにデータを追加する
@@ -175,10 +184,10 @@ class Supabase {
         const data = await Supabase.executeQuery({
             table: 'transit_stations',
             action: INSERT,
-            updateData: [{ team_id: teamId, station_id: stationId }]
+            updateData: [{ team_id: teamId, station_id: stationId }],
         });
         return data;
-    };
+    }
 
     /**
      * goal_stationsを取得する
@@ -189,10 +198,10 @@ class Supabase {
         const goalStations = await Supabase.executeQuery({
             table: 'goal_stations',
             action: SELECT,
-            orderBy: { column: 'goal_station_id', ascending: true }
+            orderBy: { column: 'goal_station_id', ascending: true },
         });
         return goalStations;
-    };
+    }
 
     /**
      * goal_stationsにデータを追加する
@@ -204,10 +213,10 @@ class Supabase {
         const data = await Supabase.executeQuery({
             table: 'goal_stations',
             action: INSERT,
-            updateData: [{ station_id: stationId }]
+            updateData: [{ station_id: stationId }],
         });
         return data;
-    };
+    }
 
     /**
      * 未チャージポイントを取得し、各チームごとに総計する
@@ -218,11 +227,11 @@ class Supabase {
         const notChargedPoints = await Supabase.executeQuery({
             table: 'points',
             action: SELECT,
-            filters: [{ column: 'is_charged', operator: 'eq', value: false }]
+            filters: [{ column: 'is_charged', operator: 'eq', value: false }],
         });
         const groupedPoints = groupByAndSum(notChargedPoints, ['team_id', 'point']);
         return groupedPoints;
-    };
+    }
 
     /**
      * チャージ済みポイントを取得する
@@ -233,11 +242,11 @@ class Supabase {
         const chargedPoints = await Supabase.executeQuery({
             table: 'points',
             action: SELECT,
-            filters: [{ column: 'is_charged', operator: 'eq', value: true }]
+            filters: [{ column: 'is_charged', operator: 'eq', value: true }],
         });
         const groupedPoints = groupByAndSum(chargedPoints, ['team_id', 'point']);
         return groupedPoints;
-    };
+    }
 
     /**
      * 移動ポイントを追加する
@@ -249,10 +258,10 @@ class Supabase {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: Constants.POINT_FOR_MOVING }]
+            updateData: [{ team_id: teamId, point: Constants.POINT_FOR_MOVING }],
         });
         return data;
-    };
+    }
 
     /**
      * チームを指定してポイントを加算する
@@ -265,10 +274,10 @@ class Supabase {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: point }]
+            updateData: [{ team_id: teamId, point: point }],
         });
         return data;
-    };
+    }
 
     /**
      * チームを指定してポイントを減算する
@@ -281,10 +290,10 @@ class Supabase {
         const data = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: -point }]
+            updateData: [{ team_id: teamId, point: -point }],
         });
         return data;
-    };
+    }
 
     /**
      * チーム間でポイントを移動する
@@ -298,15 +307,15 @@ class Supabase {
         const addData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: addTeamId, point: point }]
+            updateData: [{ team_id: addTeamId, point: point }],
         });
         const subData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: subTeamId, point: -point }]
+            updateData: [{ team_id: subTeamId, point: -point }],
         });
         return { addData, subData };
-    };
+    }
 
     /**
      * チームIDを指定して未チャージポイントをチャージ済みに更新する
@@ -318,11 +327,14 @@ class Supabase {
         const notChargedPoints = await Supabase.executeQuery({
             table: 'points',
             action: UPDATE,
-            filters: [{ column: 'team_id', operator: 'eq', value: teamId }, { column: 'is_charged', operator: 'eq', value: false }],
-            updateData: { is_charged: true, updated_at: new Date().toISOString() }
+            filters: [
+                { column: 'team_id', operator: 'eq', value: teamId },
+                { column: 'is_charged', operator: 'eq', value: false },
+            ],
+            updateData: { is_charged: true, updated_at: new Date().toISOString() },
         });
         return notChargedPoints;
-    };
+    }
 
     /**
      *  チームを指定してチャージ済みポイントを加算する
@@ -335,10 +347,10 @@ class Supabase {
         const chargedPoints = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: point, is_charged: true }]
+            updateData: [{ team_id: teamId, point: point, is_charged: true }],
         });
         return chargedPoints;
-    };
+    }
 
     /**
      * チームを指定してチャージ済みポイントを減算する
@@ -351,10 +363,10 @@ class Supabase {
         const chargedPoints = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: teamId, point: -point, is_charged: true }]
+            updateData: [{ team_id: teamId, point: -point, is_charged: true }],
         });
         return chargedPoints;
-    };
+    }
 
     /**
      * チーム間でチャージ済みポイントを移動する
@@ -368,16 +380,16 @@ class Supabase {
         const addData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: addTeamId, point: point, is_charged: true }]
+            updateData: [{ team_id: addTeamId, point: point, is_charged: true }],
         });
         const subData = await Supabase.executeQuery({
             table: 'points',
             action: INSERT,
-            updateData: [{ team_id: subTeamId, point: -point, is_charged: true }]
+            updateData: [{ team_id: subTeamId, point: -point, is_charged: true }],
         });
         return { addData, subData };
-    };
-};
+    }
+}
 
 /**
  * 配列を指定のキーでグループ化し、指定のキーで合計する
@@ -388,16 +400,16 @@ class Supabase {
  */
 function groupByAndSum(array, keys) {
     const result = array.reduce((acc, entry) => {
-        if(acc[entry[keys[0]]]) {
+        if (acc[entry[keys[0]]]) {
             acc[entry[keys[0]]] += entry[keys[1]];
         } else {
             acc[entry[keys[0]]] = entry[keys[1]];
-        };
+        }
         return acc;
     }, {});
 
     return result;
-};
+}
 
 /* ========== モジュールのエクスポート ========== */
 export { Supabase };

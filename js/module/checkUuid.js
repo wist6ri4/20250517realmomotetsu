@@ -8,14 +8,14 @@ checkUuid();
  */
 function checkUuid() {
     const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
-    if(uuid) {
+    if (uuid) {
         return uuid;
     } else {
         // UUIDがない場合、新しく生成してセットする
         const newUUID = crypto.randomUUID();
         sessionStorage.setItem(Constants.SESSION_UUID, newUUID);
         return newUUID;
-    };
-};
+    }
+}
 
 export { checkUuid };
