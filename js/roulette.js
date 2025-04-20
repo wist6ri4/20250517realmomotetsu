@@ -68,7 +68,7 @@ async function main() {
         // 駅の初期表示
         getRandomStation($('#current-station').val());
 
-        logger.Debug('Displayed.');
+        logger.Info('Displayed.');
     } catch (error) {
         logger.Error('Failed to Display.', error);
     }

@@ -82,7 +82,7 @@ async function main() {
             );
         });
 
-        logger.Debug('Displayed.');
+        logger.Info('Displayed.');
     } catch {
         logger.Error('Failed to Display.');
     }
@@ -347,6 +347,7 @@ function calculateMissionSenzokuikeScore() {
 
     try {
         const score = MissionSenzokuike.calculate(answer);
+        logger.Debug(`Calculated Senzokuike mission score. Score:${score}`);
         alert(`解答：${answer} ㎡\n得点：${score} pt`);
     } catch (error) {
         logger.Error('Failed to calculate Senzokuike mission score.', error);

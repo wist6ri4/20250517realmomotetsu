@@ -60,7 +60,7 @@ async function main() {
             responseData = await fetchJsonData();
             display(responseData);
             sessionStorage.setItem(Constants.SESSION_TEAM_DATA, JSON.stringify(responseData));
-            logger.Debug('Fetch and display the main data.', responseData);
+            logger.Info('Main data fetched.', responseData);
         } catch (error) {
             if (sessionTeamData) {
                 responseData = JSON.parse(sessionTeamData);
@@ -78,7 +78,7 @@ async function main() {
         // ミッションが設定されている駅マスの設定
         displayMissionSetStations();
 
-        logger.Debug('Displayed.');
+        logger.Info('Displayed.');
     } catch (error) {
         logger.Error('Failed to display.', error);
     }
