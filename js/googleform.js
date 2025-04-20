@@ -92,6 +92,34 @@ async function submit() {
     } finally {
         clearForm();
     }
+
+    // 目的駅に到着したかを確認し、通知する
+    try {
+        const goalStations = await Supabase.getGoalStations();
+        const latestGoalStation = goalStations.pop();
+        if(stationId == latestGoalStation.station_id) {
+            const requestBody = {
+                team_id: teamId,
+                team_name: teamName,
+                station_id: stationId,
+                station_name: station_name,
+            };
+
+            await fetch(Constants.ARRIVAL_NOTIFICATION_API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+                .then((response) => response.json())
+                .then((data) => console.log(data))
+                .catch((error) => console.error(error));
+        }
+    } catch (error) {
+        logger.Error('Failed to check arrival.', error);
+    }
 }
 
 /**
