@@ -1,5 +1,5 @@
 /* ========== モジュールのインポート ========== */
-import { Constants } from "./constants.js";
+import { Constants } from './constants.js';
 
 /*========== Index用の定数 ==========*/
 const CFI = {

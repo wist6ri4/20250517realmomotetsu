@@ -1,5 +1,5 @@
 /* ========== モジュールのインポート ========== */
-import { Constants } from "./constants.js";
+import { Constants } from './constants.js';
 
 /* ========== 固有定数の設定 ========== */
 // Loggingの定数
@@ -10,7 +10,7 @@ const LoggingConstants = {
 // Loggingの設定
 const LoggingConfig = {
     LOG_LEVEL: 'DEBUG', // ログレベル [DEBUG, INFO, WARNING, ERROR, CRITICAL]
-}
+};
 
 // ログレベル文字列
 const LogLevel = {
@@ -19,7 +19,7 @@ const LogLevel = {
     WARNING: 'WARNING',
     ERROR: 'ERROR',
     CRITICAL: 'CRITICAL',
-}
+};
 
 /* ========== クラス定義 ========== */
 /**
@@ -32,7 +32,7 @@ class Logger {
     constructor() {
         const uuid = sessionStorage.getItem(Constants.SESSION_UUID);
         this.uuid = uuid;
-    };
+    }
 
     /**
      * ログのフォーマット
@@ -41,24 +41,24 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async log(logLevel, logMessage, logObject=null) {
+    async log(logLevel, logMessage, logObject = null) {
         let viewName = window.location.pathname.split('/').pop().split('.').shift();
-        if(viewName === '') {
+        if (viewName === '') {
             viewName = 'index';
-        };
+        }
 
         const request = {
-            'uuid': this.uuid,
-            'logLevel': logLevel,
-            'logMessage': logMessage,
-            'logObject': logObject ? JSON.stringify(logObject) : null,
-            'viewName': viewName,
-        }
+            uuid: this.uuid,
+            logLevel: logLevel,
+            logMessage: logMessage,
+            logObject: logObject ? JSON.stringify(logObject) : null,
+            viewName: viewName,
+        };
         await this.sendLog(request);
 
         // ログのコンソール出力
-        const logContent = `[${logLevel}] ${new Date().toLocaleString()} [${viewName}] ${logMessage} |`
-        if(new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
+        const logContent = `[${logLevel}] ${new Date().toLocaleString()} [${viewName}] ${logMessage} |`;
+        if (new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
             console.log(logContent, logObject);
         } else if (new Set([LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
             console.info(logContent, logObject);
@@ -66,8 +66,8 @@ class Logger {
             console.warn(logContent, logObject);
         } else if (new Set([LogLevel.ERROR, LogLevel.CRITICAL]).has(LoggingConfig.LOG_LEVEL)) {
             console.error(logContent, logObject);
-        };
-    };
+        }
+    }
 
     /**
      * ログの送信
@@ -84,9 +84,9 @@ class Logger {
             viewName: request.viewName,
         };
 
-        if(request.logObject) {
+        if (request.logObject) {
             logContent.logObject = request.logObject;
-        };
+        }
 
         const body = {
             logContent: logContent,
@@ -101,13 +101,13 @@ class Logger {
                 },
                 body: JSON.stringify(body),
             })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+                .then((response) => response.json())
+                .then((data) => console.log(data))
+                .catch((error) => console.error(error));
         } catch (error) {
             console.error(error);
-        };
-    };
+        }
+    }
 
     /**
      * DEBUG
@@ -115,12 +115,12 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async Debug(logMessage, logObject=null) {
-        if(!new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
+    async Debug(logMessage, logObject = null) {
+        if (!new Set([LogLevel.DEBUG]).has(LoggingConfig.LOG_LEVEL)) {
             return;
-        };
+        }
         await this.log(LogLevel.DEBUG, logMessage, logObject);
-    };
+    }
 
     /**
      * INFO
@@ -128,12 +128,12 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async Info(logMessage, logObject=null) {
-        if(!new Set([LogLevel.DEBUG, LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
+    async Info(logMessage, logObject = null) {
+        if (!new Set([LogLevel.DEBUG, LogLevel.INFO]).has(LoggingConfig.LOG_LEVEL)) {
             return;
-        };
-        await this.log(LogLevel.INFO, logMessage , logObject);
-    };
+        }
+        await this.log(LogLevel.INFO, logMessage, logObject);
+    }
 
     /**
      * WARNING
@@ -141,12 +141,14 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async Warning(logMessage, logObject=null) {
-        if(!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)) {
+    async Warning(logMessage, logObject = null) {
+        if (
+            !new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)
+        ) {
             return;
-        };
+        }
         await this.log(LogLevel.WARNING, logMessage, logObject);
-    };
+    }
 
     /**
      * ERROR
@@ -154,12 +156,16 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async Error(logMessage, logObject=null) {
-        if(!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR]).has(LoggingConfig.LOG_LEVEL)) {
+    async Error(logMessage, logObject = null) {
+        if (
+            !new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR]).has(
+                LoggingConfig.LOG_LEVEL
+            )
+        ) {
             return;
-        };
+        }
         await this.log(LogLevel.ERROR, logMessage, logObject);
-    };
+    }
 
     /**
      * CRITICAL
@@ -167,13 +173,21 @@ class Logger {
      * @param {string} logMessage ログメッセージ
      * @param {object} logObject ログオブジェクト
      */
-    async Critical(logMessage, logObject=null) {
-        if(!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR, LogLevel.CRITICAL]).has(LoggingConfig.LOG_LEVEL)) {
+    async Critical(logMessage, logObject = null) {
+        if (
+            !new Set([
+                LogLevel.DEBUG,
+                LogLevel.INFO,
+                LogLevel.WARNING,
+                LogLevel.ERROR,
+                LogLevel.CRITICAL,
+            ]).has(LoggingConfig.LOG_LEVEL)
+        ) {
             return;
-        };
+        }
         await this.log(LogLevel.CRITICAL, logMessage, logObject);
-    };
-};
+    }
+}
 
 /* ========== モジュールのエクスポート ========== */
 export { Logger };

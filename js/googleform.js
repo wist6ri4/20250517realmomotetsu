@@ -1,10 +1,10 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from './checkUuid.js';
-import { Constants } from './constants.js';
-import { Common } from './common.js';
-import { Supabase } from './supabase.js';
-import { Locations } from './location.js';
-import { Logger } from './logging.js';
+import { checkUuid } from './module/checkUuid.js';
+import { Constants } from './module/constants.js';
+import { Common } from './module/common.js';
+import { Supabase } from './module/supabase.js';
+import { Locations } from './module/location.js';
+import { Logger } from './module/logging.js';
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
@@ -14,10 +14,8 @@ const $formTeamNameSelect = $('#form_team_select'); // フォーム（チーム�
 const $formStationNameSelect = $('#form_station_select'); // フォーム（駅名）
 const $buttonSubmit = $('#button_submit'); // 送信ボタン
 
-
 /*========== 画面表示時の実行メソッド ==========*/
 main();
-
 
 /* ==========function========== */
 /**
@@ -29,7 +27,7 @@ async function main() {
         await Common.getAndSetTeamName();
         // チーム名のオプションを作成
         const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
-        teams.forEach(function(team) {
+        teams.forEach(function (team) {
             $formTeamNameSelect.append($('<option>').val(team.team_id).text(team.team_name));
         });
 
@@ -37,18 +35,19 @@ async function main() {
         await Common.getAndSetStations();
         // 駅名のオプションを作成
         const stations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
-        stations.forEach(function(station) {
-            $formStationNameSelect.append($('<option>').val(station.station_id).text(station.station_name));
+        stations.forEach(function (station) {
+            $formStationNameSelect.append(
+                $('<option>').val(station.station_id).text(station.station_name)
+            );
         });
 
         await Common.setNearByStation($formStationNameSelect);
 
-        logger.Debug('Displayed.');
-    } catch(error) {
+        logger.Info('Displayed.');
+    } catch (error) {
         logger.Error('Failed to display.', error);
-    };
-};
-
+    }
+}
 
 $buttonSubmit.on('click', submit);
 
@@ -63,40 +62,72 @@ async function submit() {
     const station_name = $('#form_station_select option:selected').text();
 
     // チーム名か駅名が選択されていない場合はアラートを表示
-    if(teamId == 0 || stationId == 0) {
+    if (teamId == 0 || stationId == 0) {
         alert('チーム名と駅名を選択してください。');
         return;
-    };
+    }
 
     // 送信確認
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName + '\n今いる駅：' + station_name);
-    if(!is_approved) {
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nチーム名：' + teamName + '\n今いる駅：' + station_name
+    );
+    if (!is_approved) {
         return;
-    };
+    }
 
     // 送信処理
     try {
         // transit_stationsにデータを追加
         await Supabase.insertTransitStations(teamId, stationId);
         // pointsにデータを追加
-        await Supabase.insertMovingPoints(teamId);
+        await Supabase.insertAdditionalPoints(teamId, Constants.POINT_FOR_MOVING);
 
-        logger.Info(`Success to send current station. TeamName:${teamName} StationName:${station_name}`);
+        logger.Info(
+            `Success to send current station. TeamName:${teamName} StationName:${station_name}`
+        );
         alert('送信しました。');
     } catch (error) {
         logger.Error('Fail to send.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForm();
-    };
-};
+    }
 
+    // 目的駅に到着したかを確認し、通知する
+    try {
+        const goalStations = await Supabase.getGoalStations();
+        const latestGoalStation = goalStations.pop();
+        if(stationId == latestGoalStation.station_id) {
+            const requestBody = {
+                team_id: teamId,
+                team_name: teamName,
+                station_id: stationId,
+                station_name: station_name,
+            };
+
+            await fetch(Constants.ARRIVAL_NOTIFICATION_API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+                .then((response) => response.json())
+                .then((data) => console.log(data))
+                .catch((error) => console.error(error));
+        }
+    } catch (error) {
+        logger.Error('Failed to check arrival.', error);
+    }
+}
 
 /**
  * フォームをクリアする
  */
 function clearForm() {
     $formTeamNameSelect.val(0);
-    const nearbyStation = JSON.parse(sessionStorage.getItem(Constants.SESSION_NEARBY_STATIONS))[0].station;
+    const nearbyStation = JSON.parse(sessionStorage.getItem(Constants.SESSION_NEARBY_STATIONS))[0]
+        .station;
     $formStationNameSelect.val(nearbyStation);
-};
+}
