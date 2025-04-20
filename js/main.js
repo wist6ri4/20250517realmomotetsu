@@ -1,13 +1,13 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from './checkUuid.js';
-import { Constants } from './constants.js';
-import { CFI } from './constantsForIndex.js';
-import { TEAMS } from './constantsForIndex.js';
-import { StationCode } from './stationCode.js';
-import { Common } from './common.js';
+import { checkUuid } from './module/checkUuid.js';
+import { Constants } from './module/constants.js';
+import { CFI } from './module/constantsForIndex.js';
+import { TEAMS } from './module/constantsForIndex.js';
+import { StationCode } from './module/stationCode.js';
+import { Common } from './module/common.js';
 import { Supabase } from './module/supabase.js';
-import { Logger } from './logging.js';
-import { Dijkstra } from './dijkstra.js';
+import { Logger } from './module/logging.js';
+import { Dijkstra } from './module/dijkstra.js';
 
 /* ========== Logger初期化 ========== */
 const logger = new Logger();

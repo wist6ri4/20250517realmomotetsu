@@ -1,5 +1,5 @@
 /* ========== モジュールのインポート ========== */
-import { Constants } from './constants.js';
+import { Constants } from './module/constants.js';
 import { Logger } from './module/logging.js';
 
 /*========== Logger初期化 ==========*/

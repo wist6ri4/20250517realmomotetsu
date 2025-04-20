@@ -1,10 +1,10 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from './checkUuid.js';
-import { Constants } from './constants.js';
-import { StationCode } from './stationCode.js';
-import { Common } from './common.js';
-import { Logger } from './logging.js';
-import { Dijkstra } from './dijkstra.js';
+import { checkUuid } from './module/checkUuid.js';
+import { Constants } from './module/constants.js';
+import { StationCode } from './module/stationCode.js';
+import { Common } from './module/common.js';
+import { Logger } from './module/logging.js';
+import { Dijkstra } from './module/dijkstra.js';
 import { Supabase } from './module/supabase.js';
 
 /*========== Logger初期化 ==========*/

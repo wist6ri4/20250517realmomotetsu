@@ -1,7 +1,7 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from './checkUuid.js';
-import { Constants } from './constants.js';
-import { Common } from './common.js';
+import { checkUuid } from './module/checkUuid.js';
+import { Constants } from './module/constants.js';
+import { Common } from './module/common.js';
 import { Supabase } from './module/supabase.js';
 import { Locations } from './module/location.js';
 import { Logger } from './module/logging.js';

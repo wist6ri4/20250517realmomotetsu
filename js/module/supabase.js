@@ -32,7 +32,7 @@ class Supabase {
             const stackLines = error.stack.split('\n');
             // スタックトレースの3行目を取得し、フォーマットに応じて解析
             if (stackLines.length > 2) {
-                const callerFunction = stackLines[2].trim();
+                const callerFunction = stackLines[3].trim();
                 const match = callerFunction.match(/at (\S+)/) || callerFunction.match(/at (\S+):/);
                 return match ? match[1] : 'Unknown';
             }

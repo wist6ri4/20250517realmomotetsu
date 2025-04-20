@@ -1,7 +1,7 @@
 /* ========== モジュールのインポート ========== */
 import { Constants } from './constants.js';
 import { StationLocations } from './stationLocations.js';
-import { StationCode } from '../stationCode.js';
+import { StationCode } from './stationCode.js';
 import { Logger } from './logging.js';
 
 /*========== Logger初期化 ==========*/

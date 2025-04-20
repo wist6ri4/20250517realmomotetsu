@@ -1,10 +1,10 @@
 /* ========== モジュールのインポート ========== */
-import { checkUuid } from './checkUuid.js';
-import { Constants } from './constants.js';
-import { Common } from './common.js';
+import { checkUuid } from './module/checkUuid.js';
+import { Constants } from './module/constants.js';
+import { Common } from './module/common.js';
 import { Supabase } from './module/supabase.js';
-import { Logger } from './logging.js';
-import { MissionSenzokuike } from './missionTool.js';
+import { Logger } from './module/logging.js';
+import { MissionSenzokuike } from './module/missionTool.js';
 
 /*========== Logger初期化 ==========*/
 const logger = new Logger();
