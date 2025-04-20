@@ -176,8 +176,8 @@ class Supabase {
     /**
      * transit_stationsにデータを追加する
      *
-     * @param {number} teamId チームID
-     * @param {number} stationId 駅ID
+     * @param {string} teamId チームID
+     * @param {string} stationId 駅ID
      * @returns {Object} data
      */
     static async insertTransitStations(teamId, stationId) {
@@ -206,7 +206,7 @@ class Supabase {
     /**
      * goal_stationsにデータを追加する
      *
-     * @param {number} stationId 駅ID
+     * @param {string} stationId 駅ID
      * @returns {Object} data
      */
     static async insertGoalStations(stationId) {
@@ -251,7 +251,7 @@ class Supabase {
     /**
      * 移動ポイントを追加する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @returns {Object} data
      */
     static async insertMovingPoints(teamId) {
@@ -266,7 +266,7 @@ class Supabase {
     /**
      * チームを指定してポイントを加算する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @param {number} point 加算ポイント
      * @returns {Object} data
      */
@@ -282,7 +282,7 @@ class Supabase {
     /**
      * チームを指定してポイントを減算する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @param {number} point 減算ポイント
      * @returns {Object} data
      */
@@ -320,7 +320,7 @@ class Supabase {
     /**
      * チームIDを指定して未チャージポイントをチャージ済みに更新する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @returns {Object} notChargedPoints
      */
     static async updateNotChargedPoints(teamId) {
@@ -339,7 +339,7 @@ class Supabase {
     /**
      *  チームを指定してチャージ済みポイントを加算する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @param {number} point 加算ポイント
      * @returns {Object} chargedPoints
      */
@@ -355,7 +355,7 @@ class Supabase {
     /**
      * チームを指定してチャージ済みポイントを減算する
      *
-     * @param {number} teamId チームID
+     * @param {string} teamId チームID
      * @param {number} point 減算ポイント
      * @returns {Object} chargedPoints
      */

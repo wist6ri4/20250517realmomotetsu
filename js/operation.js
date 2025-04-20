@@ -11,6 +11,8 @@ const logger = new Logger();
 
 /*========== 画面要素の取得 ==========*/
 const $goalStationSelect = $('#goal-station-select'); // 目的駅選択
+const $arrivalGoalTeamSelect = $('#arrival-goal-team-select'); // 目的駅到着チーム選択
+const $arrivalGoalPoint = $('#arrival-goal-point'); // 目的駅到着ポイント
 const $addPointTeamSelect = $('#add-point-team-select'); // ポイント加算チーム選択
 const $addPoint = $('#add-point'); // 加算ポイント
 const $isChargedForAdd = $('#is-charged-for-add'); // 加算時の換金フラグ
@@ -29,6 +31,7 @@ main();
 
 /* ========== イベントハンドラ ========== */
 $('#set-goal-station-button').on('click', setGoalStation);
+$('#arrival-goal-button').on('click', arrivalGoal);
 $('#add-point-button').on('click', addPoint);
 $('#sub-point-button').on('click', subPoint);
 $('#move-point-button').on('click', movePoint);
@@ -37,6 +40,9 @@ $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuike
 $('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
+$('#arrival-goal-point').on('input', function () {
+    $('#changed-arrival-goal-point').text(Common.formatPoint($(this).val()));
+});
 $('#add-point').on('input', function () {
     $('#changed-add-point').text(Common.formatPoint($(this).val()));
 });
@@ -58,6 +64,7 @@ async function main() {
         // チーム名のオプションを作成
         const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
         teams.forEach(function (team) {
+            $arrivalGoalTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $addPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $subPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $movePointFromSelect.append($('<option>').val(team.team_id).text(team.team_name));
@@ -108,6 +115,47 @@ async function setGoalStation() {
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send goal station.', error);
+        alert('送信に失敗しました。', error);
+    } finally {
+        clearForms();
+    }
+}
+
+/**
+ * 目的駅到着処理
+ */
+async function arrivalGoal() {
+    // フォームの値を取得
+    const teamId = $arrivalGoalTeamSelect.val();
+    const teamName = $('#arrival-goal-team-select option:selected').text();
+    const arrivalGoalPoint = $arrivalGoalPoint.val();
+
+    // チーム名か駅名が選択されていない場合はアラートを表示
+    if (teamId == 0 || arrivalGoalPoint == 0) {
+        alert('チーム名とポイントを入力してください。');
+        return;
+    }
+
+    // 送信確認
+    const is_approved = confirm(
+        '以下の内容で送信しますか？\n\nチーム名：' +
+            teamName +
+            '\nポイント数：' +
+            arrivalGoalPoint +
+            ' pt'
+    );
+    if (!is_approved) {
+        return;
+    }
+
+    // 送信処理
+    try {
+        const addPointResult = await Supabase.insertAdditionalPoints(teamId, arrivalGoalPoint);
+        const chargePointResult = await Supabase.updateNotChargedPoints(teamId);
+        logger.Info(`Success to send arrival goal. TeamName:${teamName} Point:${arrivalGoalPoint}`);
+        alert('送信しました。');
+    } catch (error) {
+        logger.Error('Failed to complete arrival process.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -251,7 +299,7 @@ async function movePoint() {
         if (isCharged) {
             result = await Supabase.insertAddAndSubChargedPoints(toTeamId, fromTeamId, point);
         } else {
-            const result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
+            result = await Supabase.insertAddAndSubPoints(toTeamId, fromTeamId, point);
         }
         logger.Info(
             `Success to send moving points. FromTeamId:${fromTeamId} ToTeamId:${toTeamId} Point:${point} IsCharged:${isCharged}`
@@ -333,6 +381,8 @@ function resetMissionSenzokuikeForm() {
  */
 function clearForms() {
     $goalStationSelect.val(0);
+    $arrivalGoalTeamSelect.val(0);
+    $arrivalGoalPoint.val(0);
     $addPointTeamSelect.val(0);
     $addPoint.val(0);
     $isChargedForAdd.prop('checked', false);
@@ -344,6 +394,7 @@ function clearForms() {
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
+    $('#changed-arrival-goal-point').text(Common.formatPoint(0));
     $('#changed-add-point').text(Common.formatPoint(0));
     $('#changed-sub-point').text(Common.formatPoint(0));
     $('#changed-move-point').text(Common.formatPoint(0));
