@@ -86,10 +86,35 @@ async function setNearByStation($jqueryObject) {
     }
 }
 
+/**
+ * Discordに通知する
+ *
+ * @param {Object} requestBody リクエストボディ
+ */
+async function notifyToDiscord(requestBody) {
+    // 目的地の設定を通知する
+    try {
+        await fetch(Constants.ARRIVAL_NOTIFICATION_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.error(error));
+    } catch (error) {
+        logger.Error('Failed to notify to discord.', error, requestBody);
+    }
+}
+
 /* ========== モジュールのエクスポート ========== */
 export const Common = {
     getAndSetTeamName,
     getAndSetStations,
     formatPoint,
     setNearByStation,
+    notifyToDiscord
 };
