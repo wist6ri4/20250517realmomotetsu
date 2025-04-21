@@ -112,6 +112,16 @@ async function setGoalStation() {
     try {
         const result = await Supabase.insertGoalStations(stationId);
         logger.Info(`Success to send goal station. StationName:${stationName}`);
+
+        const requestBody = {
+            type: 'set_goal_station',
+            data: {
+                station_id: stationId,
+                station_name: stationName,
+            },
+        };
+        await Common.notifyToDiscord(requestBody);
+
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send goal station.', error);
