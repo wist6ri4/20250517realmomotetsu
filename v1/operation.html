@@ -63,6 +63,7 @@
     <div class="container">
         <ul class="list-group" id="operation-index">
             <li class="list-group-item list-group-item-action"><a href="#form-title-goal-station">目的駅設定</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-arrival-goal">目的駅到着処理</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-add-point">ポイント加算</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-sub-point">ポイント減算</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-move-point">ポイント移動</a></li>
@@ -96,10 +97,51 @@
             </div>
         </div>
         <hr>
+        <!-- 目的駅到着処理 -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title" id="form-title-arrival-goal">目的駅到着処理</h1>
+                <p class="form-description">
+                    目的駅に到着した場合、チームを選択し、到着処理を行なう。<br>
+                    到着ポイントは、前の目的駅から今回の目的駅までの運賃を入力する。<br>
+                    換金も同時に実行される。
+                </p>
+            </div>
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="arrival-goal-team">チーム名</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="arrival-goal-team-select" name="arrival-goal-team">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="arrival-goal-point">到着ポイント</label>
+                    </div>
+                    <div class="col-7">
+                        <div>
+                            <input type="number" id="arrival-goal-point" name="arrival-goal-point" min="0" max="10000" step="1" value="0"> pt
+                        </div>
+                        <div>
+                            換金後：<span id="changed-arrival-goal-point">0 万</span>円
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer-contents">
+                <button id="arrival-goal-button" class="btn btn-primary submit-button">送信</button>
+            </div>
+        </div>
+        <hr>
         <!-- ポイント加算 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title" id="form-title-add-point">ポイント加算</h1>
+                <h1 class="form-title bg-primary" id="form-title-add-point">ポイント加算</h1>
                 <p class="form-description">
                     チームを選択し、ポイントを加算する。<br>
                     換金にチェックを入れると、総資産として加算される。
@@ -123,7 +165,7 @@
                     </div>
                     <div class="col-7">
                         <div>
-                            <input type="number" id="add-point" name="add-point" min="0" max="10000" step="1" value="0">
+                            <input type="number" id="add-point" name="add-point" min="0" max="10000" step="1" value="0"> pt
                         </div>
                         <div>
                             換金後：<span id="changed-add-point">0 万</span>円
@@ -147,7 +189,7 @@
         <!-- ポイント減算 -->
         <div class="form-wrapper">
             <div class="form-header">
-                <h1 class="form-title" id="form-title-sub-point">ポイント減算</h1>
+                <h1 class="form-title bg-danger" id="form-title-sub-point">ポイント減算</h1>
                 <p class="form-description">
                     チームを選択し、ポイントを減算する。<br>
                     換金にチェックを入れると、総資産として減算される。
@@ -171,10 +213,10 @@
                     </div>
                     <div class="col-7">
                         <div>
-                            <input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0">
+                            －<input type="number" id="sub-point" name="sub-point" min="0" max="10000" step="1" value="0"> pt
                         </div>
                         <div>
-                            換金後：<span id="changed-sub-point">0 万</span>円
+                            換金後：－<span id="changed-sub-point">0 万</span>円
                         </div>
                     </div>
                 </div>
@@ -188,7 +230,7 @@
                 </div>
             </div>
             <div class="form-footer-contents">
-                <button id="sub-point-button" class="btn btn-primary submit-button">送信</button>
+                <button id="sub-point-button" class="btn btn-danger submit-button">送信</button>
             </div>
         </div>
         <hr>
@@ -230,7 +272,7 @@
                     </div>
                     <div class="col-7">
                         <div>
-                            <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0">
+                            <input type="number" id="move-point" name="move-point" min="0" max="10000" step="1" value="0"> pt
                         </div>
                         <div>
                             換金後：<span id="changed-move-point">0 万</span>円
@@ -292,7 +334,7 @@
                     </div>
                     <div class="col-7">
                         <div>
-                            <input type="number" id="senzokuike-mission-answer" name="senzokuike-mission-answer" min="0" max="999999" step="1" value="41000">
+                            <input type="number" id="senzokuike-mission-answer" name="senzokuike-mission-answer" min="0" max="999999" step="1" value="41000"> ㎡
                         </div>
                     </div>
                 </div>
@@ -306,6 +348,8 @@
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" charset="UTF-8" defer="defer"></script>
+    <!--wanakana-->
+    <script src="https://unpkg.com/wanakana"></script>
     <!--JavaScript-->
     <script type="module" src="../js/operation.js" charset="UTF-8" defer="defer"></script>
 </body>
