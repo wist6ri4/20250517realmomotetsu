@@ -175,3 +175,7 @@
 .mission-set-station {
     fill: var(--mission-set-station-color) !important;
 }
+
+#transit-stations-counter {
+    text-align: end;
+}
