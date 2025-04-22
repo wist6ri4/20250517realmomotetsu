@@ -393,9 +393,11 @@ function displayNextStation(nextStationList) {
 function setInformationToModal(teamName, data) {
     // モーダルのラベル
     $('#team-information-modal-label').text(teamName + 'の履歴');
+    // データ件数の表示
+    $('#transit-stations-counter').text(data.length + ' 駅を通過しました');
     // 履歴テーブルを空にする
     $('#table-body-history').empty();
-    // 次の目的駅を取り除く
+    // データの展開
     const displayData = [...data];
     // 履歴分の数の行をテーブルに追加
     for (const history of displayData) {
