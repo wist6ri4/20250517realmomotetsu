@@ -33,7 +33,7 @@ const Constants = {
     PASSWORD: 'rm517',
     /* Cookie */
     COOKIE_KEY: '20250517_realmomotetsu_access_granted',
-    /* Cookieの有効時間(3時間) */
+    /* Cookieの有効時間*/
     COOKIE_EXPIRES: 5, // hours
 };
 
