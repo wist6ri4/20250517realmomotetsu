@@ -46,3 +46,7 @@
     font-weight: bold;
     padding: 0.5rem 2rem 0.5rem 2rem;
 }
+
+.bombii-table-align-right {
+    text-align: right;
+}

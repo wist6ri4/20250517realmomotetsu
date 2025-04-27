@@ -4,6 +4,8 @@ import { Constants } from './module/constants.js';
 import { Common } from './module/common.js';
 import { Supabase } from './module/supabase.js';
 import { Logger } from './module/logging.js';
+import { StationCode } from './module/stationCode.js';
+import { Dijkstra } from './module/dijkstra.js';
 import { MissionSenzokuike } from './module/missionTool.js';
 
 /*========== Logger初期化 ==========*/
@@ -25,6 +27,7 @@ const $movePoint = $('#move-point'); // 移動ポイント
 const $isChargedForMove = $('#is-charged-for-move'); // 移動時の換金フラグ
 const $chargePointTeamSelect = $('#charge-point-team-select'); // ポイント換金チーム選択
 const $senzokuikeMissionAnswer = $('#senzokuike-mission-answer'); // 洗足池ミッションの解答
+const $bombiiTeamSelect = $('#bombii-team-select'); // ボンビー対象チーム選択
 
 /*========== 画面表示時の実行メソッド ==========*/
 main();
@@ -32,12 +35,15 @@ main();
 /* ========== イベントハンドラ ========== */
 $('#set-goal-station-button').on('click', setGoalStation);
 $('#arrival-goal-button').on('click', arrivalGoal);
+$('#check-bombii-button').on('click', getBombiiTableInformation);
+$('#bombii-button').on('click', confirmBombii);
 $('#add-point-button').on('click', addPoint);
 $('#sub-point-button').on('click', subPoint);
 $('#move-point-button').on('click', movePoint);
 $('#charge-point-button').on('click', chargePoint);
 $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuikeScore);
 $('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
+$('#bombii-manual-button').on('click', setBombii);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
 $('#arrival-goal-point').on('input', function () {
@@ -65,6 +71,7 @@ async function main() {
         const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
         teams.forEach(function (team) {
             $arrivalGoalTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
+            $bombiiTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $addPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $subPointTeamSelect.append($('<option>').val(team.team_id).text(team.team_name));
             $movePointFromSelect.append($('<option>').val(team.team_id).text(team.team_name));
@@ -81,6 +88,8 @@ async function main() {
                 $('<option>').val(station.station_id).text(station.station_name)
             );
         });
+
+        await getBombiiTableInformation();
 
         logger.Info('Displayed.');
     } catch {
@@ -149,10 +158,10 @@ async function arrivalGoal() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nチーム名：' +
-        teamName +
-        '\nポイント数：' +
-        arrivalGoalPoint +
-        ' pt'
+            teamName +
+            '\nポイント数：' +
+            arrivalGoalPoint +
+            ' pt'
     );
     if (!is_approved) {
         return;
@@ -166,6 +175,158 @@ async function arrivalGoal() {
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to complete arrival process.', error);
+        alert('送信に失敗しました。', error);
+    } finally {
+        clearForms();
+    }
+}
+
+/*
+各チームのボンビー情報
+*/
+const bombiiInformation = {
+    teamA: {
+        stationId: null,
+        remainingStations: 0,
+        chargedPoints: 0,
+    },
+    teamB: {
+        stationId: null,
+        remainingStations: 0,
+        chargedPoints: 0,
+    },
+    teamC: {
+        stationId: null,
+        remainingStations: 0,
+        chargedPoints: 0,
+    },
+    teamD: {
+        stationId: null,
+        remainingStations: 0,
+        chargedPoints: 0,
+    },
+};
+
+/**
+ * 各チームの情報を取得してテーブルに表示し、データを保持する
+ */
+async function getBombiiTableInformation() {
+    try {
+        $('#bombii-table-tbody').empty();
+        const latestTransitStations = await Supabase.getLatestTransitStations();
+        const latestGoalStation = (await Supabase.getLatestGoalStation())[0];
+        const chargedPointsList = await Supabase.getChargedPoints();
+
+        latestTransitStations.forEach((latestTransitStation) => {
+            // 各チームの現在地から残りマス数を計算
+            const numRemainingSquares = Dijkstra.calculateTravelTimes(
+                StationCode.stationGraph,
+                latestTransitStation.station_id
+            )[latestGoalStation.station_id].stations;
+
+            // 各チームの総資産pt
+            const chargedPoints = chargedPointsList[latestTransitStation.team_id]
+                ? chargedPointsList[latestTransitStation.team_id]
+                : 0;
+
+            // テーブルの表示
+            const tr = $('<tr>');
+            tr.append($('<td>').text(latestTransitStation.team_id))
+                .append($('<td>').text(StationCode.getStationName(latestTransitStation.station_id)))
+                .append($('<td class="bombii-table-align-right">').text(numRemainingSquares + '駅'))
+                .append($('<td class="bombii-table-align-right">').text(chargedPoints));
+            $('#bombii-table-tbody').append(tr);
+
+            // 各チームの残りマス数と暫定ボンビー情報の保持
+            bombiiInformation[latestTransitStation.team_id].stationId =
+                latestTransitStation.station_id;
+            bombiiInformation[latestTransitStation.team_id].remainingStations = numRemainingSquares;
+            bombiiInformation[latestTransitStation.team_id].chargedPoints = chargedPoints;
+        });
+
+        $('#updated-time').text(Common.getCurrentTime());
+    } catch (error) {
+        logger.Error('Failed to get bombii table information.', error);
+        alert('ボンビー情報の取得に失敗しました。', error);
+    }
+}
+
+/**
+ * ボンビーを確定し、送信する
+ */
+async function confirmBombii() {
+    const bombiiCandidates = Object.entries(bombiiInformation).reduce(
+        (candidates, [teamId, info]) => {
+
+            if (candidates.length === 0) {
+                return [{ teamId, info }];
+            }
+            const cr = candidates[0].info.remainingStations;
+            const ir = info.remainingStations;
+            const cc = candidates[0].info.chargedPoints;
+            const ic = info.chargedPoints;
+
+            // 目的駅から遠い方がボンビー
+            if (cr > ir) {
+                return candidates;
+            } else if (cr < ir) {
+                return [{ teamId, info }];
+            } else {
+                // 目的駅からの距離が同じ場合、総資産で比較
+                if (cc > ic) {
+                    return candidates;
+                } else if (cc < ic) {
+                    return [{ teamId, info }];
+                } else {
+                    // 総資産も同じ場合、ランダム
+                    return [...candidates, { teamId, info }];
+                }
+            }
+        },
+        []
+    );
+
+    const bombiiTeam = bombiiCandidates[Math.floor(Math.random() * bombiiCandidates.length)];
+
+    const is_approved = confirm('以下の内容で送信しますか？\n\nチームID：' + bombiiTeam.teamId);
+    if (!is_approved) {
+        return;
+    }
+
+    // 送信処理
+    try {
+        const result = await Supabase.insertBombiiHistory(bombiiTeam.teamId);
+        logger.Info(`Success to send bombii history. TeamId:${bombiiTeam.teamId}`);
+        alert('送信しました。');
+    } catch {
+        logger.Error('Failed to send bombii history.', error);
+        alert('送信に失敗しました。', error);
+    } finally {
+        clearForms();
+    }
+}
+
+async function setBombii() {
+    const teamId = $bombiiTeamSelect.val();
+    const teamName = $('#bombii-team-select option:selected').text();
+
+    if (teamId == 0) {
+        alert('チーム名を選択してください。');
+        return;
+    }
+
+    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName);
+    if (!is_approved) {
+        return;
+    }
+
+    // 送信処理
+    try {
+        const result = await Supabase.insertBombiiHistory(teamId);
+        logger.Info(`Success to send bombii history. TeamId:${teamId}`);
+        alert('送信しました。');
+    } catch {
+        logger.Error('Failed to send bombii history.', error);
         alert('送信に失敗しました。', error);
     } finally {
         clearForms();
@@ -191,12 +352,12 @@ async function addPoint() {
     // 送信確認
     const is_approved = confirm(
         '【加算】\n' +
-        '以下の内容で送信しますか？\n\nチーム名：' +
-        teamName +
-        '\nポイント数：' +
-        point +
-        ' pt' +
-        (isCharged ? '（換金あり）' : '（換金なし）')
+            '以下の内容で送信しますか？\n\nチーム名：' +
+            teamName +
+            '\nポイント数：' +
+            point +
+            ' pt' +
+            (isCharged ? '（換金あり）' : '（換金なし）')
     );
     if (!is_approved) {
         return;
@@ -236,11 +397,11 @@ async function subPoint() {
     // 送信確認
     const is_approved = confirm(
         '【減算】\n' +
-        '以下の内容で送信しますか？\n\nチーム名：' +
-        teamName +
-        '\nポイント数：－' +
-        point +
-        ' pt' +
+            '以下の内容で送信しますか？\n\nチーム名：' +
+            teamName +
+            '\nポイント数：－' +
+            point +
+            ' pt' +
             (isCharged ? '（換金あり）' : '（換金なし）')
     );
     if (!is_approved) {
@@ -281,15 +442,15 @@ async function movePoint() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nポイント数：' +
-        point +
-        ' pt' +
-        (isCharged ? '（換金あり）' : '（換金なし）') +
-        '\n' +
-        '移動元：' +
-        $('#move-point-from-select option:selected').text() +
-        '\n' +
-        '移動先：' +
-        $('#move-point-to-select option:selected').text()
+            point +
+            ' pt' +
+            (isCharged ? '（換金あり）' : '（換金なし）') +
+            '\n' +
+            '移動元：' +
+            $('#move-point-from-select option:selected').text() +
+            '\n' +
+            '移動先：' +
+            $('#move-point-to-select option:selected').text()
     );
     if (!is_approved) {
         return;
@@ -326,7 +487,7 @@ async function chargePoint() {
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nチーム名：' +
-        $('#charge-point-team-select option:selected').text()
+            $('#charge-point-team-select option:selected').text()
     );
     if (!is_approved) {
         return;
