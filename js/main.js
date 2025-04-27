@@ -199,7 +199,15 @@ async function handleTeamInformation() {
 
         // チェックボックスの監視
         team.$TRAIN_VISIBILITY.on('change', function () {
+            // 電車コマの可視性の変更
             changeTrainVisibility($(this), team.$TRAIN, team.IS_ADDED);
+
+            // ボンビーの可視性の変更
+            if (team.TEAM_ID == responseData.bombii && $('#bombii-on-routemap').hasClass(CFI.INVISIBLE_TRAIN)) {
+                $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
+            } else if(team.TEAM_ID == responseData.bombii && !$('#bombii-on-routemap').hasClass(CFI.INVISIBLE_TRAIN)) {
+                $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
+            }
         });
     });
 }
@@ -415,5 +423,11 @@ function displayBombii(bombiiTeamId) {
         $('#bombii-image-' + bombiiTeamId).append(
             '<img src="../img/moving_bombii.png" alt="ボンビー" width="25" height="25"/>'
         );
+        $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
+        const lowerCaseBombiiTeamId = bombiiTeamId.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        $('#bombii-on-routemap').attr('x', $('#' + lowerCaseBombiiTeamId + '-train').attr('x'));
+        $('#bombii-on-routemap').attr('y', $('#' + lowerCaseBombiiTeamId + '-train').attr('y'));
+    } else {
+        $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
     }
 }
