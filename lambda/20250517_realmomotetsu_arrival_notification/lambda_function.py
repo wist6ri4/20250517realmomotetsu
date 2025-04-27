@@ -19,23 +19,17 @@ def lambda_handler(event, context):
 
         body = json.loads(event['body'])
         logger.info('Received request_body: %s', body)
+
+        # リクエストボディの検証
         if not body:
             logger.error('No data found in the event body')
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-                },
-                'body': json.dumps({'message': 'Invalid request'})
-            }
+            return response_message(400, {'message': 'No data found in the event body'})
 
         notification_type = body['type']
         data = body['data']
-
         message = {}
 
+        # notification_typeの検証
         if notification_type == 'arrival':
             logger.info('Received arrival notification')
             team_id = data['team_id']
@@ -45,15 +39,7 @@ def lambda_handler(event, context):
 
             if not all([team_id, team_name, station_id, station_name]):
                 logger.error('Missing required fields: %s', body)
-                return {
-                    'statusCode': 400,
-                    'headers': {
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Content-Type',
-                        'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-                    },
-                    'body': json.dumps({'message': 'Missing required fields'})
-                }
+                return response_message(400, {'message': 'Missing required fields'})
 
             message = notify_arrival(team_name, station_name)
 
@@ -64,15 +50,7 @@ def lambda_handler(event, context):
 
             if not all([station_id, station_name]):
                 logger.error('Missing required fields: %s', body)
-                return {
-                    'statusCode': 400,
-                    'headers': {
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Content-Type',
-                        'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-                    },
-                    'body': json.dumps({'message': 'Missing required fields'})
-                }
+                return response_message(400, {'message': 'Missing required fields'})
 
             message = notify_set_goal_station(station_name)
 
@@ -90,28 +68,26 @@ def lambda_handler(event, context):
             )
 
         logger.info('Discord message: %s', message)
-
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-            },
-            'body': json.dumps({'message': 'Message sent to Discord successfully'})
-        }
+        return response_message(200, {'message': 'Notification sent successfully'})
 
     except Exception as e:
         logger.error('An error occurred: %s', e)
-        return {
-            'statusCode': 500,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-            },
-            'body': json.dumps({'message': 'Internal server error'})
-        }
+        return response_message(500, {'message': 'An error occurred', 'error': str(e)})
+
+
+def response_message(status_code, message):
+    """
+    レスポンスを返す
+    """
+    return {
+        'statusCode': status_code,
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+        },
+        'body': json.dumps(message)
+    }
 
 
 def notify_arrival(team_name, station_name):
