@@ -9,6 +9,38 @@ const logger = new Logger();
 
 /* ========== function ========== */
 /**
+ * 現在時刻の取得
+ * @returns {string} 時刻
+ */
+function getCurrentTime() {
+    const ct = new Date();
+    const strCurrentTime =
+        ct.getFullYear() +
+        '/' +
+        ('0' + (ct.getMonth() + 1)).slice(-2) +
+        '/' +
+        ('0' + ct.getDate()).slice(-2) +
+        ' ' +
+        ct.getHours() +
+        ':' +
+        ('0' + ct.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + ct.getSeconds()).slice(-2);
+    return strCurrentTime;
+}
+
+/**
+ * UTCからJST文字列に変換
+ *
+ * @param {string} utc UTC文字列
+ * @returns {string} JST文字列
+ */
+function convertUTCtoJST(utc) {
+    const date = new Date(utc);
+    return date.toLocaleTimeString();
+}
+
+/**
  * チーム名を取得してsessionStorageにセットする
  *
  * @returns {Array} チーム名
@@ -112,6 +144,8 @@ async function notifyToDiscord(requestBody) {
 
 /* ========== モジュールのエクスポート ========== */
 export const Common = {
+    getCurrentTime,
+    convertUTCtoJST,
     getAndSetTeamName,
     getAndSetStations,
     formatPoint,
