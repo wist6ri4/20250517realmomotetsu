@@ -52,7 +52,7 @@ async function checkCookie() {
         setTimeout(async () => {
             const userInput = prompt('パスワードを入力してください:');
             if (userInput === password) {
-                setCookie(Constants.COOKIE_KEY, 'true', 3); // 3時間保持
+                setCookie(Constants.COOKIE_KEY, 'true', Constants.COOKIE_EXPIRES);
                 await logger.Info('Success to login as admin.');
                 window.location.href = './operation.html';
             } else {
