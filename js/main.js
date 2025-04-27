@@ -203,10 +203,12 @@ async function handleTeamInformation() {
             changeTrainVisibility($(this), team.$TRAIN, team.IS_ADDED);
 
             // ボンビーの可視性の変更
-            if (team.TEAM_ID == responseData.bombii && $('#bombii-on-routemap').hasClass(CFI.INVISIBLE_TRAIN)) {
-                $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
-            } else if(team.TEAM_ID == responseData.bombii && !$('#bombii-on-routemap').hasClass(CFI.INVISIBLE_TRAIN)) {
-                $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
+            if (team.TEAM_ID == responseData.bombii) {
+                if (team.$TRAIN_VISIBILITY.prop('checked')) {
+                    $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
+                } else {
+                    $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
+                }
             }
         });
     });
