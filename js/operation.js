@@ -298,7 +298,7 @@ async function confirmBombii() {
         const result = await Supabase.insertBombiiHistory(bombiiTeam.teamId);
         logger.Info(`Success to send bombii history. TeamId:${bombiiTeam.teamId}`);
         alert('送信しました。');
-    } catch {
+    } catch (error) {
         logger.Error('Failed to send bombii history.', error);
         alert('送信に失敗しました。', error);
     } finally {
@@ -325,7 +325,7 @@ async function setBombii() {
         const result = await Supabase.insertBombiiHistory(teamId);
         logger.Info(`Success to send bombii history. TeamId:${teamId}`);
         alert('送信しました。');
-    } catch {
+    } catch (error){
         logger.Error('Failed to send bombii history.', error);
         alert('送信に失敗しました。', error);
     } finally {
