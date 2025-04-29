@@ -38,10 +38,6 @@ main();
 
 $updateButton.on('click', main);
 
-window.addEventListener('load', function () {
-    reloadBombii();
-})
-
 /* ========== functions ========== */
 /**
  * メインメソッド
@@ -80,9 +76,6 @@ async function main() {
         await Common.getAndSetStations();
         // ミッションが設定されている駅マスの設定
         displayMissionSetStations();
-
-        // ボンビーのリロード
-        reloadBombii();
 
         logger.Info('Displayed.');
     } catch (error) {
@@ -429,7 +422,7 @@ function displayBombii(bombiiTeamId) {
     $('.bombii-image').empty();
     if (bombiiTeamId) {
         $('#bombii-image-' + bombiiTeamId).append(
-            '<img src="../img/moving_bombii.png" alt="ボンビー" width="25" height="25"/>'
+            `<img src="../img/moving_bombii.png?t=${new Date().getTime()}" alt="ボンビー" width="25" height="25"/>`
         );
         $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
         const lowerCaseBombiiTeamId = bombiiTeamId.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -438,13 +431,4 @@ function displayBombii(bombiiTeamId) {
     } else {
         $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
     }
-}
-
-/**
- * ボンビーのリロード
- */
-function reloadBombii() {
-    const gif = document.getElementById('bombii-image');
-    const originalHref = gif.getAttribute('href').split('?')[0];
-    gif.setAttribute('href', originalHref + '?t=' + new Date().getTime());
 }

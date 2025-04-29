@@ -343,7 +343,7 @@ async function setBombii() {
         const requestBody = {
             type: 'set_bombii',
             data: {
-                team_id: bombiiTeam.teamId,
+                team_id: teamId,
                 team_name: teamName,
             },
         };
