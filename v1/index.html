@@ -61,6 +61,14 @@
     </div>
 </header>
 <body>
+    <script>
+        window.addEventListener('load', function() {
+            const gif = document.getElementById('bombii-image');
+            const originalHref = gif.getAttribute('href').split('?')[0];
+            gif.setAttribute('href', originalHref + '?t=' + new Date().getTime());
+        })
+    </script>
+
     <div class="container">
         <div class="row">
             <div class="col-3">
@@ -324,7 +332,7 @@
                                         </symbol>
                                         <!-- ボンビー -->
                                         <symbol id="bombii" viewBox="0 0 750 750">
-                                            <image id="bombii-image" href="../img/bombii.png"></image>
+                                            <image href="../img/bombii.png"></image>
                                         </symbol>
                                     </defs>
                                     <g transform="translate(200, 100)">
