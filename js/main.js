@@ -444,7 +444,7 @@ function displayBombii(bombiiTeamId) {
  * ボンビーのリロード
  */
 function reloadBombii() {
-    const gif = this.document.getElementById('bombii');
-    const originalSrc = gif.src.split('?')[0];
-    gif.src = originalSrc + '?t=' + new Date().getTime();
+    const gif = document.getElementById('bombii-image');
+    const originalHref = gif.getAttribute('href').split('?')[0];
+    gif.setAttribute('href', originalHref + '?t=' + new Date().getTime());
 }
