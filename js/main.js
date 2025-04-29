@@ -38,10 +38,13 @@ main();
 
 $updateButton.on('click', main);
 
+window.addEventListener('load', function () {
+    reloadBombii();
+})
+
 /* ========== functions ========== */
 /**
  * メインメソッド
- * 画面表示時と10秒おきに実行する
  */
 async function main() {
     try {
@@ -77,6 +80,9 @@ async function main() {
         await Common.getAndSetStations();
         // ミッションが設定されている駅マスの設定
         displayMissionSetStations();
+
+        // ボンビーのリロード
+        reloadBombii();
 
         logger.Info('Displayed.');
     } catch (error) {
@@ -432,4 +438,13 @@ function displayBombii(bombiiTeamId) {
     } else {
         $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
     }
+}
+
+/**
+ * ボンビーのリロード
+ */
+function reloadBombii() {
+    const gif = this.document.getElementById('bombii');
+    const originalSrc = gif.src.split('?')[0];
+    gif.src = originalSrc + '?t=' + new Date().getTime();
 }

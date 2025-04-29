@@ -166,14 +166,19 @@ async function getNextStation() {
         }
     }
 
-    // 各チームの現在地を取得
-    const latestTransitStations = await Supabase.getLatestTransitStations();
-    // 各チームの現在地の駅を削除
-    for (const stations of latestTransitStations) {
-        const stationCode = stations.station_id;
-        if (times[stationCode]) {
-            delete times[stationCode];
+    try {
+        // 各チームの現在地を取得
+        const latestTransitStations = await Supabase.getLatestTransitStations();
+        // 各チームの現在地の駅を削除
+        for (const stations of latestTransitStations) {
+            const stationCode = stations.station_id;
+            if (times[stationCode]) {
+                delete times[stationCode];
+            }
         }
+        logger.Debug('Latest transit stations:', latestTransitStations);
+    } catch (error) {
+        logger.Error('Failed to get latest transit stations.', error);
     }
 
     // 所要時間から重みを計算
