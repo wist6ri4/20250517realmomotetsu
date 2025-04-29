@@ -287,8 +287,10 @@ async function confirmBombii() {
     );
 
     const bombiiTeam = bombiiCandidates[Math.floor(Math.random() * bombiiCandidates.length)];
+    const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
+    const teamName = teams.find((team) => team.team_id === bombiiTeam.teamId).team_name;
 
-    const is_approved = confirm('以下の内容で送信しますか？\n\nチームID：' + bombiiTeam.teamId);
+    const is_approved = confirm('以下の内容で送信しますか？\n\nチーム名：' + teamName);
     if (!is_approved) {
         return;
     }
@@ -297,6 +299,16 @@ async function confirmBombii() {
     try {
         const result = await Supabase.insertBombiiHistory(bombiiTeam.teamId);
         logger.Info(`Success to send bombii history. TeamId:${bombiiTeam.teamId}`);
+
+        const requestBody = {
+            type: 'set_bombii',
+            data: {
+                team_id: bombiiTeam.teamId,
+                team_name: teamName,
+            },
+        };
+        await Common.notifyToDiscord(requestBody);
+
         alert('送信しました。');
     } catch (error) {
         logger.Error('Failed to send bombii history.', error);
@@ -306,6 +318,9 @@ async function confirmBombii() {
     }
 }
 
+/**
+ * ボンビーを確定し、送信する（手動）
+ */
 async function setBombii() {
     const teamId = $bombiiTeamSelect.val();
     const teamName = $('#bombii-team-select option:selected').text();
@@ -324,6 +339,16 @@ async function setBombii() {
     try {
         const result = await Supabase.insertBombiiHistory(teamId);
         logger.Info(`Success to send bombii history. TeamId:${teamId}`);
+
+        const requestBody = {
+            type: 'set_bombii',
+            data: {
+                team_id: bombiiTeam.teamId,
+                team_name: teamName,
+            },
+        };
+        await Common.notifyToDiscord(requestBody);
+
         alert('送信しました。');
     } catch (error){
         logger.Error('Failed to send bombii history.', error);
@@ -553,6 +578,7 @@ function clearForms() {
     $movePoint.val(0);
     $isChargedForMove.prop('checked', false);
     $chargePointTeamSelect.val(0);
+    $bombiiTeamSelect.val(0);
     $('#changed-arrival-goal-point').text(Common.formatPoint(0));
     $('#changed-add-point').text(Common.formatPoint(0));
     $('#changed-sub-point').text(Common.formatPoint(0));

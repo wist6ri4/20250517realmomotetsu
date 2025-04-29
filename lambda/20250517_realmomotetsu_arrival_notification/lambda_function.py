@@ -54,6 +54,17 @@ def lambda_handler(event, context):
 
             message = notify_set_goal_station(station_name)
 
+        elif notification_type == 'set_bombii':
+            logger.info('Received set_bombii notification')
+            team_id = data['team_id']
+            team_name = data['team_name']
+
+            if not all([team_id, team_name]):
+                logger.error('Missing required fields: %s', body)
+                return response_message(400, {'message': 'Missing required fields'})
+
+            message = notify_set_bombii(team_name)
+
 
         # Discord Webhookに送信
         response = requests.post(os.getenv('DISCORD_WEBHOOK_URL'), json=message, timeout=10)
@@ -102,7 +113,6 @@ def notify_arrival(team_name, station_name):
             ミッション中の社長さんは中断、電車に乗っている社長さんは次の駅で降りてください！
             """)
     }
-
     return discord_message
 
 def notify_set_goal_station(station_name):
@@ -118,5 +128,19 @@ def notify_set_goal_station(station_name):
             あたらしい目的地は　{station_name}　で～～～～～す！
             """)
     }
+    return discord_message
 
+def notify_set_bombii(team_name):
+    """
+    Discordに通知する
+    """
+    discord_message = {
+        "content": textwrap.dedent(
+            f"""
+            @everyone\n\
+            今回貧乏神がとりついてしまうのは⋯\n\n\
+            {team_name}です！\n\
+            貧乏神との旅をたのしんでくださ～～い！
+            """)
+    }
     return discord_message
