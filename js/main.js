@@ -113,6 +113,7 @@ async function fetchJsonData() {
     const chargedPoints = await Supabase.getChargedPoints();
     const bombiiTeam = (await Supabase.getLatestBombii())[0];
 
+    // 取得したデータをJSON形式に整形
     return await createJsonData(
         transitStations,
         goalStations,

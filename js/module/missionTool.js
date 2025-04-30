@@ -16,6 +16,7 @@ class MissionSenzokuike {
      * @returns {number} score 得点
      */
     static calculate(answer) {
+        // 解答との差分を取得し、スコア計算
         const diff = Math.abs(answer - this.SENZOKUIKE_AREA);
         let score = Math.round(this.MAX_SCORE * Math.exp(-1 * (diff / this.SCALE) ** 2));
 

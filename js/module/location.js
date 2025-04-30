@@ -19,6 +19,7 @@ async function getNearByStation() {
     }
 
     try {
+        // 現在地の緯度経度を取得
         const position = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
                 enableHighAccuracy: true,
@@ -30,6 +31,7 @@ async function getNearByStation() {
         let longitude = position.coords.longitude;
         let accuracy = position.coords.accuracy;
 
+        // 最寄りの駅5駅を取得し、sessionStorageにセット
         const nearbyStations = StationLocations.findNearbyStations(latitude, longitude);
         sessionStorage.setItem(Constants.SESSION_NEARBY_STATIONS, JSON.stringify(nearbyStations));
 
