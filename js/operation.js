@@ -155,6 +155,11 @@ async function arrivalGoal() {
         return;
     }
 
+    // ポイント数がマイナスの場合はアラートを表示
+    if(!checkNegativeNumber(arrivalGoalPoint)) {
+        return;
+    };
+
     // 送信確認
     const is_approved = confirm(
         '以下の内容で送信しますか？\n\nチーム名：' +
@@ -374,6 +379,11 @@ async function addPoint() {
         return;
     }
 
+    // ポイント数がマイナスの場合はアラートを表示
+    if(!checkNegativeNumber(point)) {
+        return;
+    }
+
     // 送信確認
     const is_approved = confirm(
         '【加算】\n' +
@@ -419,6 +429,11 @@ async function subPoint() {
         return;
     }
 
+    // ポイント数がマイナスの場合はアラートを表示
+    if(checkNegativeNumber(point)) {
+        return;
+    }
+
     // 送信確認
     const is_approved = confirm(
         '【減算】\n' +
@@ -461,6 +476,11 @@ async function movePoint() {
     // チーム名かポイントが入力されていない場合はアラートを表示
     if (fromTeamId == 0 || toTeamId == 0 || point == 0) {
         alert('チーム名とポイントを入力してください。');
+        return;
+    }
+
+    // ポイント数がマイナスの場合はアラートを表示
+    if(checkNegativeNumber(point)) {
         return;
     }
 
@@ -583,4 +603,12 @@ function clearForms() {
     $('#changed-add-point').text(Common.formatPoint(0));
     $('#changed-sub-point').text(Common.formatPoint(0));
     $('#changed-move-point').text(Common.formatPoint(0));
+}
+
+function checkNegativeNumber(num) {
+    if (num < 0) {
+        alert('マイナスの値は入力できません。');
+        return false;
+    }
+    return true;
 }
