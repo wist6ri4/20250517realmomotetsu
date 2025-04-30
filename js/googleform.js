@@ -41,6 +41,7 @@ async function main() {
             );
         });
 
+        // 現在地の駅を取得し、フォームにセットする
         await Common.setNearByStation($formStationNameSelect);
 
         logger.Info('Displayed.');
@@ -86,6 +87,7 @@ async function submit() {
             `Success to send current station. TeamName:${teamName} StationName:${station_name}`
         );
 
+        // 目的駅に到着した場合、Discordに通知する
         const goalStations = await Supabase.getGoalStations();
         const latestGoalStation = goalStations.pop();
         if (stationId == latestGoalStation.station_id) {

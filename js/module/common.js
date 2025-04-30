@@ -10,7 +10,7 @@ const logger = new Logger();
 /* ========== function ========== */
 /**
  * 現在時刻の取得
- * @returns {string} 時刻
+ * @returns {string} 時刻 yyyy/MM/dd HH:mm:ss
  */
 function getCurrentTime() {
     const ct = new Date();
@@ -32,8 +32,8 @@ function getCurrentTime() {
 /**
  * UTCからJST文字列に変換
  *
- * @param {string} utc UTC文字列
- * @returns {string} JST文字列
+ * @param {string} utc UTC文字列 yyyy-MM-ddTHH:mm:ssZ
+ * @returns {string} JST文字列 HH:mm:ss
  */
 function convertUTCtoJST(utc) {
     const date = new Date(utc);
@@ -46,12 +46,13 @@ function convertUTCtoJST(utc) {
  * @returns {Array} チーム名
  */
 async function getAndSetTeamName() {
+    // sessionStorageからチーム名情報を取得
     const sessionTeamName = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
 
     if (sessionTeamName?.length > 0) {
         return sessionTeamName;
     } else {
-        // チーム名がない場合、取得してセットする
+        // チーム名がない場合、データベースから取得してセットする
         const teams = await Supabase.getTeams();
         sessionStorage.setItem(Constants.SESSION_TEAM_NAME, JSON.stringify(teams));
         return teams;
@@ -64,13 +65,15 @@ async function getAndSetTeamName() {
  * @returns {Array} 駅名
  */
 async function getAndSetStations() {
+    // sessionStorageから駅名情報を取得
     const sessionStations = JSON.parse(sessionStorage.getItem(Constants.SESSION_STATIONS));
 
     if (sessionStations?.length > 0) {
         return sessionStations;
     } else {
-        // 駅名がない場合、取得してセットする
+        // 駅名がない場合、データベースから取得
         const stations = await Supabase.getStations();
+        // 駅名をカナ順にソートする
         stations.sort((a, b) => {
             if (a.kana < b.kana) return -1;
             if (a.kana > b.kana) return 1;
@@ -91,9 +94,9 @@ async function getAndSetStations() {
 function formatPoint(point) {
     const absPoint = Math.abs(point * 100000);
 
-    const trillion = Math.floor((absPoint % 100000000000000) / 100000000000);
-    const oneHundredMillion = Math.floor((absPoint % 100000000000) / 100000000);
-    const tenThousand = Math.floor((absPoint % 100000000) / 10000);
+    const trillion = Math.floor((absPoint % 100000000000000) / 100000000000); // 兆
+    const oneHundredMillion = Math.floor((absPoint % 100000000000) / 100000000); // 億
+    const tenThousand = Math.floor((absPoint % 100000000) / 10000); // 万
 
     const formattedPoint =
         (trillion > 0 ? trillion + ' 兆 ' : '') +

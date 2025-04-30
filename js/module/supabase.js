@@ -27,6 +27,7 @@ class Supabase {
      */
     static getCallerFunction() {
         try {
+            // エラーを投げてスタックトレースを取得
             throw new Error();
         } catch (error) {
             const stackLines = error.stack.split('\n');
