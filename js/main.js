@@ -41,12 +41,11 @@ $updateButton.on('click', main);
 /* ========== functions ========== */
 /**
  * メインメソッド
- * 画面表示時と10秒おきに実行する
  */
 async function main() {
     try {
         // 更新時刻の取得
-        CFI.$UPDATED_TIME.text(getCurrentTime());
+        CFI.$UPDATED_TIME.text(Common.getCurrentTime());
 
         // チーム名の取得
         await Common.getAndSetTeamName();
@@ -98,38 +97,9 @@ function display(responseData) {
 
     // 次の目的地の表示
     displayNextStation(responseData.nextStation);
-}
 
-/**
- * 現在時刻の取得
- * @returns {string} 時刻
- */
-function getCurrentTime() {
-    const ct = new Date();
-    const strCurrentTime =
-        ct.getFullYear() +
-        '/' +
-        ('0' + (ct.getMonth() + 1)).slice(-2) +
-        '/' +
-        ('0' + ct.getDate()).slice(-2) +
-        ' ' +
-        ct.getHours() +
-        ':' +
-        ('0' + ct.getMinutes()).slice(-2) +
-        ':' +
-        ('0' + ct.getSeconds()).slice(-2);
-    return strCurrentTime;
-}
-
-/**
- * UTCからJST文字列に変換
- *
- * @param {string} utc UTC文字列
- * @returns {string} JST文字列
- */
-function convertUTCtoJST(utc) {
-    const date = new Date(utc);
-    return date.toLocaleTimeString();
+    // ボンビーの表示
+    displayBombii(responseData.bombii);
 }
 
 /**
@@ -141,8 +111,16 @@ async function fetchJsonData() {
     const goalStations = await Supabase.getGoalStations();
     const notChargedPoints = await Supabase.getNotChargedPoints();
     const chargedPoints = await Supabase.getChargedPoints();
+    const bombiiTeam = (await Supabase.getLatestBombii())[0];
 
-    return await createJsonData(transitStations, goalStations, notChargedPoints, chargedPoints);
+    // 取得したデータをJSON形式に整形
+    return await createJsonData(
+        transitStations,
+        goalStations,
+        notChargedPoints,
+        chargedPoints,
+        bombiiTeam
+    );
 }
 
 /**
@@ -152,7 +130,7 @@ async function fetchJsonData() {
  * @param {object} nsData goal_stationsのデータ
  * @returns {object} jsonデータ
  */
-async function createJsonData(tsData, nsData, ncPoints, cPoints) {
+async function createJsonData(tsData, nsData, ncPoints, cPoints, bombiiTeam) {
     let jsonData = {
         teamA: [],
         teamB: [],
@@ -161,12 +139,13 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
         nextStation: [],
         notChargedPoints: ncPoints,
         chargedPoints: cPoints,
+        bombii: bombiiTeam?.team_id ? bombiiTeam.team_id : null,
     };
 
     // 経由駅をリスト化
     tsData.forEach(function (record) {
         const modifiedRecord = {
-            strTime: convertUTCtoJST(record.created_at),
+            strTime: Common.convertUTCtoJST(record.created_at),
             team: record.team_id,
             location: StationCode.getStationName(record.station_id),
         };
@@ -190,7 +169,7 @@ async function createJsonData(tsData, nsData, ncPoints, cPoints) {
     // 目的駅をリスト化
     nsData.forEach(function (record) {
         const modifiedRecord = {
-            strTime: convertUTCtoJST(record.created_at),
+            strTime: Common.convertUTCtoJST(record.created_at),
             nextStation: StationCode.getStationName(record.station_id),
         };
 
@@ -220,7 +199,17 @@ async function handleTeamInformation() {
 
         // チェックボックスの監視
         team.$TRAIN_VISIBILITY.on('change', function () {
+            // 電車コマの可視性の変更
             changeTrainVisibility($(this), team.$TRAIN, team.IS_ADDED);
+
+            // ボンビーの可視性の変更
+            if (team.TEAM_ID == responseData.bombii) {
+                if (team.$TRAIN_VISIBILITY.prop('checked')) {
+                    $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
+                } else {
+                    $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
+                }
+            }
         });
     });
 }
@@ -423,4 +412,24 @@ function displayMissionSetStations() {
         const stationBox = $('#box-' + stationCode);
         stationBox.addClass('mission-set-station');
     });
+}
+
+/**
+ * ボンビーの表示
+ *
+ * * @param {string} bombiiTeam ボンビー対象チームID
+ */
+function displayBombii(bombiiTeamId) {
+    $('.bombii-image').empty();
+    if (bombiiTeamId) {
+        $('#bombii-image-' + bombiiTeamId).append(
+            `<img src="../img/moving_bombii.png?t=${new Date().getTime()}" alt="ボンビー" width="25" height="25"/>`
+        );
+        $('#bombii-on-routemap').removeClass(CFI.INVISIBLE_TRAIN);
+        const lowerCaseBombiiTeamId = bombiiTeamId.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        $('#bombii-on-routemap').attr('x', $('#' + lowerCaseBombiiTeamId + '-train').attr('x'));
+        $('#bombii-on-routemap').attr('y', $('#' + lowerCaseBombiiTeamId + '-train').attr('y'));
+    } else {
+        $('#bombii-on-routemap').addClass(CFI.INVISIBLE_TRAIN);
+    }
 }

@@ -64,11 +64,13 @@
         <ul class="list-group" id="operation-index">
             <li class="list-group-item list-group-item-action"><a href="#form-title-goal-station">目的駅設定</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-arrival-goal">目的駅到着処理</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-bombii">ボンビー自動設定</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-add-point">ポイント加算</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-sub-point">ポイント減算</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-move-point">ポイント移動</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-charge-point">ポイント換金</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-senzokuike-mission">洗足池ミッション得点計算ツール</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-bombii-manual">ボンビー手動設定</a></li>
         </ul>
         <a href="#header-img" class="btn btn-dark" id="button-back-to-top">&nbsp;↑&nbsp;</a>
         <!-- 目的駅設定 -->
@@ -135,6 +137,44 @@
             </div>
             <div class="form-footer-contents">
                 <button id="arrival-goal-button" class="btn btn-primary submit-button">送信</button>
+            </div>
+        </div>
+        <hr>
+        <!-- ボンビー自動設定 -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title" id="form-title-bombii">ボンビー自動設定</h1>
+                <p class="form-description">
+                    現時点でのボンビーをチェックし、自動で設定する。
+                </p>
+            </div>
+            <div class="form-body-contents">
+                <div>
+                    <button class="btn btn-dark submit-button" id="check-bombii-button"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+                <div class="row form-item">
+                    <div class="col-12">
+                        <table class="table table-striped table-sm table-responsive">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">現在地</th>
+                                    <th scope="col">残</th>
+                                    <th scope="col">総</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bombii-table-tbody">
+                                <!-- 動的に作成 -->
+                            </tbody>
+                        </table>
+                        <div class="updated-time-container">
+                            最終更新: <span id="updated-time"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer-contents">
+                <button id="bombii-button" class="btn btn-primary submit-button">送信</button>
             </div>
         </div>
         <hr>
@@ -344,6 +384,32 @@
                 <button id="senzokuike-mission-calculate-button" class="btn btn-success submit-button">計算</button>
             </div>
         </div>
+        <!-- ボンビー手動設定 -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title" id="form-title-bombii-manual">ボンビー手動設定</h1>
+                <p class="form-description">
+                    ボンビー対象のチームを手動で選択し、設定する。
+                </p>
+            </div>
+            <div class="form-body-contents">
+                <div class="row form-item">
+                    <div class="col-5">
+                        <label for="bombii-team">チーム名</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="bombii-team-select" name="bombii-team">
+                            <option value="0">--</option>
+                            <!-- オプションは動的に作成 -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer-contents">
+                <button id="bombii-manual-button" class="btn btn-primary submit-button">送信</button>
+            </div>
+        </div>
+        <hr>
     </div>
     <!--jQuery-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="UTF-8" defer="defer"></script>

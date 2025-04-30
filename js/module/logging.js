@@ -42,11 +42,13 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async log(logLevel, logMessage, logObject = null) {
+        // 画面名の取得
         let viewName = window.location.pathname.split('/').pop().split('.').shift();
         if (viewName === '') {
             viewName = 'index';
         }
 
+        // ログ送信用リクエストボディの作成
         const request = {
             uuid: this.uuid,
             logLevel: logLevel,
@@ -142,9 +144,7 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async Warning(logMessage, logObject = null) {
-        if (
-            !new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)
-        ) {
+        if (!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING]).has(LoggingConfig.LOG_LEVEL)) {
             return;
         }
         await this.log(LogLevel.WARNING, logMessage, logObject);
@@ -157,11 +157,7 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async Error(logMessage, logObject = null) {
-        if (
-            !new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR]).has(
-                LoggingConfig.LOG_LEVEL
-            )
-        ) {
+        if (!new Set([LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR]).has(LoggingConfig.LOG_LEVEL)) {
             return;
         }
         await this.log(LogLevel.ERROR, logMessage, logObject);
@@ -174,15 +170,7 @@ class Logger {
      * @param {object} logObject ログオブジェクト
      */
     async Critical(logMessage, logObject = null) {
-        if (
-            !new Set([
-                LogLevel.DEBUG,
-                LogLevel.INFO,
-                LogLevel.WARNING,
-                LogLevel.ERROR,
-                LogLevel.CRITICAL,
-            ]).has(LoggingConfig.LOG_LEVEL)
-        ) {
+        if (!new Set([LogLevel.DEBUG,LogLevel.INFO,LogLevel.WARNING,LogLevel.ERROR,LogLevel.CRITICAL,]).has(LoggingConfig.LOG_LEVEL)) {
             return;
         }
         await this.log(LogLevel.CRITICAL, logMessage, logObject);

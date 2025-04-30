@@ -61,6 +61,14 @@
     </div>
 </header>
 <body>
+    <script>
+        window.addEventListener('load', function() {
+            const gif = document.getElementById('bombii-image');
+            const originalHref = gif.getAttribute('href').split('?')[0];
+            gif.setAttribute('href', originalHref + '?t=' + new Date().getTime());
+        })
+    </script>
+
     <div class="container">
         <div class="row">
             <div class="col-3">
@@ -81,7 +89,10 @@
             <!--チームA-->
             <div class="col-6 col-sm-3 col-md-3 col-lg-3">
                 <!--ラベル-->
-                <span id="team-a-information-name"></span>
+                <div>
+                    <span id="team-a-information-name">　</span>
+                    <span class="bombii-image" id="bombii-image-teamA"><!-- ボンビー--></span>
+                </div>
                 <!--カード-->
                 <div id="team-a-information" class="team-information border rounded-3 px-3 py-3">
                     <div class="total-assets">
@@ -108,7 +119,10 @@
             <!--チームB-->
             <div class="col-6 col-sm-3 col-md-3 col-lg-3">
                 <!--ラベル-->
-                <span id="team-b-information-name"></span>
+                <div>
+                    <span id="team-b-information-name">　</span>
+                    <span class="bombii-image" id="bombii-image-teamB"><!-- ボンビー--></span>
+                </div>
                 <!--カード-->
                 <div id="team-b-information" class="team-information border rounded-3 px-3 py-3">
                     <div class="total-assets">
@@ -133,7 +147,10 @@
             <!--チームC-->
             <div class="col-6 col-sm-3 col-md-3 col-lg-3">
                 <!--ラベル-->
-                <span id="team-c-information-name"></span>
+                <div>
+                    <span id="team-c-information-name">　</span>
+                    <span class="bombii-image" id="bombii-image-teamC"><!-- ボンビー--></span>
+                </div>
                 <!--カード-->
                 <div id="team-c-information" class="team-information border rounded-3 px-3 py-3">
                     <div class="total-assets">
@@ -158,7 +175,10 @@
             <!--チームD-->
             <div class="col-6 col-sm-3 col-md-3 col-lg-3">
                 <!--ラベル-->
-                <span id="team-d-information-name"></span>
+                <div>
+                    <span id="team-d-information-name">　</span>
+                    <span class="bombii-image" id="bombii-image-teamD"><!-- ボンビー--></span>
+                </div>
                 <!--カード-->
                 <div id="team-d-information" class="team-information border rounded-3 px-3 py-3">
                     <div class="total-assets">
@@ -309,6 +329,10 @@
                                                 <path d="M65.745,191.995h0.237c5.523,0,10-4.477,10-10c0-5.522-4.477-10-10-10h-0.237   c-5.523,0-10,4.478-10,10C55.745,187.518,60.223,191.995,65.745,191.995z" style="fill:#000001;"/>
                                                 <path d="M446.016,191.995h0.236c5.523,0,10-4.477,10-10c0-5.522-4.477-10-10-10h-0.236   c-5.522,0-10,4.478-10,10C436.016,187.518,440.493,191.995,446.016,191.995z" style="fill:#000001;"/>
                                             </g>
+                                        </symbol>
+                                        <!-- ボンビー -->
+                                        <symbol id="bombii" viewBox="0 0 750 750">
+                                            <image href="../img/bombii.png"></image>
                                         </symbol>
                                     </defs>
                                     <g transform="translate(200, 100)">
@@ -747,6 +771,8 @@
                                             <use id="team-b-train" class="invisible-train" href="#train" x="200" y="400" width="200" height="200" transform="translate(-51, -51)"/>
                                             <use id="team-c-train" class="invisible-train" href="#train" x="400" y="400" width="200" height="200" transform="translate(-49, -49)"/>
                                             <use id="team-d-train" class="invisible-train" href="#train" x="400" y="400" width="200" height="200" transform="translate(-47, -47)"/>
+                                            <!-- ボンビー -->
+                                            <use id="bombii-on-routemap" class="invisible-train" href="#bombii" x="200" y="400" width="400" height="400" transform="translate(-30, 100)"/>
                                         </g>
                                     </g>
                                 </svg>

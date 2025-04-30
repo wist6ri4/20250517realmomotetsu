@@ -27,6 +27,7 @@ class Supabase {
      */
     static getCallerFunction() {
         try {
+            // エラーを投げてスタックトレースを取得
             throw new Error();
         } catch (error) {
             const stackLines = error.stack.split('\n');
@@ -55,7 +56,15 @@ class Supabase {
      * @returns {Object} data
      * @throws {Error} error
      */
-    static async executeQuery({ table, action, filters = [], orderBy = null, updateData = null }) {
+    static async executeQuery({
+        table,
+        action,
+        columns = [],
+        filters = [],
+        orderBy = null,
+        limit = null,
+        updateData = null,
+    }) {
         // 呼び出し元関数名の取得
         const callerFunction = this.getCallerFunction();
         try {
@@ -64,7 +73,11 @@ class Supabase {
             // アクションによって処理を分岐
             switch (action) {
                 case SELECT:
-                    query = query.select();
+                    if (columns.length) {
+                        query = query.select(columns.join(','));
+                    } else {
+                        query = query.select();
+                    }
                     break;
                 case INSERT:
                     if (!updateData) {
@@ -92,6 +105,10 @@ class Supabase {
             // ソートを設定
             if (orderBy) {
                 query = query.order(orderBy.column, { ascending: orderBy.ascending ?? true });
+            }
+            // リミットを設定
+            if (limit) {
+                query = query.limit(limit);
             }
             // クエリを実行
             const { data, error } = await query;
@@ -204,6 +221,21 @@ class Supabase {
     }
 
     /**
+     * 最新のgoal_stationを取得する
+     *
+     * @returns {Array} goalStation
+     */
+    static async getLatestGoalStation() {
+        const goalStation = await Supabase.executeQuery({
+            table: 'goal_stations',
+            action: SELECT,
+            orderBy: { column: 'goal_station_id', ascending: false },
+            limit: 1,
+        });
+        return goalStation;
+    }
+
+    /**
      * goal_stationsにデータを追加する
      *
      * @param {string} stationId 駅ID
@@ -214,6 +246,36 @@ class Supabase {
             table: 'goal_stations',
             action: INSERT,
             updateData: [{ station_id: stationId }],
+        });
+        return data;
+    }
+
+    /**
+     * 最新のボンビーを取得する
+     *
+     * @return {Object} data
+     */
+    static async getLatestBombii() {
+        const data = await Supabase.executeQuery({
+            table: 'bombii_history',
+            action: SELECT,
+            orderBy: { column: 'id', ascending: false },
+            limit: 1,
+        });
+        return data;
+    }
+
+    /**
+     * bombii_historyにデータを追加する
+     *
+     * @param {string} teamId チームID
+     * @returns {Object} data
+     */
+    static async insertBombiiHistory(teamId) {
+        const data = await Supabase.executeQuery({
+            table: 'bombii_history',
+            action: INSERT,
+            updateData: [{ team_id: teamId }],
         });
         return data;
     }
@@ -234,7 +296,7 @@ class Supabase {
     }
 
     /**
-     * チャージ済みポイントを取得する
+     * チャージ済みポイントを取得し、各チームごとに総計する
      *
      * @returns {Object} groupedPoints
      */
