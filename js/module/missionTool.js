@@ -5,7 +5,7 @@
  */
 class MissionSenzokuike {
     static SENZOKUIKE_AREA = 41000; // 洗足池の面積
-    static MAX_SCORE = 200; // 最大得点
+    static MAX_SCORE = 150; // 最大得点
     static SCALE = 5000; // スケールパラメータ
     static BASE_POINT = 50; // ベースポイント
     static JUST_BONUS = 50; // ジャストボーナス
