@@ -1,0 +1,15 @@
+#link-index {
+    font-size: 1.7rem;
+    padding: 1rem;
+}
+
+.description-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.description-header-contents {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+}

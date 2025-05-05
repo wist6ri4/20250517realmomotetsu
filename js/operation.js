@@ -44,6 +44,7 @@ $('#charge-point-button').on('click', chargePoint);
 $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuikeScore);
 $('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
 $('#bombii-manual-button').on('click', setBombii);
+$('#check-information-button').on('click', getInformation);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
 $('#arrival-goal-point').on('input', function () {
@@ -90,6 +91,7 @@ async function main() {
         });
 
         await getBombiiTableInformation();
+        await getInformation();
 
         logger.Info('Displayed.');
     } catch {
@@ -578,6 +580,37 @@ function calculateMissionSenzokuikeScore() {
  */
 function resetMissionSenzokuikeForm() {
     $senzokuikeMissionAnswer.val(41000);
+}
+
+/**
+ * 各チームの詳細情報を取得して表示する
+ */
+async function getInformation() {
+    try {
+        $('#information-table-tbody').empty();
+        const bombiiCounts = await Supabase.getBombiiCounts();
+
+        const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
+
+        teams.forEach((team) => {
+            const teamId = team.team_id;
+
+            // 各チームのボンビー回数
+            const bombiiCount = bombiiCounts.find(
+                (bombiiCount) => bombiiCount.team_id === teamId
+            )?.count || 0;
+            // テーブルの表示
+            const tr = $('<tr>');
+            tr.append($('<td>').text(teamId))
+                .append($('<td>').text(bombiiCount))
+            $('#information-table-tbody').append(tr);
+        });
+
+        $('#updated-time-information').text(Common.getCurrentTime());
+    } catch (error) {
+        logger.Error('Failed to get information table information.', error);
+        alert('各種情報の取得に失敗しました。', error);
+    }
 }
 
 /**
