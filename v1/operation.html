@@ -71,6 +71,7 @@
             <li class="list-group-item list-group-item-action"><a href="#form-title-charge-point">ポイント換金</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-senzokuike-mission">洗足池ミッション得点計算ツール</a></li>
             <li class="list-group-item list-group-item-action"><a href="#form-title-bombii-manual">ボンビー手動設定</a></li>
+            <li class="list-group-item list-group-item-action"><a href="#form-title-information">各種情報</a></li>
         </ul>
         <a href="#header-img" class="btn btn-dark" id="button-back-to-top">&nbsp;↑&nbsp;</a>
         <!-- 目的駅設定 -->
@@ -407,6 +408,39 @@
             </div>
             <div class="form-footer-contents">
                 <button id="bombii-manual-button" class="btn btn-primary submit-button">送信</button>
+            </div>
+        </div>
+        <hr>
+        <!-- 各種情報 -->
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title" id="form-title-information">各種情報</h1>
+                <p class="form-description">
+                    各種情報の確認。
+                </p>
+            </div>
+            <div class="form-body-contents">
+                <div>
+                    <button class="btn btn-dark submit-button" id="check-information-button"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+                <div class="row form-item">
+                    <div class="col-12">
+                        <table class="table table-striped table-sm table-responsive">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">チームID</th>
+                                    <th scope="col">ボンビー回数</th>
+                                </tr>
+                            </thead>
+                            <tbody id="information-table-tbody">
+                                <!-- 動的に作成 -->
+                            </tbody>
+                        </table>
+                        <div class="updated-time-container">
+                            最終更新: <span id="updated-time-information"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <hr>
