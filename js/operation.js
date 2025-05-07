@@ -439,7 +439,7 @@ async function subPoint() {
     }
 
     // ポイント数がマイナスの場合はアラートを表示
-    if(checkNegativeNumber(point)) {
+    if(!checkNegativeNumber(point)) {
         return;
     }
 
@@ -489,7 +489,7 @@ async function movePoint() {
     }
 
     // ポイント数がマイナスの場合はアラートを表示
-    if(checkNegativeNumber(point)) {
+    if(!checkNegativeNumber(point)) {
         return;
     }
 
