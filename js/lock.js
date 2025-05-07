@@ -58,6 +58,6 @@ async function checkCookie() {
             } else {
                 alert('パスワードが違います。');
             }
-        }, 1500);
+        }, 100);
     }
 }
