@@ -65,6 +65,13 @@ $('#move-point').on('input', function () {
  *  画面表示時に実行する
  */
 async function main() {
+
+    // Cookieのチェック
+    if (getCookie(Constants.COOKIE_KEY) !== 'true') {
+        window.location.href = './lock.html';
+        return;
+    }
+
     try {
         // チーム名の取得
         await Common.getAndSetTeamName();
@@ -644,4 +651,16 @@ function checkNegativeNumber(num) {
         return false;
     }
     return true;
+}
+
+/**
+ * Cookieを取得する
+ *
+ * @param {string} name Cookie名
+ * @returns {string} Cookie値
+ */
+function getCookie(name) {
+    const value = ';' + document.cookie;
+    const parts = value.split(';' + name + '=');
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }
