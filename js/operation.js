@@ -44,6 +44,7 @@ $('#charge-point-button').on('click', chargePoint);
 $('#senzokuike-mission-calculate-button').on('click', calculateMissionSenzokuikeScore);
 $('#senzokuike-mission-reset-button').on('click', resetMissionSenzokuikeForm);
 $('#bombii-manual-button').on('click', setBombii);
+$('#check-information-button').on('click', getInformation);
 
 /* ========== イベントハンドラ（フォーマット） ========== */
 $('#arrival-goal-point').on('input', function () {
@@ -64,6 +65,13 @@ $('#move-point').on('input', function () {
  *  画面表示時に実行する
  */
 async function main() {
+
+    // Cookieのチェック
+    if (getCookie(Constants.COOKIE_KEY) !== 'true') {
+        window.location.href = './lock.html';
+        return;
+    }
+
     try {
         // チーム名の取得
         await Common.getAndSetTeamName();
@@ -90,6 +98,7 @@ async function main() {
         });
 
         await getBombiiTableInformation();
+        await getInformation();
 
         logger.Info('Displayed.');
     } catch {
@@ -430,7 +439,7 @@ async function subPoint() {
     }
 
     // ポイント数がマイナスの場合はアラートを表示
-    if(checkNegativeNumber(point)) {
+    if(!checkNegativeNumber(point)) {
         return;
     }
 
@@ -480,7 +489,7 @@ async function movePoint() {
     }
 
     // ポイント数がマイナスの場合はアラートを表示
-    if(checkNegativeNumber(point)) {
+    if(!checkNegativeNumber(point)) {
         return;
     }
 
@@ -581,6 +590,37 @@ function resetMissionSenzokuikeForm() {
 }
 
 /**
+ * 各チームの詳細情報を取得して表示する
+ */
+async function getInformation() {
+    try {
+        $('#information-table-tbody').empty();
+        const bombiiCounts = await Supabase.getBombiiCounts();
+
+        const teams = JSON.parse(sessionStorage.getItem(Constants.SESSION_TEAM_NAME));
+
+        teams.forEach((team) => {
+            const teamId = team.team_id;
+
+            // 各チームのボンビー回数
+            const bombiiCount = bombiiCounts.find(
+                (bombiiCount) => bombiiCount.team_id === teamId
+            )?.count || 0;
+            // テーブルの表示
+            const tr = $('<tr>');
+            tr.append($('<td>').text(teamId))
+                .append($('<td>').text(bombiiCount))
+            $('#information-table-tbody').append(tr);
+        });
+
+        $('#updated-time-information').text(Common.getCurrentTime());
+    } catch (error) {
+        logger.Error('Failed to get information table information.', error);
+        alert('各種情報の取得に失敗しました。', error);
+    }
+}
+
+/**
  * フォームの値をリセットする
  */
 function clearForms() {
@@ -611,4 +651,16 @@ function checkNegativeNumber(num) {
         return false;
     }
     return true;
+}
+
+/**
+ * Cookieを取得する
+ *
+ * @param {string} name Cookie名
+ * @returns {string} Cookie値
+ */
+function getCookie(name) {
+    const value = ';' + document.cookie;
+    const parts = value.split(';' + name + '=');
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }

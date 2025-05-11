@@ -266,6 +266,19 @@ class Supabase {
     }
 
     /**
+     * bombii_countsを取得する
+     *
+     * @returns {Array} data
+     */
+    static async getBombiiCounts() {
+        const data = await Supabase.executeQuery({
+            table: 'bombii_counts',
+            action: SELECT,
+        });
+        return data;
+    }
+
+    /**
      * bombii_historyにデータを追加する
      *
      * @param {string} teamId チームID
