@@ -1,0 +1,23 @@
+{
+  "name": "20250517_realmomotetsu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wist6ri4/20250517realmomotetsu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wist6ri4/20250517realmomotetsu/issues"
+  },
+  "homepage": "https://github.com/wist6ri4/20250517realmomotetsu#readme",
+  "description": "",
+  "devDependencies": {
+    "supabase": "^2.30.4"
+  }
+}
