@@ -7,7 +7,7 @@
 function calculateTravelTimes(graph, start) {
     // 各駅への所要時間を初期化（無限大に設定）
     const times = {};
-    Object.keys(graph).forEach((station) => (times[station] = Infinity));
+    Object.keys(graph).forEach((station) => (times[station] = { time: Infinity, stations: Infinity }));
     times[start] = { time: 0, stations: 0 };
 
     // 探索キュー
@@ -24,7 +24,7 @@ function calculateTravelTimes(graph, start) {
             const newStations = stations + 1;
 
             // 新しい所要時間が既存の所要時間より短ければ更新
-            if (newTime < times[neighbor.station]) {
+            if (newTime < times[neighbor.station].time) {
                 times[neighbor.station] = { time: newTime, stations: newStations };
                 queue.push({ station: neighbor.station, time: newTime, stations: newStations });
             }
